@@ -1,6 +1,6 @@
 package com.mohani_be.commons.constants;
 
 public enum MemberType {
-    USER,
-    ADMIN
+    USER, //일반 회원
+    ADMIN //관리자
 }
