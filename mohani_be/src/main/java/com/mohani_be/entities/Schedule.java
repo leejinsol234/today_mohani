@@ -5,7 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 @Data
 @Entity
@@ -17,6 +18,6 @@ public class Schedule {
     @Column(nullable = false, length = 100)
     private String title;
 
-    private Date date;
+    private LocalDate date;
 
 }
