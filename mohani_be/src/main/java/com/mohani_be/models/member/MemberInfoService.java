@@ -19,7 +19,7 @@ public class MemberInfoService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // UsernameNotFoundException 예외 처리
-        Member member = repository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("사용자가 존재하지 않습니다."));
+        Member member = repository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 회원입니다."));
 
         return MemberInfo.builder()
                 .email(member.getEmail())
