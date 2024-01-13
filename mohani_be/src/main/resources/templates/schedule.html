@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Schedule Management</title>
+</head>
+<body>
+<h2>Schedule List</h2>
+<ul>
+    <li th:each="schedule : ${schedules}">
+        <span th:text="${schedule.title}"></span> - <span th:text="${schedule.date}"></span>
+    </li>
+</ul>
+
+<h2>Add New Schedule</h2>
+<form th:action="@{/schedule}" th:object="${newSchedule}" method="post">
+    <label for="title">Title:</label>
+    <input type="text" id="title" th:field="*{title}" required>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" th:field="*{date}" required>
+
+    <button type="submit">Add Schedule</button>
+</form>
+</body>
+</html>
