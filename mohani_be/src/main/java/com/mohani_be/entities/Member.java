@@ -27,6 +27,6 @@ public class Member extends Base{
     private String name;
 
     @Column (nullable = false)
-    private String mobile;
+    private String phoneNumber;
 
 }
