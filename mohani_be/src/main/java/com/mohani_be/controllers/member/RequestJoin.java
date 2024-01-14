@@ -1,5 +1,6 @@
-package com.mohani_be.controllers;
+package com.mohani_be.controllers.member;
 
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -22,6 +23,9 @@ public class RequestJoin {
     private String name;
 
     @NotBlank
-    private String mobile;
+    private String phoneNumber;
+
+    @AssertTrue
+    boolean agree;
 
 }
