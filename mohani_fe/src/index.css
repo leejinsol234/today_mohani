@@ -1,13 +1,188 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.body {
+  background-color: black;
+}
+.page{
+  position: absolute;
+  top : 200px;
+  bottom: 0;
+  width : 100%;
+  max-width: 500px;
+  padding : 0 20px;
+  border-radius: 50px;
+  height : 500px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: white;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.titleWrap{
+  text-align: center;  
+  margin-top: 60px;
+  font-size: 32px;
+  font-weight: 700;
+  color : #262626;
+}
+
+.contentWrap{
+  margin-top: 26px;
+}
+
+.inputTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color : #262626;
+}
+
+.inputWrap {
+  display : flex;
+  border-radius: 8px;
+  padding : 16px;
+  margin-top: 8px;
+  background-color: white;
+  border : 1px solid #e2e0e0;
+}
+
+.inputWrap:focus-within {
+  border : 1px solid #f47d31;
+}
+
+.input {
+  width : 100%;
+  outline : none;
+  border : none;
+  height: 17px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.input::placeholder {
+  color : #dadada;
+}
+
+.errorMessageWrap {
+  margin-top : 8px;
+  color : #ef0000;
+  font-size: 12px;
+}
+
+.bottomButton {
+  margin-top: 48px;
+  width : 100%;
+  height: 48px;
+  border : none;
+  font-weight: 700;
+  background-color: #f47d31;
+  border-radius: 64px;
+  color : white;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.bottomButton:disabled {
+  background-color: #dadada;
+  color : white;
+}
+
+.new {
+  display: flex;
+  justify-content: center;
+}
+
+.newTitle {
+  margin-right : 16px;
+}
+
+.newCreate{
+  color : blue;
+}
+
+.addtitleWrap {
+  text-align: left;  
+  margin-top: 30px;
+  margin-left : 40px;
+  font-size: 32px;
+  font-weight: 700;
+  color : #262626;
+}
+
+.addWrap {
+  display: flex;
+  margin : 14px 50px;
+  align-items: center;
+}
+
+.addinputWrap {
+  display : flex;
+  border-radius: 8px;
+  padding : 12px;
+  margin-top: 8px;
+  background-color: white;
+  width : 75%;
+  margin-left: 30px;
+  border : 1px solid #dadada;
+}
+
+.addCalinputWrap {
+  display : flex;
+  border-radius: 8px;
+  padding : 12px;
+  margin-top: 8px;
+  background-color: white;
+  width : 30%;
+  margin-left: 30px;
+  margin-right: 10px;
+  border : 1px solid #dadada;
+}
+
+.addinput{
+  width : 100%;
+  outline : none;
+  border : none;
+  height: 12px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.addCalinput {
+  width : 45%;
+  outline : none;
+  border : none;
+  height: 12px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.addMemoinput {
+  width : 100%;
+  outline : none;
+  border : none;
+  height: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.addButton {
+  width : 30%;
+  height: 40px;
+  border : none;
+  font-weight: 700;
+  background-color: #f47d31;
+  border-radius: 64px;
+  color : white;
+  margin-top : 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
 }
