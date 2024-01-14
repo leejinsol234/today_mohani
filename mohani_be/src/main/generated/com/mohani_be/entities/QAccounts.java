@@ -21,6 +21,10 @@ public class QAccounts extends EntityPathBase<Accounts> {
 
     public final NumberPath<Long> accounts = createNumber("accounts", Long.class);
 
+    public final BooleanPath in_ex = createBoolean("in_ex");
+
+    public final StringPath memo = createString("memo");
+
     public QAccounts(String variable) {
         super(Accounts.class, forVariable(variable));
     }
