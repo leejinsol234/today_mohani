@@ -13,7 +13,7 @@ function App(){
   }
 
   return (
-    <div>
+    <>
       {isLogIn ? (
         // 회원이면 메인 페이지 렌더링
         <MainPage onClick={handleLogout}/>
@@ -21,7 +21,7 @@ function App(){
         // 비회원이면 로그인 페이지 렌더링
         <Login onClick={handleLogin}/>
       )}
-    </div>
+    </>
   );
 }; 
 
