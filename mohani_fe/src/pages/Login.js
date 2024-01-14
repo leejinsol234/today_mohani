@@ -6,7 +6,7 @@ const User = {
 }
 
 
-export default function Login() {
+export default function Login({onClick}) {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
 
@@ -34,9 +34,9 @@ export default function Login() {
     }
   }
 
-  const onClickConfirmButton = () => {
-    {true}
-  }
+//   const onClickConfirmButton = () => {
+//     {true}
+//   }
 
   useEffect(()=> {
     if(emailValid && pwValid){
@@ -85,7 +85,7 @@ export default function Login() {
       </div>
         
       <div>
-          <button onClick={onClickConfirmButton} disabled={Allow} className="bottomButton">
+          <button onClick={onClick} className="bottomButton">
             확인
           </button>
       </div>
