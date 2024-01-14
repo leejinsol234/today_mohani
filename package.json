@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "git": "^0.1.5",
-    "moment": "^2.30.1",
-    "polished": "^4.2.2",
-    "react-calendar": "^4.8.0",
-    "styled-components": "^6.1.8"
-  }
-}
