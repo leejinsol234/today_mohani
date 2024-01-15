@@ -19,11 +19,13 @@ public class QSchedule extends EntityPathBase<Schedule> {
 
     public static final QSchedule schedule = new QSchedule("schedule");
 
-    public final DateTimePath<java.time.LocalDateTime> date = createDateTime("date", java.time.LocalDateTime.class);
+    public final StringPath content = createString("content");
 
     public final StringPath loc = createString("loc");
 
-    public final StringPath memo = createString("memo");
+    public final DateTimePath<java.time.LocalDateTime> regDate = createDateTime("regDate", java.time.LocalDateTime.class);
+
+    public final StringPath scheduleDate = createString("scheduleDate");
 
     public final NumberPath<Long> scheduleNo = createNumber("scheduleNo", Long.class);
 
