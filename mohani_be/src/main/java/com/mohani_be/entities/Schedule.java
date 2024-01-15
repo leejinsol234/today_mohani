@@ -1,12 +1,21 @@
 package com.mohani_be.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.time.LocalDateTime;
 
 
 @Data
 @Entity
+@Getter @Setter
+@ToString
 public class Schedule {
 
     @Id
