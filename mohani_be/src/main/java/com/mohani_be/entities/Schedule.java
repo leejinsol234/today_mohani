@@ -29,6 +29,7 @@ public class Schedule {
     @Column(nullable = false, length = 12)
     private String scheduleDate;
     //일정 날짜,시간(yyyyMMddhhmm). 년월일 등을 자유롭게 사용하기 위해 Date type이 아닌 문자열로 사용
+    //문자열을 날짜 표현으로 바꿔서 테스트하기 위해 보완 필요함!!
 
     private String content; //일정 내용
 
