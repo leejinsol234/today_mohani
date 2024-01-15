@@ -2,6 +2,7 @@ package com.mohani_be.repository;
 
 import com.mohani_be.entities.Schedule;
 import com.mohani_be.repositories.ScheduleRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class ScheduleRepositoryTest {
     ScheduleRepository scheduleRepository;
 
 
+    @BeforeEach
     public void createSchedules(){
         for(int i=1; i<=5; i++) {
             Schedule schedule = new Schedule();
@@ -42,5 +44,15 @@ public class ScheduleRepositoryTest {
             System.out.println(schedule);
         }
 
+    }
+
+    @Test
+    @DisplayName("가까운 일정 오름차순 조회")
+    public void findByScheduleTitleOrderByScheduleDateAsc(){
+        this.createSchedules();
+        List<Schedule> schedules = scheduleRepository.findByScheduleTitleOrderByScheduleDateAsc("0");
+        for(Schedule schedule : schedules){
+            System.out.println(schedule);
+        }
     }
 }

@@ -9,4 +9,6 @@ import java.util.List;
 public interface ScheduleRepository extends JpaRepository<Schedule,Long>, QuerydslPredicateExecutor<Schedule> {
 
     List<Schedule> findByTitle(String title);
+
+    List<Schedule> findByScheduleTitleOrderByScheduleDateAsc(String scheduleDate);
 }
