@@ -67,20 +67,23 @@ function ScheduleTitle({ scheduleData }) {
   return <ScheduleDetail title="제목" dataKey={["event"]} scheduleData={scheduleData} />;
 }
 
-// function ScheduleTime({ scheduleData }) {
-//  console.log('스케줄페이지 모멘트 밸류 : ' + moment(value).format('YYYY년 MM월 DD일'));
-//  console.log('clickedDate : ' + memoizedData.startDate.format('YYYY-MM-DD'));
+function ScheduleTime({ scheduleData,value }) {
+ console.log('스케줄페이지 모멘트 밸류 : ' + moment(value).format('YYYY년 MM월 DD일'));
 
-//   return <ScheduleDetail title="기간" dataKey={["date","startTime","endTime"]} scheduleData={scheduleData} />;
-// }
+  return <ScheduleDetail 
+    title="기간" 
+    dataKey={["date","startTime","endTime"]} 
+    scheduleData={scheduleData} 
+    value={value}/>;
+}
 
-// function ScheduleLocation({ scheduleData }) {
-//   return <ScheduleDetail title="장소" dataKey={["location"]} scheduleData={scheduleData} />;
-// }
+function ScheduleLocation({ scheduleData }) {
+  return <ScheduleDetail title="장소" dataKey={["location"]} scheduleData={scheduleData} />;
+}
 
-// function ScheduleMemo({ scheduleData }) {
-//   return <ScheduleDetail title="메모" dataKey={["memo"]} scheduleData={scheduleData} />;
-// }
+function ScheduleMemo({ scheduleData }) {
+  return <ScheduleDetail title="메모" dataKey={["memo"]} scheduleData={scheduleData} />;
+}
 
 
 function Schedule({scheduleData ,value}){
@@ -95,29 +98,53 @@ function Schedule({scheduleData ,value}){
   const handleClickTitle = (item) => {
     setClickedTitle(item);
   };
-  
-  
-    return(<>
-      <ScheduleList 
-        dataKey={["event"]} 
-        scheduleData={filteredScheduleData} 
+  //제목 필터링
+  const filteredDetailData = useMemo(() => {
+    if (clickedTitle) {
+      return filteredScheduleData.filter(item => item.event === clickedTitle);
+    }
+    return [];
+  }, [filteredScheduleData, clickedTitle]);
+
+
+  return (
+    <>
+      <ScheduleList
+        dataKey={["event"]}
+        scheduleData={filteredScheduleData}
         value={value}
         onClick={handleClickTitle}
-        />
+      />
 
-      {clickedTitle && <ScheduleTitle
-        title="제목" 
-        dataKey={["event"]} 
-        scheduleData={filteredScheduleData} 
-        value={value} />
-      } 
-      {/*<ScheduleTime scheduleData={filteredScheduleData} />
-      <ScheduleLocation scheduleData={filteredScheduleData} />
-      <ScheduleMemo scheduleData={filteredScheduleData} /> */}
-      
-    </>)
-
-    setClickedTitle(null)
+      {clickedTitle && (
+        <>
+          {/* <ScheduleTitle
+            title="제목"
+            dataKey={["event"]}
+            scheduleData={filteredScheduleData}
+            value={value}
+          /> */}
+          <ScheduleTime
+            dataKey={["date", "startTime", "endTime"]}
+            scheduleData={filteredDetailData}
+            value={value}
+            onClick={handleClickTitle}
+          />
+          <ScheduleLocation
+            dataKey={["location"]}
+            scheduleData={filteredDetailData}
+            value={value}
+            onClick={handleClickTitle}
+          />
+          <ScheduleMemo
+            dataKey={["memo"]}
+            scheduleData={filteredDetailData}
+            value={value}
+            onClick={handleClickTitle}
+          />
+        </>
+      )}
+    </>)  
 }
 
 export default Schedule;
