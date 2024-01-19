@@ -1,5 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import moment from 'moment';
+
+import React from 'react';
+import { SplitDetailScreen } from '../SplitScreen';
 
 function TimeRange(date, startTime, endTime) {
   const endTimeFilterling = endTime ? `~${endTime}` : '';
@@ -117,7 +120,7 @@ function Schedule({scheduleData ,value}){
       />
 
       {clickedTitle && (
-        <>
+        <SplitDetailScreen topWeight={1} middleWeight={1} bottomWeight={2.5}>
           {/* <ScheduleTitle
             title="제목"
             dataKey={["event"]}
@@ -142,7 +145,7 @@ function Schedule({scheduleData ,value}){
             value={value}
             onClick={handleClickTitle}
           />
-        </>
+        </SplitDetailScreen>
       )}
     </>)  
 }
