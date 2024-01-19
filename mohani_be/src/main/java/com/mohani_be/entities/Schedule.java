@@ -1,27 +1,21 @@
 package com.mohani_be.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 
 @Data
 @Entity
-@Getter @Setter
-@ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Schedule {
 
     @Id
     @GeneratedValue
     private long scheduleNo; //일정 번호
-
 
     @Column(nullable = false, length = 100)
     private String title; //일정 제목
@@ -38,6 +32,11 @@ public class Schedule {
     @Column(nullable = false)
     private LocalDateTime regDate; //일정 작성일
 
+    /*
+    @JoinColumn(name = "email", referencedColumnName = "email")
+    Member email;
+
+     */
 
 
 

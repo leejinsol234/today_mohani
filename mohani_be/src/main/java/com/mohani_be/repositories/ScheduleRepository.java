@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule,Long>, QuerydslPredicateExecutor<Schedule> {
 
-    List<Schedule> findByTitle(String title);
+    List<Schedule> findByscheduleNo(long scheduleNo);
 
-    //List<Schedule> findByScheduleTitleOrderByScheduleDateAsc(String scheduleDate);
+
 }
