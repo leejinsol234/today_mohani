@@ -46,13 +46,13 @@ public class ScheduleRepositoryTest {
 
     }
 
-    @Test
-    @DisplayName("가까운 일정 오름차순 조회")
-    public void findByScheduleTitleOrderByScheduleDateAsc(){
-        this.createSchedules();
-        List<Schedule> schedules = scheduleRepository.findByScheduleTitleOrderByScheduleDateAsc("0");
-        for(Schedule schedule : schedules){
-            System.out.println(schedule);
-        }
-    }
+//    @Test
+//    @DisplayName("가까운 일정 오름차순 조회")
+//    public void findByScheduleTitleOrderByScheduleDateAsc(){
+//        this.createSchedules();
+//        List<Schedule> schedules = scheduleRepository.findByScheduleTitleOrderByScheduleDateAsc("0");
+//        for(Schedule schedule : schedules){
+//            System.out.println(schedule);
+//        }
+//    }
 }

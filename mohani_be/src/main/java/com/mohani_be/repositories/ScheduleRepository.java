@@ -10,5 +10,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule,Long>, Queryd
 
     List<Schedule> findByTitle(String title);
 
-    List<Schedule> findByScheduleTitleOrderByScheduleDateAsc(String scheduleDate);
+    //List<Schedule> findByScheduleTitleOrderByScheduleDateAsc(String scheduleDate);
 }
