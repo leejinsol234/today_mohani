@@ -20,7 +20,7 @@ const colorStyles = css`
   }}
 `;
 const StyledButton = styled.button`
-  display: inline-flex;
+  // display: inline-flex;
   color: white;
   font-weight: bold;
   outline: none;
@@ -58,8 +58,8 @@ const StyledButton = styled.button`
 
 export default function Button({children,color}){
   return( 
-    <StyledButton color={color}>
-      {children}
-    </StyledButton>
+      <StyledButton color={color}>
+        {children}
+      </StyledButton>
   );
 }
