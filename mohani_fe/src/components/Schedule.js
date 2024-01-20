@@ -1,8 +1,7 @@
-import { useMemo, useState } from 'react';
+import React ,{ useMemo, useState } from 'react';
 import moment from 'moment';
-
-import React from 'react';
 import { SplitDetailScreen } from '../SplitScreen';
+import '../App.css' ;
 
 function TimeRange(date, startTime, endTime) {
   const endTimeFilterling = endTime ? `~${endTime}` : '';
@@ -10,7 +9,7 @@ function TimeRange(date, startTime, endTime) {
 }
 
 //클릭했을때 일정 순회하는 함수
-function ScheduleUseMemo({dataKey, scheduleData, value}){
+export function ScheduleUseMemo({dataKey, scheduleData, value}){
   
   const clickedDate = {
     startDate: moment(value).startOf('day'),
@@ -42,7 +41,7 @@ function ScheduleList({ title, dataKey, scheduleData, value, onClick }) {
   return (
     <>
       <h4 className=''>{title}</h4>
-      <div className=''>
+      <div className='lists pointer'>
         {memoizedData.map((item, index) => (
           <li key={index} onClick={() => handleClick(item)}>{item}</li>
         ))}
@@ -101,7 +100,7 @@ function Schedule({scheduleData ,value}){
   const handleClickTitle = (item) => {
     setClickedTitle(item);
   };
-  //제목 필터링
+  //상세일정리스트 필터링
   const filteredDetailData = useMemo(() => {
     if (clickedTitle) {
       return filteredScheduleData.filter(item => item.event === clickedTitle);

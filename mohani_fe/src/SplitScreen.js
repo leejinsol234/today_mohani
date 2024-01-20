@@ -43,7 +43,7 @@ const DetailBox = styled.div`
     border-bottom : solid #000;
     margin-bottom : 0.5rem;
   }
-  padding : 0rem;
+  padding : 0 5px;
   border-radius : 5px;
   box-shadow : 0 0 5px 0 gray;
 `;

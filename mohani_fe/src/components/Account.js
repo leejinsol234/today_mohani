@@ -1,41 +1,43 @@
-import React from 'react';
+import React, {useMemo} from 'react';
+import moment from 'moment';
+import '../App.css'
 
-function TodayAccount({toDayAccount}) {
-    return (
-      <>
-        <h4 className=''>오늘의 지출</h4>
-        <div className="">
-          {toDayAccount} 원
-        </div>
-      </>
-    );
-  }
+function TodayAccount() {
+  return (
+    <>
+      <h4 className=''>오늘의 지출</h4>
+    </>
+  );
+}
 
+function MemoAccount({ memo }) {
+  return (
+    <>
+      <h4 className=''>메모</h4>
+      <div className=''>{memo}</div>
+    </>
+  );
+}
 
-function MemoAccount({memo}) {
-    return (
-      <>
-        <h4 className=''>메모</h4>
-        <div className="">
-          {memo}
-        </div>
-      </>
-    );
-  }
-
-
-
-
-
-function Account() {
-  // 더미데이터들 나중에 바꿔야함
-  const toDayAccount = "1000*";
-  const memo = "메모메모메모*"; 
+function Account({accountData,value}) {
+  //일정 배열에서 해당 날짜만 필터링하기
+  const clickedDate = moment(value).format('YYYY-MM-DD');
+  const filteredAccountData = accountData.filter(item => item.date === clickedDate);
 
   return (
     <>
-      <TodayAccount toDayAccount={toDayAccount}/>  
-      <MemoAccount memo={memo}/>      
+    <div className='accountlists'>
+        <>          
+        {filteredAccountData.map((item, index) => (
+            <li key={index}>
+              <div className='category'>{item.category}</div>
+              {item.income && <div className='income'>{item.income} 원</div>}
+              {item.expense && <div className='expense'>{item.expense} 원</div>}
+            </li>
+        ))}
+        </>
+    </div>  
+      <MemoAccount />
     </>
   );
 }

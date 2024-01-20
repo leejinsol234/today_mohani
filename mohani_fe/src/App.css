@@ -7,5 +7,58 @@
 .App {
   padding: 1rem;
   box-sizing: border-box;  
-  height: 100vh;
+  height: 95vh;
+}
+
+.header_logout{
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: #227af2;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+/* Schedule 컴포넌트 */
+.lists{
+  height: 50px;
+  margin-bottom: 5px;
+}
+
+/* Account 컴포넌트 */
+.accountlists{
+  height: 20%;
+}
+
+.category{
+  display: inline-flex;
+  border-right: 1px solid #000;
+  width: 20%;
+  cursor: pointer;
+}
+
+.income{
+  display: inline-flex;
+  width: 60%;
+  justify-content: flex-end;
+  padding: 0 10px;
+  color: green;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.expense{
+  display: inline-flex;
+  width: 60%;
+  justify-content: flex-end;
+  padding: 0 10px;
+  color: red;
+  margin-bottom: 1rem;
+  cursor: pointer;
 }

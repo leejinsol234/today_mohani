@@ -1,6 +1,7 @@
 //컴포넌트
 import '../App.css';
 import '../Layout.css'
+import styled from 'styled-components';
 
 import Calendar from 'react-calendar'; //리액트 캘린더
 import '../components/Calendar.css'; //리액트 캘린더 css 
@@ -18,6 +19,12 @@ import Modal from '../components/Modal';//모달
 import {  useEffect,useState } from 'react';
 import moment from "moment";
 
+//버튼 구역 css
+const ButtonGroup =styled.div`
+display : flex;
+justify-content: space-around;
+margin-top : 1rem;
+`
 
 function AppHeader({username,onClick}){
 
@@ -48,25 +55,28 @@ const LeftComponent = ({ title,onChange,value}) => {
   );
 };
 
-const MiddleComponent = ({ title,value,hasSchedule,scheduleData }) => {
+const MiddleComponent = ({ value,hasSchedule,scheduleData }) => {
   //미들컴포넌트에서 받아낸 스케줄데이터
   console.log('메인에서 스케줄데이터 값:',scheduleData)
 
   return (<>
-      <h3>{title}</h3>
       <div className="">
         {moment(value).format("YYYY년 MM월 DD일")}                         
       </div>
       {hasSchedule ? (
         <>
           <Schedule scheduleData={scheduleData} value={value}/>
+        <ButtonGroup>
           <Button>일정 수정</Button>
           <Button>일정 삭제</Button>
+        </ButtonGroup>    
         </>  
       ) : (
         <>
         <p>일정이 없습니다.</p>
-        <Button>일정 추가</Button>
+        <ButtonGroup>
+          <Button>일정 추가</Button>
+        </ButtonGroup>        
         </>
       )
     }
@@ -76,22 +86,26 @@ const MiddleComponent = ({ title,value,hasSchedule,scheduleData }) => {
   </>);
 };
 
-const RightComponent = ({ title,hasSchedule }) => {
+const RightComponent = ({ title,value,hasAccount,accountData }) => {
   return (<>
       <h3>{title}</h3>
 
-      {hasSchedule ? (
+      {hasAccount ? (
         <>
-          <Account />
+          <Account accountData={accountData} value={value}/>
           <TotalAccount />
+        <ButtonGroup>
           <Button>가계부 수정</Button>
           <Button>가계부 삭제</Button>
+        </ButtonGroup>  
         </>  
       ) : (
         <>
         <p>지출 내역이 없습니다.</p>
         <TotalAccount />
-        <Button>가계부 추가</Button>
+        <ButtonGroup>
+          <Button>가계부 추가</Button>
+        </ButtonGroup>       
         </>
       )
     }
@@ -104,8 +118,10 @@ function MainPage({ onClick }) {
   const username = "username*"; //더미데이터
   //달력 날짜 값 변경관리
   const [value, onChange] = useState(new Date());
-  //일정 유무 관리
+  //일정 유무 상태관리
   const [hasSchedule, setHasSchedule] = useState(false);
+  //가계부 유무 상태관리
+  const [hasAccount, setHasAccount] = useState(false);
   //더미 일정 데이터와 일정추가하기
   const [scheduleData, setScheduleData] = useState([
     {
@@ -149,11 +165,28 @@ function MainPage({ onClick }) {
       memo: '',
     }
     // 추가적인 일정 데이터
-    // 나중에 컴포넌트로 따로 분리
-    // Account도 여기에 넣을지는 회의때 정하기
   ]);
+  const [accountData, setAccountData] = useState([
+    {
+      date: "2024-01-20", 
+      category: "지출",
+      expense: "500", 
+      income: "",
+      memo: "식비 지출" },
+    { date: "2024-01-21", 
+      category: "지출",
+      expense: "1000",
+      income :"", 
+      memo: "쇼핑 지출" },
+    { date: "2024-01-21", 
+      category: "수입",
+      expense: "",
+      income :"1000", 
+      memo: "수입11" },
+    //나중에 추가할 가계부 데이터
+  ])
 
-
+  //일정 유무확인
   useEffect(() => {
     const checkScheduleForDate = (date) => {
       //일정에 데이터가 하나라도 있으면 true 반환
@@ -163,15 +196,25 @@ function MainPage({ onClick }) {
     setHasSchedule(checkScheduleForDate(value));
     
   }, [value, scheduleData]);
+  //가계부 유무 확인
+  useEffect(() => {
+    const checkAccountForDate = (date) => {
+      //일정에 데이터가 하나라도 있으면 true 반환
+      return accountData.some((schedule) => schedule.date === moment(date).format('YYYY-MM-DD'));
+    };
+    // 달력 리랜더링 될때마다 hasSchedule 상태를 업데이트
+    setHasAccount(checkAccountForDate(value));
+    
+  }, [value, accountData]);
 
   //모달 관리
-  const [isModalOpen, setModalOpen] = useState(false);
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  // const [isModalOpen, setModalOpen] = useState(false);
+  // const openModal = () => {
+  //   setModalOpen(true);
+  // };
+  // const closeModal = () => {
+  //   setModalOpen(false);
+  // };
 
   return (
     <div className="App">
@@ -191,11 +234,12 @@ function MainPage({ onClick }) {
           
         <RightComponent 
           title="가계부"
-          hasSchedule ={hasSchedule}
+          value={value}
+          hasAccount ={hasAccount}
+          accountData={accountData}
           />
     </SplitScreen>
-    <button onClick={openModal}>경우2.일정이 없는날</button>
-    {isModalOpen && <Modal closeModal={closeModal} />}
+    {/* {isModalOpen && <Modal closeModal={closeModal} />} */}
     </div>
   );
 }
