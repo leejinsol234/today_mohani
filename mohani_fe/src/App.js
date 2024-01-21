@@ -1,13 +1,11 @@
-// import MainPage from "./pages/MainPage"
-// import Login from "./pages/Login";
-import axios from 'axios'
+import MainPage from "./pages/MainPage"
+import Login from "./pages/Login";
+// import axios from 'axios'
 import React, {useEffect, useState} from "react";
-import Login from './pages/Login';
-import MainPage from './pages/MainPage';
 
 function App(){
 
-  const [hello, setHello] = useState('')
+  // const [hello, setHello] = useState('')
 
   // useEffect(() => {
   //     axios.get('/api/hello')
@@ -33,7 +31,6 @@ function App(){
         // 비회원이면 로그인 페이지 렌더링
         <Login onClick={handleLogin}/>
       )}
-
     </>
   );
 }; 

@@ -1,11 +1,13 @@
 package com.mohani_be.models.member;
 
-import com.mohani_be.controllers.RequestJoin;
+import com.mohani_be.controllers.member.JoinValidator;
+import com.mohani_be.controllers.member.RequestJoin;
 import com.mohani_be.entities.Member;
 import com.mohani_be.repositories.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
 
 @Service
 @RequiredArgsConstructor
@@ -13,8 +15,14 @@ public class MemberSaveService {
 
     private final MemberRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final JoinValidator joinValidator;
 
-    public void save(RequestJoin form) {
+    public void save(RequestJoin form, Errors errors) {
+
+        joinValidator.validate(form, errors);
+        if (errors.hasErrors()) {
+            return;
+        }
 
         // 회원 가입 처리
         String hash = passwordEncoder.encode(form.getPassword());
@@ -22,17 +30,17 @@ public class MemberSaveService {
                 .email(form.getEmail())
                 .name(form.getName())
                 .password(hash)
-                .mobile(form.getMobile())
+                .phoneNumber(form.getPhoneNumber())
                 .build();
 
         save(member);
     }
 
     public void save(Member member) {
-        String mobile = member.getMobile();
-        if (mobile != null) {
-            mobile = mobile.replaceAll("\\D", "");
-            member.setMobile(mobile);
+        String phone = member.getPhoneNumber();
+        if (phone != null) {
+            phone = phone.replaceAll("\\D", "");
+            member.setPhoneNumber(phone);
         }
 
         repository.saveAndFlush(member);
