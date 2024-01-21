@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.2.1'
+	id 'org.springframework.boot' version '3.1.5' // 버전 변경 3.2.1 -> 3.1.5  (3.2버전 쿼리 오류 발생)
 	id 'io.spring.dependency-management' version '1.1.4'
 }
 
@@ -34,7 +34,7 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	implementation 'com.oracle.database.jdbc:ojdbc11:23.3.0.23.09'
 	implementation 'com.oracle.database.nls:orai18n:23.3.0.23.09'
-	runtimeOnly 'com.mysql:mysql-connector-j'
+
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0'
 	implementation 'org.modelmapper:modelmapper:3.2.0'
 	implementation 'net.coobird:thumbnailator:0.4.20'
