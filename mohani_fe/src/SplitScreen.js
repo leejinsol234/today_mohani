@@ -30,3 +30,33 @@ const SplitScreen = ({ children, leftWeight,middleWeight, rightWeight}) => {
 };
 
 export default SplitScreen;
+//상세일정 분할
+const DetailContainer = styled.div`
+  height : 70%;
+  display : flex;
+  flex-direction: column;
+`;
+
+const DetailBox = styled.div`
+  flex: ${(props) => props.weight}; // props로 받은 가중치(weight) 사용
+  & + & {
+    border-bottom : solid #000;
+    margin-bottom : 0.5rem;
+  }
+  padding : 0 5px;
+  border-radius : 5px;
+  box-shadow : 0 0 5px 0 gray;
+`;
+
+export function SplitDetailScreen ({ children, topWeight,middleWeight, bottomWeight}) {
+  const [top,middle, bottom] = children; 
+  
+  return (
+    <DetailContainer>
+      <DetailBox weight={topWeight}>{top}</DetailBox>
+      <DetailBox weight={middleWeight}>{middle}</DetailBox>
+      <DetailBox weight={bottomWeight}>{bottom}</DetailBox>
+    </DetailContainer>
+  );
+};
+

@@ -40,6 +40,5 @@
   },
   "devDependencies": {
     "web-vitals": "^3.5.1"
-  },
-  "proxy": "http://localhost:3001"
+  }
 }
