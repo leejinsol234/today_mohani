@@ -15,5 +15,5 @@ public class JSONData {
 
     @NonNull
     private Object data;
-    private Object message;
+    private Object message; // 오류 메세지를 여러개 처리하기 위해 Object 설정
 }
