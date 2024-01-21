@@ -18,6 +18,7 @@
 
   display: flex;
   flex-direction: column;
+  z-index: 999;
 }
 
 .titleWrap{
@@ -101,7 +102,7 @@
   color : blue;
 }
 
-.addtitleWrap {
+.AddTitleWrap {
   text-align: left;  
   margin-top: 30px;
   margin-left : 40px;
@@ -110,13 +111,13 @@
   color : #262626;
 }
 
-.addWrap {
+.AddWrap {
   display: flex;
   margin : 14px 50px;
   align-items: center;
 }
 
-.addinputWrap {
+.AddInputWrap {
   display : flex;
   border-radius: 8px;
   padding : 12px;
@@ -127,7 +128,7 @@
   border : 1px solid #dadada;
 }
 
-.addCalinputWrap {
+.AddCalInputWrap {
   display : flex;
   border-radius: 8px;
   padding : 12px;
@@ -139,7 +140,19 @@
   border : 1px solid #dadada;
 }
 
-.addinput{
+.AccountCalInputWrap {
+  display : flex;
+  border-radius: 8px;
+  padding : 12px;
+  margin-top: 8px;
+  background-color: white;
+  width : 75%;
+  margin-left: 30px;
+  margin-right: 10px;
+  border : 1px solid #dadada;
+}
+
+.AddInput{
   width : 100%;
   outline : none;
   border : none;
@@ -149,7 +162,7 @@
   text-align: center;
 }
 
-.addCalinput {
+.AccountCalInput {
   width : 45%;
   outline : none;
   border : none;
@@ -159,7 +172,17 @@
   text-align: center;
 }
 
-.addMemoinput {
+.AddCalInput {
+  width : 45%;
+  outline : none;
+  border : none;
+  height: 12px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.AddMemoInput {
   width : 100%;
   outline : none;
   border : none;
@@ -169,7 +192,7 @@
   text-align: center;
 }
 
-.addButton {
+.AddButton {
   width : 30%;
   height: 40px;
   border : none;
@@ -185,4 +208,85 @@
 .flex {
   display: flex;
   justify-content: center;
+}
+
+.CreatePage{
+  position: absolute;
+  top : 0;
+  bottom: 0;
+  width : 100%;
+  max-width: 500px;
+  padding : 0 20px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #eeeeee;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.CreateInput {
+  width : 100%;
+  outline : none;
+  border : none;
+  height: 22px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.CreateInput::placeholder {
+  color : #dadada;
+}
+
+.CreateInputTitle {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color : #262626;
+}
+
+.CreateInputWrap {
+  display : flex;
+  border-radius: 8px;
+  padding : 10px;
+  margin-top: 8px;
+  background-color: white;
+  border : 1px solid #e2e0e0;
+}
+
+.CreateAddButton {
+  width : 100%;
+  height: 40px;
+  border : none;
+  font-weight: 700;
+  background-color: #f47d31;
+  border-radius: 10px;
+  color : white;
+  margin-top : 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.AgreeBoxWrap {
+  display : flex;
+  justify-content: start;
+  margin-top: 20px;
+  font-size: 16px;
+}
+.CreateAgreeBox {
+  width : 30px;
+  height: 20px;
+
+}
+
+.CreateFooter {
+  display: flex;
+  justify-content: center;
+  gap : 14px;
+}
+
+.CreateFooter1 {
+  color : gray;
 }

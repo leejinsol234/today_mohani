@@ -12,6 +12,7 @@ import Schedule from '../components/Schedule';//상세일정
 
 import Button from '../components/Button';//버튼
 import Modal from '../components/Modal';//모달
+import React from 'react';
 
 
 //관리
@@ -52,6 +53,16 @@ const MiddleComponent = ({ title,value,hasSchedule,scheduleData }) => {
   //미들컴포넌트에서 받아낸 스케줄데이터
   console.log('메인에서 스케줄데이터 값:',scheduleData)
 
+  const [isModalOpen, setModalOpen] = useState(false);
+    const openModal = () => {
+      setModalOpen(true);
+    };
+    const closeModal = () => {
+      setModalOpen(false);
+    };
+  
+
+
   return (<>
       <h3>{title}</h3>
       <div className="">
@@ -66,7 +77,10 @@ const MiddleComponent = ({ title,value,hasSchedule,scheduleData }) => {
       ) : (
         <>
         <p>일정이 없습니다.</p>
-        <Button>일정 추가</Button>
+        <Button onClick={openModal}>일정 추가 </Button>
+        {isModalOpen && <Modal closeModal={closeModal} />}
+            {/* <button onClick={openModal}>경우2.일정이 없는날</button>
+    {isModalOpen && <Modal closeModal={closeModal} />} */}
         </>
       )
     }
@@ -77,6 +91,13 @@ const MiddleComponent = ({ title,value,hasSchedule,scheduleData }) => {
 };
 
 const RightComponent = ({ title,hasSchedule }) => {
+  const [AccountModalOpen, setAccountModalOpen] = useState(false);
+  const openAccountModal = () => {
+    setAccountModalOpen(true);
+  };
+  const closeAccountModal = () => {
+    setAccountModalOpen(false);
+  };
   return (<>
       <h3>{title}</h3>
 
@@ -91,7 +112,7 @@ const RightComponent = ({ title,hasSchedule }) => {
         <>
         <p>지출 내역이 없습니다.</p>
         <TotalAccount />
-        <Button>가계부 추가</Button>
+        <Button onClick={openAccountModal}>가계부 추가</Button>
         </>
       )
     }
@@ -165,13 +186,13 @@ function MainPage({ onClick }) {
   }, [value, scheduleData]);
 
   //모달 관리
-  const [isModalOpen, setModalOpen] = useState(false);
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  // const [isModalOpen, setModalOpen] = useState(false);
+  // const openModal = () => {
+  //   setModalOpen(true);
+  // };
+  // const closeModal = () => {
+  //   setModalOpen(false);
+  // };
 
   return (
     <div className="App">
@@ -187,6 +208,7 @@ function MainPage({ onClick }) {
           value={value}
           hasSchedule ={hasSchedule}
           scheduleData={scheduleData}
+          onClick={onClick}
           /> 
           
         <RightComponent 
@@ -194,8 +216,8 @@ function MainPage({ onClick }) {
           hasSchedule ={hasSchedule}
           />
     </SplitScreen>
-    <button onClick={openModal}>경우2.일정이 없는날</button>
-    {isModalOpen && <Modal closeModal={closeModal} />}
+    {/* <button onClick={openModal}>경우2.일정이 없는날</button>
+    {isModalOpen && <Modal closeModal={closeModal} />} */}
     </div>
   );
 }
