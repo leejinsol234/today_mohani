@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import CreateUser from "../components/CreateUser";
+import AccountModal from "../components/AccountModal";
 
 const User = {
   email: 'test@example.com',
@@ -7,6 +9,7 @@ const User = {
 
 
 export default function Login({onClick}) {
+  const [isUser, setIsUser] = useState(false);
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
 
@@ -95,5 +98,8 @@ export default function Login({onClick}) {
           <a className='newCreate'href=""> 회원가입</a>
       </div>
     </div>
+
+  // <CreateUser />
+
   )
 }

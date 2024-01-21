@@ -31,9 +31,6 @@ function App(){
         // 비회원이면 로그인 페이지 렌더링
         <Login onClick={handleLogin}/>
       )}
-          {/* <div>
-            백엔드에서 가져온 데이터입니다 : {hello}
-        </div> */}
     </>
   );
 }; 

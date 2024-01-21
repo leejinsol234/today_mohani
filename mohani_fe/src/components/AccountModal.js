@@ -11,7 +11,7 @@ const fadeIn = keyframes`
 `;
 
 
-function Modal({ closeModal }) {
+function AccountModal({ closeModal }) {
     const ModalBackground = styled.div`
       position: fixed;
       top: 0;
@@ -33,29 +33,20 @@ function Modal({ closeModal }) {
         <ModalBackground onClick={closeModal}/>
       <div className="page">
       <div className="AddTitleWrap">
-        일정추가
+        지출추가
       </div>
 
       <div>
         <div className="AddWrap">
-          <div>색깔</div>
-          <div className="AddInputWrap"><input className="AddInput" placeholder="일정 제목을 입력해 주세요."/></div>
+          <div>지출</div>
+          <div className="AddInputWrap"><input className="AddInput" placeholder="지출 분류"/></div>
         </div>
 
         <div className="AddWrap">
           <div>달력</div>
-          <div className="AddCalInputWrap">
+          <div className="AccountCalInputWrap">
             <input className="AddInput" placeholder="2014.01.10"/>
           </div>
-          ~
-          <div style={{marginLeft : 10}} className="AddCalInputWrap">
-            <input className="AddInput" placeholder="2014.01.11"/>
-          </div>
-        </div>
-
-        <div className="AddWrap">
-          <div>장소</div>
-          <div className="AddInputWrap"><input className="AddInput" placeholder="장소 입력"/></div>
         </div>
 
         <div className="AddWrap">
@@ -80,4 +71,4 @@ function Modal({ closeModal }) {
   }
   
 
-export default Modal;
+export default AccountModal;
