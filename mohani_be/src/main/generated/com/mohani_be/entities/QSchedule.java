@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -17,8 +16,6 @@ import com.querydsl.core.types.dsl.PathInits;
 public class QSchedule extends EntityPathBase<Schedule> {
 
     private static final long serialVersionUID = -808215051L;
-
-    private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QSchedule schedule = new QSchedule("schedule");
 
@@ -32,11 +29,13 @@ public class QSchedule extends EntityPathBase<Schedule> {
     //inherited
     public final StringPath createdBy = _super.createdBy;
 
+    public final StringPath dateE = createString("dateE");
+
+    public final StringPath dateS = createString("dateS");
+
     public final StringPath email = createString("email");
 
     public final StringPath loc = createString("loc");
-
-    public final QMember memberNo;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
@@ -44,31 +43,20 @@ public class QSchedule extends EntityPathBase<Schedule> {
     //inherited
     public final StringPath modifiedBy = _super.modifiedBy;
 
-    public final StringPath scheduleDate = createString("scheduleDate");
-
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public final StringPath title = createString("title");
 
     public QSchedule(String variable) {
-        this(Schedule.class, forVariable(variable), INITS);
+        super(Schedule.class, forVariable(variable));
     }
 
     public QSchedule(Path<? extends Schedule> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QSchedule(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QSchedule(PathMetadata metadata, PathInits inits) {
-        this(Schedule.class, metadata, inits);
-    }
-
-    public QSchedule(Class<? extends Schedule> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.memberNo = inits.isInitialized("memberNo") ? new QMember(forProperty("memberNo")) : null;
+        super(Schedule.class, metadata);
     }
 
 }
