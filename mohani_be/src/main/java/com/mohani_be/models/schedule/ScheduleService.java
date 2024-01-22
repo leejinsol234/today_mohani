@@ -29,6 +29,7 @@ public class ScheduleService {
     public List<Schedule> create(final Schedule scheduleEn) {
         //Validations
         validate(scheduleEn);
+        scheduleRepository.save(scheduleEn);
         log.info("Entity id : {} is saved", scheduleEn.getScheduleNo());
         return scheduleRepository.findByscheduleNo(scheduleEn.getScheduleNo());
     }

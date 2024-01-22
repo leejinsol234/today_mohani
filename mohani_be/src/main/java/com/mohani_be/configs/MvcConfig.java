@@ -11,7 +11,8 @@ public class MvcConfig implements WebMvcConfigurer {
 
     private final long MAX_AGE_SECS = 3600;
 
-    public void addCorsMappings(CorsRegistry registry){
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
         //모든 경로에 대해
         registry.addMapping("/**")
                 //Origin이 http:localhost:3000에 대해

@@ -32,11 +32,9 @@ public class Schedule {
     @Column(nullable = false)
     private LocalDateTime regDate; //일정 작성일
 
-    /*
     @JoinColumn(name = "email", referencedColumnName = "email")
     Member email;
 
-     */
 
 
 
