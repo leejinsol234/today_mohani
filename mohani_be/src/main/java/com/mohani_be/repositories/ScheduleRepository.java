@@ -10,5 +10,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule,Long>, Queryd
 
     List<Schedule> findBySeq(long seq);
 
-
+    List<Schedule> findByEmail(String email);
 }
