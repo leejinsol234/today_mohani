@@ -11,16 +11,19 @@ import lombok.NoArgsConstructor;
 public class ScheduleDTO {
     private long seq;
     private String title;
-    private String scheduleDate;
+    private String dateS;
+    private String dateE;
     private String content;
     private String loc;
 
-    public ScheduleDTO(final Schedule scheduleEn){
-        this.seq = scheduleEn.getSeq();
-        this.title = scheduleEn.getTitle();
-        this.scheduleDate = scheduleEn.getScheduleDate();
-        this.content = scheduleEn.getContent();
-        this.loc = scheduleEn.getLoc();
+
+    public ScheduleDTO(final Schedule entity){
+        this.seq = entity.getSeq();
+        this.title = entity.getTitle();
+        this.dateS = entity.getDateS();
+        this.dateE = entity.getDateE();
+        this.content = entity.getContent();
+        this.loc = entity.getLoc();
 
     }
 
@@ -28,7 +31,8 @@ public class ScheduleDTO {
         return Schedule.builder()
                 .seq(dto.getSeq())
                 .title(dto.getTitle())
-                .scheduleDate(dto.getScheduleDate())
+                .dateS(dto.getDateS())
+                .dateE(dto.getDateE())
                 .content(dto.getContent())
                 .loc(dto.getLoc())
                 .build();
