@@ -1,40 +1,40 @@
 import MainPage from "./pages/MainPage"
 import Login from "./pages/Login";
-// import axios from 'axios'
 import React, {useEffect, useState} from "react";
 
-function App(){
+function App() {
+//유저 로그인 유무 관리
+  const [username, setUsername] = useState(null);
+//로딩 관리  
+  const [loading, setLoading] = useState(true);
 
-  // const [hello, setHello] = useState('')
+  useEffect(() => {
+    const mohaniApi = async () => {
+      try {
+        const response = await fetch('/mohani');
+        const result = await response.json();
 
-  // useEffect(() => {
-  //     axios.get('/api/hello')
-  //     .then(response => setHello(response.data))
-  //     .catch(error => console.log(error))
-  // }, []);
+        setUsername(result.username);
+      } catch (error) {
+        console.error('API 호출 중 에러 발생:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const [isLogIn, setIsLogIn] = useState(false);
+    mohaniApi();
+  }, []);
 
-  function handleLogin(){
-    setIsLogIn(true);
-  }
-  function handleLogout(){
-    setIsLogIn(false);
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (
-    <>
-      {isLogIn ? (
-        // 회원이면 메인 페이지 렌더링
-        <MainPage onClick={handleLogout}/>
-      ) : (
-        // 비회원이면 로그인 페이지 렌더링
-        <Login onClick={handleLogin}/>
-      )}
-    </>
+    <div className="App">
+      {username ? <MainPage username={username} /> : <Login />}
+      {console.log(username)}
+    </div>
   );
-}; 
+}
 
 export default App;
- 
- 
