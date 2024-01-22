@@ -32,9 +32,9 @@ public class Schedule extends BaseMember{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="memberNo")
-    private Member member;
+    private Member memberNo;
 
-    private String userEmail;
+    private String email;
 
 
 }

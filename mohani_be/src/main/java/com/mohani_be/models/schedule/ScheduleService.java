@@ -45,5 +45,9 @@ public class ScheduleService {
             throw new RuntimeException("Unknown user");
         }
     }
+
+    public List<Schedule> retrieve(final String email){
+        return scheduleRepository.findByEmail(email);
+    }
 }
 

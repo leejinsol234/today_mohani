@@ -30,7 +30,7 @@ public class ScheduleController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping("/schedule")
+    @PostMapping()
     public ResponseEntity<?> createSchedule(@RequestBody ScheduleDTO dto){
         try{
             String temporaryMemberEmail = "temporary_user"; //임시 사용자 계정
@@ -39,11 +39,11 @@ public class ScheduleController {
             Schedule scheduleEn = ScheduleDTO.toEntity(dto);
 
             //2. 생성 당시에는 email이 없어야 하기 때문에 email을 null로 초기화한다.
-            scheduleEn.setMember(null);
+            scheduleEn.setMemberNo(null);
 
             //3. 임시 유저 아이디를 설정해준다.
             //(인증 및 인가 기능 없으므로 한 유저만 로그인 없이 사용 가능한 셈이다.
-            scheduleEn.setUserEmail("temporaryMemberEmail");
+            scheduleEn.setEmail("temporaryMemberEmail");
 
             //4. 서비스를 이용해 Schedule 엔티티 생성
             List<Schedule> schedules = scheduleService.create(scheduleEn);
@@ -62,6 +62,23 @@ public class ScheduleController {
             ResponseDTO<ScheduleDTO> response = ResponseDTO.<ScheduleDTO>builder().error(error).build();
             return ResponseEntity.badRequest().body(response);
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> retrieveSchedule(){
+        String temporaryMemberEmail = "temporary_user"; //임시 사용자 계정
+
+        //1. 서비스 메서드의 retrieve 메서드를 사용해 Schedule 리스트를 가져온다.
+        List<Schedule> schedules = scheduleService.retrieve(temporaryMemberEmail);
+
+        //2. 리턴된 엔티티 리스트를 ScheduleSTO 리스트로 변환한다.
+        List<ScheduleDTO> dtos = schedules.stream().map(ScheduleDTO::new).collect(Collectors.toList());
+
+        //3. 변환된 ScheduleDTO 리스트를 이용해 ResponseDTO를 초기화한다.
+        ResponseDTO<ScheduleDTO> response = ResponseDTO.<ScheduleDTO>builder().data(dtos).build();
+
+        //4. ResponseDTO를 리턴한다.
+        return ResponseEntity.ok().body(response);
     }
 
 }
