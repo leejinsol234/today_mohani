@@ -30,7 +30,7 @@ public class ScheduleController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping
+    @PostMapping("/schedule")
     public ResponseEntity<?> createSchedule(@RequestBody ScheduleDTO dto){
         try{
             String temporaryMemberEmail = "temporary_user"; //임시 사용자 계정
@@ -39,11 +39,11 @@ public class ScheduleController {
             Schedule scheduleEn = ScheduleDTO.toEntity(dto);
 
             //2. 생성 당시에는 email이 없어야 하기 때문에 email을 null로 초기화한다.
-            scheduleEn.setEmail(null);
+            scheduleEn.setMember(null);
 
             //3. 임시 유저 아이디를 설정해준다.
             //(인증 및 인가 기능 없으므로 한 유저만 로그인 없이 사용 가능한 셈이다.
-            //scheduleEn.setEmail();
+            scheduleEn.setUserEmail("temporaryMemberEmail");
 
             //4. 서비스를 이용해 Schedule 엔티티 생성
             List<Schedule> schedules = scheduleService.create(scheduleEn);

@@ -22,19 +22,33 @@ public class QSchedule extends EntityPathBase<Schedule> {
 
     public static final QSchedule schedule = new QSchedule("schedule");
 
+    public final QBaseMember _super = new QBaseMember(this);
+
     public final StringPath content = createString("content");
 
-    public final QMember email;
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
+    //inherited
+    public final StringPath createdBy = _super.createdBy;
 
     public final StringPath loc = createString("loc");
 
-    public final DateTimePath<java.time.LocalDateTime> regDate = createDateTime("regDate", java.time.LocalDateTime.class);
+    public final QMember member;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+
+    //inherited
+    public final StringPath modifiedBy = _super.modifiedBy;
 
     public final StringPath scheduleDate = createString("scheduleDate");
 
-    public final NumberPath<Long> scheduleNo = createNumber("scheduleNo", Long.class);
+    public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public final StringPath title = createString("title");
+
+    public final StringPath userEmail = createString("userEmail");
 
     public QSchedule(String variable) {
         this(Schedule.class, forVariable(variable), INITS);
@@ -54,7 +68,7 @@ public class QSchedule extends EntityPathBase<Schedule> {
 
     public QSchedule(Class<? extends Schedule> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.email = inits.isInitialized("email") ? new QMember(forProperty("email")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
     }
 
 }

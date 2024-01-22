@@ -1,6 +1,5 @@
 package com.mohani_be.models.member;
 
-import com.mohani_be.commons.contants.MemberType;
 import com.mohani_be.controllers.member.JoinValidator;
 import com.mohani_be.controllers.member.RequestJoin;
 import com.mohani_be.entities.Member;
