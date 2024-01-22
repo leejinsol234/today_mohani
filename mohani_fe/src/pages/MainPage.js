@@ -13,6 +13,7 @@ import Schedule from '../components/Schedule';//상세일정
 
 import Button from '../components/Button';//버튼
 import Modal from '../components/Modal';//모달
+import React from 'react';
 
 
 //관리
@@ -58,6 +59,16 @@ const LeftComponent = ({ title,onChange,value}) => {
 const MiddleComponent = ({ value,hasSchedule,scheduleData }) => {
   //미들컴포넌트에서 받아낸 스케줄데이터
   console.log('메인에서 스케줄데이터 값:',scheduleData)
+
+  const [isModalOpen, setModalOpen] = useState(false);
+    const openModal = () => {
+      setModalOpen(true);
+    };
+    const closeModal = () => {
+      setModalOpen(false);
+    };
+  
+
 
   return (<>
       <div className="">
@@ -230,6 +241,7 @@ function MainPage({ onClick }) {
           value={value}
           hasSchedule ={hasSchedule}
           scheduleData={scheduleData}
+          onClick={onClick}
           /> 
           
         <RightComponent 

@@ -1,5 +1,6 @@
 package com.mohani_be.models.member;
 
+import com.mohani_be.commons.contants.MemberType;
 import com.mohani_be.controllers.member.JoinValidator;
 import com.mohani_be.controllers.member.RequestJoin;
 import com.mohani_be.entities.Member;
@@ -31,6 +32,7 @@ public class MemberSaveService {
                 .name(form.getName())
                 .password(hash)
                 .phoneNumber(form.getPhoneNumber())
+                //.type(MemberType.USER)
                 .build();
 
         save(member);
