@@ -1,9 +1,10 @@
 package com.mohani_be.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
@@ -11,11 +12,11 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Schedule {
+public class Schedule extends BaseMember{
 
     @Id
     @GeneratedValue
-    private long scheduleNo; //일정 번호
+    private long seq; //일정 번호
 
     @Column(nullable = false, length = 100)
     private String title; //일정 제목
@@ -29,16 +30,11 @@ public class Schedule {
 
     private String loc; //일정 장소
 
-    @Column(nullable = false)
-    private LocalDateTime regDate; //일정 작성일
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="memberNo")
+    private Member member;
 
-    /*
-    @JoinColumn(name = "email", referencedColumnName = "email")
-    Member email;
-
-     */
-
-
+    private String userEmail;
 
 
 }

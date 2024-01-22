@@ -1,19 +1,13 @@
 package com.mohani_be.models.member;
 
-import  com.mohani_be.commons.contants.MemberType;
+
 import com.mohani_be.entities.Member;
 import com.mohani_be.repositories.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 
 @Service

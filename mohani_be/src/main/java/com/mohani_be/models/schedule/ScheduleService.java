@@ -22,15 +22,16 @@ public class ScheduleService {
         // TodoEntity 저장
         scheduleRepository.save(entity);
         // TodoEntity 검색
-        Schedule savedEntity = scheduleRepository.findById(entity.getScheduleNo()).get();
+        Schedule savedEntity = scheduleRepository.findById(entity.getSeq()).get();
         return savedEntity.getTitle();
     }
 
     public List<Schedule> create(final Schedule scheduleEn) {
         //Validations
         validate(scheduleEn);
-        log.info("Entity id : {} is saved", scheduleEn.getScheduleNo());
-        return scheduleRepository.findByscheduleNo(scheduleEn.getScheduleNo());
+        scheduleRepository.save(scheduleEn);
+        log.info("Entity id : {} is saved", scheduleEn.getSeq());
+        return scheduleRepository.findBySeq(scheduleEn.getSeq());
     }
 
     private void validate(final Schedule scheduleEn) {
@@ -39,7 +40,7 @@ public class ScheduleService {
             throw new RuntimeException("Entity cannot be null");
         }
 
-        if(scheduleEn.getScheduleNo() == 0) {
+        if(scheduleEn.getSeq() == 0) {
             log.warn("Unknown user");
             throw new RuntimeException("Unknown user");
         }
