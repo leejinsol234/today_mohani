@@ -93,7 +93,7 @@ function Schedule({scheduleData ,value}){
   const filteredScheduleData = useMemo(() => {
     const clickedDate = moment(value).format('YYYY-MM-DD');
     return scheduleData.filter(item => item.date === clickedDate);
-  }, [scheduleData, value]);
+  }, [scheduleData,value]);
 
   //상세일정 클릭했을때 상태관리
   const [clickedTitle, setClickedTitle] = useState(null);
@@ -106,7 +106,7 @@ function Schedule({scheduleData ,value}){
       return filteredScheduleData.filter(item => item.event === clickedTitle);
     }
     return [];
-  }, [filteredScheduleData, clickedTitle]);
+  }, [filteredScheduleData,clickedTitle]);
 
 
   return (
