@@ -50,7 +50,7 @@ public class SecurityConfig {
             c.requestMatchers(
                     "/mohani/join", // 회원가입
                     "/mohani/login", // 로그인
-                    "/mohani/schedule",
+                    "/mohani/main",
                     "/mohani/**").permitAll()
                     .anyRequest().authenticated(); // 나머지 URL은 모두 회원 인증
         });

@@ -46,7 +46,7 @@ public class JoinValidator implements Validator, PasswordValidator, PhoneNumberV
 
         // 4. 전화번호 형식 체크
         if (phoneNumber != null && !phoneNumber.isBlank() && !phoneNumCheck(phoneNumber)) {
-            errors.rejectValue("phone", "phone");
+            errors.rejectValue("phoneNumber", "Form");
         }
 
     }
