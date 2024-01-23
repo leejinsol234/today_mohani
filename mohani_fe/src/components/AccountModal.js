@@ -11,7 +11,7 @@ const fadeIn = keyframes`
 `;
 
 
-function AccountModal({ closeModal }) {
+function AccountModal({ closeAccountModal }) {
     const ModalBackground = styled.div`
       position: fixed;
       top: 0;
@@ -22,7 +22,7 @@ function AccountModal({ closeModal }) {
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 3;
+      z-index: 5;
       animation: ${fadeIn} 0.5s ease;
     `;
   
@@ -30,7 +30,7 @@ function AccountModal({ closeModal }) {
   
     return (
       <>
-      <ModalBackground onClick={closeModal}/>
+      <ModalBackground onClick={closeAccountModal}/>
       <div className="page">
         <div className="AddTitleWrap">
           지출추가

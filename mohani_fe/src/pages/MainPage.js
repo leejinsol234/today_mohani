@@ -13,6 +13,7 @@ import Schedule from '../components/Schedule';//상세일정
 
 import Button from '../components/Button';//버튼
 import Modal from '../components/Modal';//모달
+import AccountModal from '../components/AccountModal';
 
 
 //관리
@@ -55,7 +56,7 @@ const LeftComponent = ({ title,onChange,value}) => {
   );
 };
 
-const MiddleComponent = ({ value,hasSchedule,scheduleData, onClick }) => {
+const MiddleComponent = ({ value,hasSchedule,scheduleData}) => {
   //미들컴포넌트에서 받아낸 스케줄데이터
   console.log('메인에서 스케줄데이터 값:',scheduleData)
 
@@ -99,6 +100,15 @@ const MiddleComponent = ({ value,hasSchedule,scheduleData, onClick }) => {
 };
 
 const RightComponent = ({ title,value,hasAccount,accountData }) => {
+
+  const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
+  const openAccountModal = () => {
+    setIsAccountModalOpen(true);
+  };
+  const closeAccountModal = () => {
+    setIsAccountModalOpen(false);
+  };
+
   return (<>
       <h3>{title}</h3>
 
@@ -116,7 +126,9 @@ const RightComponent = ({ title,value,hasAccount,accountData }) => {
         <p>지출 내역이 없습니다.</p>
         <TotalAccount />
         <ButtonGroup>
-          <Button>가계부 추가</Button>
+          <Button onClick={openAccountModal}>가계부 추가</Button>
+          {isAccountModalOpen && <AccountModal closeAccountModal={closeAccountModal} />}
+
         </ButtonGroup>       
         </>
       )
@@ -253,7 +265,6 @@ function MainPage({ onClick }) {
           accountData={accountData}
           />
     </SplitScreen>
-    {/* {isModalOpen && <Modal closeModal={closeModal} />} */}
     </div>
   );
 }
