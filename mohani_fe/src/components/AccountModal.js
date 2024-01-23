@@ -30,38 +30,38 @@ function AccountModal({ closeModal }) {
   
     return (
       <>
-        <ModalBackground onClick={closeModal}/>
+      <ModalBackground onClick={closeModal}/>
       <div className="page">
-      <div className="AddTitleWrap">
-        지출추가
-      </div>
-
-      <div>
-        <div className="AddWrap">
-          <div>지출</div>
-          <div className="AddInputWrap"><input className="AddInput" placeholder="지출 분류"/></div>
+        <div className="AddTitleWrap">
+          지출추가
         </div>
 
-        <div className="AddWrap">
-          <div>달력</div>
-          <div className="AccountCalInputWrap">
-            <input className="AddInput" placeholder="2014.01.10"/>
+        <div>
+          <div className="AddWrap">
+            <div>지출</div>
+            <div className="AddInputWrap"><input className="AddInput" placeholder="지출 분류"/></div>
           </div>
-        </div>
 
-        <div className="AddWrap">
-          <div>금액</div>
-          <div className="AddInputWrap"><input className="AddInput" placeholder="금액 입력"/></div>
-        </div>
+          <div className="AddWrap">
+            <div>달력</div>
+            <div className="AccountCalInputWrap">
+              <input className="AddInput" placeholder="2014.01.10"/>
+            </div>
+          </div>
 
-        <div className="AddWrap">
-          <div>메모</div>
-          <div className="AddInputWrap"><input className="AddMemoInput" placeholder="메모 입력"/></div>
-        </div>
+          <div className="AddWrap">
+            <div>금액</div>
+            <div className="AddInputWrap"><input className="AddInput" placeholder="금액 입력"/></div>
+          </div>
 
-        <div className="flex">
-          <button className="AddButton">등록</button>
-        </div>
+          <div className="AddWrap">
+            <div>메모</div>
+            <div className="AddInputWrap"><input className="AddMemoInput" placeholder="메모 입력"/></div>
+          </div>
+
+          <div className="flex">
+            <button className="AddButton">등록</button>
+          </div>
 
       </div>
     </div>

@@ -56,9 +56,9 @@ const StyledButton = styled.button`
   }
   `
 
-export default function Button({children,color}){
+export default function Button({children,color, onClick}){
   return( 
-      <StyledButton color={color}>
+      <StyledButton color={color} onClick={onClick}>
         {children}
       </StyledButton>
   );

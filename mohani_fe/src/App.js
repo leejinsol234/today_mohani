@@ -1,10 +1,12 @@
-import MainPage from "./pages/MainPage"
+import MainPage from "./pages/MainPage";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from "./pages/Login";
+import CreateUser from "./pages/CreateUser";
 import React, {useEffect, useState} from "react";
 
 function App() {
 //유저 로그인 유무 관리
-  const [username, setUsername] = useState(null);
+  const [username, setUsername] = useState(true);
 //로딩 관리  
   const [loading, setLoading] = useState(true);
 
@@ -31,8 +33,16 @@ function App() {
 
   return (
     <div className="App">
-      {username ? <MainPage username={username} /> : <Login />}
-      {console.log(username)}
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Login />} />
+          <Route path="/mohani/join" element={<CreateUser />} />
+          <Route path="/mohani/main" element={<MainPage />} />
+          {/* <MainPage /> */}
+        {/* {username ? <MainPage username={username} /> : <Login />} */}
+        {console.log(username)}
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
