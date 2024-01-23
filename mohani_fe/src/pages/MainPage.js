@@ -13,11 +13,10 @@ import Schedule from '../components/Schedule';//상세일정
 
 import Button from '../components/Button';//버튼
 import Modal from '../components/Modal';//모달
-import React from 'react';
 
 
 //관리
-import {  useEffect,useState } from 'react';
+import { React, useEffect,useState } from 'react';
 import moment from "moment";
 
 //버튼 구역 css
@@ -56,16 +55,16 @@ const LeftComponent = ({ title,onChange,value}) => {
   );
 };
 
-const MiddleComponent = ({ value,hasSchedule,scheduleData }) => {
+const MiddleComponent = ({ value,hasSchedule,scheduleData, onClick }) => {
   //미들컴포넌트에서 받아낸 스케줄데이터
   console.log('메인에서 스케줄데이터 값:',scheduleData)
 
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => {
-      setModalOpen(true);
+      setIsModalOpen(true);
     };
     const closeModal = () => {
-      setModalOpen(false);
+      setIsModalOpen(false);
     };
   
 
@@ -86,13 +85,15 @@ const MiddleComponent = ({ value,hasSchedule,scheduleData }) => {
         <>
         <p>일정이 없습니다.</p>
         <ButtonGroup>
-          <Button>일정 추가</Button>
+          <Button onClick={openModal}>일정 추가
+          </Button>
+          {isModalOpen && <Modal closeModal={closeModal} />}
         </ButtonGroup>        
         </>
       )
     }
     {console.log('메인페이지 모멘트 밸류'+ moment(value).format("YYYY년 MM월 DD일") ) }   
-      
+      {console.log(isModalOpen)}
 
   </>);
 };
@@ -177,6 +178,7 @@ function MainPage({ onClick }) {
     }
     // 추가적인 일정 데이터
   ]);
+  
   const [accountData, setAccountData] = useState([
     {
       date: "2024-01-20", 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 export default function CreateUser(){
 
@@ -36,7 +37,7 @@ export default function CreateUser(){
       </div>
       <div className="CreateFooter">
         <div className="CreateFooter1">이미 계정이 있으신가요?</div>
-        <button className="CreateFooter2">로그인  </button>
+        <Link to={'/'} className="CreateFooter2">로그인  </Link>
       </div>
     </div>
   )

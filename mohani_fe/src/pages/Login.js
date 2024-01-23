@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import CreateUser from "../components/CreateUser";
+import {Link} from 'react-router-dom';
+import CreateUser from "./CreateUser";
 import AccountModal from "../components/AccountModal";
+import Modal from "../components/Modal";
 
 const User = {
   email: 'test@example.com',
@@ -87,19 +89,20 @@ export default function Login({onClick}) {
         </div>
       </div>
         
-      <div>
-          <button onClick={onClick} className="bottomButton">
+      <div className="">
+        <button className="bottomButton"><Link to={'/mohani/main'}
+        className="">확인</Link> </button>
+          {/* <button onClick={onClick} className="bottomButton">
             확인
-          </button>
+          </button> */}
       </div>
 
       <div className="new">
           <div className="newTitle">아직 회원이 아니신가요?</div>
-          <a className='newCreate'href=""> 회원가입</a>
+          <Link to={'/mohani/join'}className='newCreate'> 회원가입</Link>
       </div>
     </div>
 
-  // <CreateUser />
 
   )
 }
