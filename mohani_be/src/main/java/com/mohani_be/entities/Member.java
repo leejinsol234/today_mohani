@@ -26,7 +26,7 @@ public class Member extends Base{
     @Column (length = 35, nullable = false)
     private String username;
 
-    @Column (length = 11, nullable = false)
+    @Column (length = 13, nullable = false)
     private String phoneNumber;
 
 }
