@@ -24,7 +24,7 @@ public class RequestJoin {
     private String confirmPassword;
 
     @NotBlank
-    private String name;
+    private String username;
 
     @NotBlank
     private String phoneNumber;

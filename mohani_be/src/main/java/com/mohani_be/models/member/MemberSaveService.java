@@ -28,7 +28,7 @@ public class MemberSaveService {
         String hash = passwordEncoder.encode(form.getPassword());
         Member member = Member.builder()
                 .email(form.getEmail())
-                .name(form.getName())
+                .username(form.getUsername())
                 .password(hash)
                 .phoneNumber(form.getPhoneNumber())
                 //.type(MemberType.USER)

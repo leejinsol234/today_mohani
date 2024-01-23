@@ -32,7 +32,7 @@ public class MemberJoinTest {
                 .email("user01@test.com")
                 .password("_aA123456")
                 .confirmPassword("_aA123456")
-                .name("사용자01")
+                .username("사용자01")
                 .phoneNumber("010-1111-1111")
                 .agree(true)
                 .build();
