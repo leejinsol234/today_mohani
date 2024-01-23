@@ -38,9 +38,7 @@ function App() {
           <Route exact path="/" element={<Login />} />
           <Route path="/mohani/join" element={<CreateUser />} />
           <Route path="/mohani/main" element={<MainPage />} />
-          {/* <MainPage /> */}
-        {/* {username ? <MainPage username={username} /> : <Login />} */}
-        {console.log(username)}
+        {console.log("유저네임 :"+username)}
         </Routes>
       </BrowserRouter>
     </div>
