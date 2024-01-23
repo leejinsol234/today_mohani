@@ -232,15 +232,6 @@ function MainPage({ onClick }) {
     
   }, [value, accountData]);
 
-  //모달 관리
-  // const [isModalOpen, setModalOpen] = useState(false);
-  // const openModal = () => {
-  //   setModalOpen(true);
-  // };
-  // const closeModal = () => {
-  //   setModalOpen(false);
-  // };
-
   return (
     <div className="App">
       <AppHeader username={username} onClick={onClick}/>
