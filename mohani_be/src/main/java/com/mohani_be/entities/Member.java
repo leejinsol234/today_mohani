@@ -20,13 +20,13 @@ public class Member extends Base{
     @Column (length = 60, nullable = false, unique = true)
     private String email;
 
-    @Column (nullable = false)
+    @Column (length = 60, nullable = false)
     private String password;
 
-    @Column (nullable = false)
-    private String name;
+    @Column (length = 35, nullable = false)
+    private String username;
 
-    @Column (nullable = false)
+    @Column (length = 11, nullable = false)
     private String phoneNumber;
 
 }

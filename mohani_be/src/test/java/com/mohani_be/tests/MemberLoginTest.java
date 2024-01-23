@@ -44,7 +44,7 @@ public class MemberLoginTest {
         member = Member.builder()
                 .email("user01@test.com")
                 .password(encoder.encode("_aA123456"))
-                .name("사용자01")
+                .username("사용자01")
                 .phoneNumber("010-1111-1111")
                 .build();
 
