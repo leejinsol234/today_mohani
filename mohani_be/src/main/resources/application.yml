@@ -63,3 +63,9 @@ logging:
         type:
           descriptor:
             sql: trace
+
+# JSON WebToken 설정
+jwt:
+  header: Authorization
+  secret: YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd6eXoxMjMxMjMxMjMxMjMxMjMxMzEyMzEyMzEzMTIzMTIzMTIzMTMxMjMxMzEzMTMxMjM
+  accessTokenValidityInSeconds: 3600 # 60 min
