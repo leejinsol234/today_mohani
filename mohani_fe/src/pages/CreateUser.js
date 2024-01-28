@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function CreateUser() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     // 서버에 전송할 데이터 설정
@@ -36,7 +38,7 @@ export default function CreateUser() {
       // 서버 응답 처리
       if (response.ok) {
         // 회원가입 성공 시 로그인페이지로 이동
-        useNavigate("/");
+        navigate('/');
       } else {
         console.error("서버 요청 실패:", response.statusText);
       }
