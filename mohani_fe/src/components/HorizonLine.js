@@ -19,10 +19,10 @@ background: #fff;
 padding: 0 10px;
 `;
 
-function HorizonLine({ hasText,text }){
+function HorizonLine({ hasText1,text }){
   return (
-    <Line hasText={hasText}>
-      {hasText ? <Span>{text}</Span> : <Span />}  
+    <Line hasText={hasText1}>
+      {hasText1 ? <Span>{text}</Span> : <Span />}  
     </Line>
   );
 };

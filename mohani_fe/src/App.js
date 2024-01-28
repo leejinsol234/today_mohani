@@ -5,10 +5,18 @@ import CreateUser from "./pages/CreateUser";
 import React, {useEffect, useState} from "react";
 
 function App() {
-//유저 로그인 유무 관리
-  const [username, setUsername] = useState(true);
+// 서버에 전송할 초기데이터 설정
+const [userData, setUserData] = useState({
+  email: '',
+  password: '',
+  confirmPassword: '',
+  username: '',
+  phoneNumber: '',
+  agree: false,
+});
+
 //로딩 관리  
-  const [loading, setLoading] = useState(true);
+const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const mohaniApi = async () => {
@@ -16,7 +24,7 @@ function App() {
         const response = await fetch('/mohani');
         const result = await response.json();
 
-        setUsername(result.username);
+        setUserData(result.username);
       } catch (error) {
         console.error('API 호출 중 에러 발생:', error);
       } finally {
@@ -25,7 +33,7 @@ function App() {
     };
 
     mohaniApi();
-  }, []);
+  }, [userData]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -35,10 +43,19 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Login />} />
-          <Route path="/mohani/join" element={<CreateUser />} />
-          <Route path="/mohani/main" element={<MainPage />} />
-        {console.log("유저네임 :"+username)}
+          <Route exact path="/" element={<Login 
+          userData ={userData}
+          setUserData ={setUserData}
+          />} />
+          <Route path="/mohani/join" element={<CreateUser 
+          userData={userData} 
+          setUserData={setUserData} />} />
+
+          <Route path="/mohani/main" element={<MainPage
+          userData={userData} 
+          setUserData={setUserData}
+          />} />
+          {console.log(userData)}
         </Routes>
       </BrowserRouter>
     </div>
