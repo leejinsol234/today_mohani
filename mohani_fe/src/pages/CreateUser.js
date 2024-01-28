@@ -13,15 +13,6 @@ export default function CreateUser({userData,setUserData}) {
     setAgree(!agree);
   }
 
-  const initialUserData = {
-    email: email,
-    password: password,
-    confirmPassword: confirmPassword,
-    username: username,
-    phoneNumber: phoneNumber,
-    agree: agree,
-  };
-
   const navigate = useNavigate();
   async function handleSubmit() {
     try {
@@ -42,6 +33,7 @@ export default function CreateUser({userData,setUserData}) {
       if (response.ok) {
         // 회원가입 성공 시 로그인페이지로 이동
         navigate('/');
+        console.log('서버 요청 성공',response.statusText)
       } else {
         console.error("서버 요청 실패:", response.statusText);
       }
