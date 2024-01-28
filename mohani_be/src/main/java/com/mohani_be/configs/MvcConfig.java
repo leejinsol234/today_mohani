@@ -26,8 +26,8 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Bean
     public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(); // URL 설정
+        CorsConfiguration config = new CorsConfiguration(); // 세부 설정
         config.addAllowedOrigin("http://localhost:3000"); // 특정 도메인 설정 가능, 여러개 설정 가능
         config.addAllowedHeader("*");
         config.addAllowedMethod("*"); // 모든 메서드 허용

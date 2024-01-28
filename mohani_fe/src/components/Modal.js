@@ -33,7 +33,7 @@ function Modal({ closeModal, scheduleData, value }) {
 
   // 모달 일정추가 데이터
     const [addEvent, setAddEvent] = useState('');
-    const [addDate, setAddDate] = useState('');
+    const [addDate, setAddDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
     const [addLocation, setAddLocation] = useState('');
     const [addMoney, setAddMoney] = useState('');
     const [addMemo, setAddMemo] = useState('');
@@ -66,29 +66,29 @@ function Modal({ closeModal, scheduleData, value }) {
       };
       
       setAddData([...addData, Data]);
+      console.log(addData)
+      console.log(Data)
 
-      // console.log(moment(startDate).format("YYYY-MM-DD"))
-      
-      // try {
+      try {
 
-      //   const res = await fetch('/mohani/main', {
-      //     method : 'POST',
-      //     headers : {
-      //       'Content-Type' : 'application/json',
-      //     },
-      //     body : JSON.stringify(addData),
-      //   })
+        const res = await fetch('/mohani/main', {
+          method : 'POST',
+          headers : {
+            'Content-Type' : 'application/json',
+          },
+          body : JSON.stringify(addData),
+        })
 
-      //   console.log("일정제목 : " + addData.event);
-      //   if (res.ok) {
-      //     Navigate('/mohani/main');
-      //   } else {
-      //   console.error('서버 요청 실패:', res.statusText);
-      //   }
+        console.log("일정제목 : " + addData.event);
+        if (res.ok) {
+          Navigate('/mohani/main');
+        } else {
+        console.error('서버 요청 실패:', res.statusText);
+        }
 
-      // } catch (error) {
-      //   console.error('에러 발생', error)
-      // }
+      } catch (error) {
+        console.error('에러 발생', error)
+      }
     }
 
     // Modal에서 분 고르기

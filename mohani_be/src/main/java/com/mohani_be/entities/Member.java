@@ -1,9 +1,7 @@
 package com.mohani_be.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.mohani_be.commons.contants.MemberType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +24,11 @@ public class Member extends Base{
     @Column (length = 35, nullable = false)
     private String username;
 
-    @Column (length = 11, nullable = false)
+    @Column (length = 13, nullable = false)
     private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 15, nullable = false)
+    private MemberType type = MemberType.USER;
 
 }

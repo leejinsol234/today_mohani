@@ -5,6 +5,7 @@ import com.mohani_be.commons.exceptions.BadRequestException;
 import com.mohani_be.commons.rests.JSONData;
 import com.mohani_be.entities.Member;
 import com.mohani_be.models.member.MemberInfo;
+import com.mohani_be.models.member.MemberLoginService;
 import com.mohani_be.models.member.MemberSaveService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberSaveService saveService;
+    private final MemberLoginService loginService;
 
     @PostMapping("/join")
     public ResponseEntity<JSONData> join(@RequestBody @Valid RequestJoin form, Errors errors) {
@@ -39,11 +41,18 @@ public class MemberController {
 
         errorProcess(errors);
 
-        JSONData data = new JSONData();
+        String accessToken = loginService.login(form);
+
+        /**
+         * 1. 응답 body - JONSData 형식으로
+         * 2. 응답 헤더 - Authorization: Bearer 토큰
+         */
+
+        JSONData data = new JSONData(accessToken);
         HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + accessToken);
 
         return ResponseEntity.status(data.getStatus()).headers(headers).body(data);
-
     }
 
     @GetMapping("/info")

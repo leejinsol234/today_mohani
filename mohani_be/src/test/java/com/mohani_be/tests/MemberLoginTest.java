@@ -2,6 +2,8 @@ package com.mohani_be.tests;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mohani_be.commons.contants.MemberType;
+import com.mohani_be.commons.rests.JSONData;
 import com.mohani_be.controllers.member.RequestLogin;
 import com.mohani_be.entities.Member;
 import com.mohani_be.models.member.MemberSaveService;
@@ -16,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.nio.charset.Charset;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -46,30 +50,39 @@ public class MemberLoginTest {
                 .password(encoder.encode("_aA123456"))
                 .username("사용자01")
                 .phoneNumber("010-1111-1111")
+                .type(MemberType.USER)
                 .build();
 
         saveService.save(member);
     }
-
     @Test
-    @DisplayName("로그인 테스트")
+    @DisplayName("로그인시 토큰이 발급 되는지 확인")
     void loginTest() throws Exception {
-
         RequestLogin form = RequestLogin.builder()
                 .email(member.getEmail())
                 .password("_aA123456")
                 .build();
-
         ObjectMapper om = new ObjectMapper();
         String params = om.writeValueAsString(form);
 
-        mockMvc.perform(
-                post("/mohani/login")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .characterEncoding("UTF-8")
-                        .content(params)
-        ).andDo(print());
+        String body = mockMvc.perform(
+                        post("/mohani/login")
+                                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                .characterEncoding("UTF-8")
+                                .content(params)
+                ).andDo(print())
+                .andReturn()
+                .getResponse()
+                .getContentAsString(Charset.forName("UTF-8"));
 
+        JSONData data = om.readValue(body, JSONData.class);
+        String accessToken = (String)data.getData();
+
+
+        mockMvc.perform(get("/mohani/main")
+                        .header("Authorization", "Bearer " + accessToken)
+                ).andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
