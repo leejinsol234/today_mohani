@@ -56,7 +56,7 @@ const LeftComponent = ({ title,onChange,value}) => {
   );
 };
 
-const MiddleComponent = ({ value,hasSchedule,scheduleData}) => {
+const MiddleComponent = ({ value,hasSchedule,scheduleData, onChange}) => {
   //미들컴포넌트에서 받아낸 스케줄데이터
   console.log('메인에서 스케줄데이터 값:',scheduleData)
 
@@ -88,13 +88,14 @@ const MiddleComponent = ({ value,hasSchedule,scheduleData}) => {
         <ButtonGroup>
           <Button onClick={openModal}>일정 추가
           </Button>
-          {isModalOpen && <Modal closeModal={closeModal} />}
+          {isModalOpen && <Modal closeModal={closeModal} scheduleData={scheduleData} 
+          onChange={onchange}
+ />}
         </ButtonGroup>        
         </>
       )
     }
     {console.log('메인페이지 모멘트 밸류'+ moment(value).format("YYYY년 MM월 DD일") ) }   
-      {console.log(isModalOpen)}
 
   </>);
 };
@@ -240,13 +241,13 @@ function MainPage({ onClick }) {
           title="달력"
           onChange={onChange} 
           value={value}
-        />     
+          />     
         <MiddleComponent 
           title="상세일정"
           value={value}
           hasSchedule ={hasSchedule}
           scheduleData={scheduleData}
-          onClick={onClick}
+          onChange={onChange} 
           /> 
           
         <RightComponent 

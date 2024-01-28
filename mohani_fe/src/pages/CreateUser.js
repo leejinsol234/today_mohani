@@ -4,7 +4,7 @@ import { Navigate ,Link} from 'react-router-dom';
 export default function CreateUser() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [confirmpassword, setConfirmPassword] = useState('');
   const [username, setUsername] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -13,7 +13,7 @@ export default function CreateUser() {
     const userData = {
       email: email,
       password: password,
-      passwordConfirm: passwordConfirm,
+      confirmPassword: confirmpassword,
       username: username,
       phoneNumber: phoneNumber
     };
@@ -66,8 +66,8 @@ export default function CreateUser() {
         <div className="CreateInputTitle">비밀번호 확인</div>
         <div className="CreateInputWrap">
           <input type='text' className="CreateInput" placeholder="비밀번호 확인" 
-          value={passwordConfirm}
-          onChange={(e)=> setPasswordConfirm(e.target.value)}
+          value={confirmpassword}
+          onChange={(e)=> setConfirmPassword(e.target.value)}
           />
         </div>
         <div className="CreateInputTitle">이름</div>
