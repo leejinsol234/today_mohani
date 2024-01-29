@@ -1,10 +1,12 @@
 package com.mohani_be.commons;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
 import java.util.*;
 
+@Component
 public class Utils {
 
     private static ResourceBundle validationsBundle;
