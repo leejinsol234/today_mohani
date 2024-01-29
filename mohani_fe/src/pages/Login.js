@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import CreateUser from "./CreateUser";
 import AccountModal from "../components/AccountModal";
 import Modal from "../components/Modal";
 
-const User = {
-  email: 'test@example.com',
-  pw : 'test1234@@@'
-}
+// const User = {
+//   email: 'test@example.com',
+//   password : 'test1234@@@'
+// }
 
 
 export default function Login({onClick}) {
   const [isUser, setIsUser] = useState(false);
   const [email, setEmail] = useState('');
-  const [pw, setPw] = useState('');
+  const [password, setPassword] = useState('');
 
   const [emailValid, setEmailValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
@@ -30,9 +30,9 @@ export default function Login({onClick}) {
   }
 
   const handlePassword = (e) => {
-    setPw(e.target.value);
+    setPassword(e.target.value);
     const regex = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@#!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
-    if(regex.test(pw)){
+    if(regex.test(password)){
       setPwValid(true);
     } else {
       setPwValid(false);
@@ -51,6 +51,33 @@ export default function Login({onClick}) {
     setNotAllow(true);
   }, [emailValid, pwValid])
 
+  const navigate = useNavigate(); 
+
+  const loginUser = async () => {
+    try {
+      const response = await fetch('/mohani/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        navigate('/mohani/main');
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error('로그인 중 오류 발생:', error.message);
+    }
+  };
+
+
+
+  
   return (
     <div className="page">
       <div className="titleWrap">
@@ -77,12 +104,12 @@ export default function Login({onClick}) {
           <input
           type = 'password' 
           className="input" placeholder="영문, 숫자, 특수문자 포함 8자 이상"
-          value={pw}
+          value={password}
           onChange={handlePassword}/>
         </div>
         <div className="errorMessageWrap">
           {
-            !pwValid && pw.length > 0 && (
+            !pwValid && password.length > 0 && (
             <div>영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.</div>
             )
           }
@@ -90,8 +117,14 @@ export default function Login({onClick}) {
       </div>
         
       <div className="">
-        <button className="bottomButton"><Link to={'/mohani/main'}
-        className="">확인</Link> </button>
+        <button className="bottomButton"
+                onClick={loginUser}
+                disabled={notAllow}
+        >
+          {/* <Link to={'/mohani/main'} className=""> */}
+            확인
+          {/* </Link> */}
+        </button>
           {/* <button onClick={onClick} className="bottomButton">
             확인
           </button> */}
