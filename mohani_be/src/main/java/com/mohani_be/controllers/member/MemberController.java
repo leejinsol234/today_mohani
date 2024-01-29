@@ -32,6 +32,7 @@ public class MemberController {
 
         JSONData data = new JSONData();
         data.setStatus(HttpStatus.CREATED);
+        data.setData(form); // 데이터 확인 용도로 임시 추가
 
         return ResponseEntity.status(data.getStatus()).body(data);
     }
@@ -44,11 +45,12 @@ public class MemberController {
         String accessToken = loginService.login(form);
 
         /**
-         * 1. 응답 body - JONSData 형식으로
+         * 1. 응답 body - JSONData 형식으로
          * 2. 응답 헤더 - Authorization: Bearer 토큰
          */
 
         JSONData data = new JSONData(accessToken);
+        data.setData(form); // 데이터 확인 용도로 임시 추가
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
 
