@@ -1,24 +1,20 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-export default function CreateUser() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+export default function CreateUser({userData,setUserData}) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  //회원가입 동의 true false 관리
+  const [agree,setAgree] = useState(false)
+  function handleAgree(){
+    setAgree(!agree);
+  }
 
-  const handleSubmit = async () => {
-    // 서버에 전송할 데이터 설정
-    const userData = {
-      email: email,
-      password: password,
-      confirmPassword: confirmPassword,
-      username: username,
-      phoneNumber: phoneNumber,
-      agree: true,
-    };
-
+  const navigate = useNavigate();
+  async function handleSubmit() {
     try {
       // 서버에 POST 요청 보내기
       const response = await fetch("/mohani/join", {
@@ -27,23 +23,24 @@ export default function CreateUser() {
           "Content-Type": "application/json",
         },
         // 요청 본문에 필요한 데이터 전달
-        body: JSON.stringify(userData),
+        body: JSON.stringify({ email, password, confirmPassword, 
+          username, phoneNumber, agree, ...userData }),
       });
 
-      console.log("유저데이터 이메일 : " + userData.email);
-      console.log("유저데이터 비번 : " + userData.password);
 
+  
       // 서버 응답 처리
       if (response.ok) {
         // 회원가입 성공 시 로그인페이지로 이동
-        useNavigate("/");
+        navigate('/');
+        console.log('서버 요청 성공',response.statusText)
       } else {
         console.error("서버 요청 실패:", response.statusText);
       }
     } catch (error) {
       console.error("서버 요청 중 에러 발생:", error);
     }
-  };
+  }
 
   return (
     <div className="CreatePage">
@@ -101,7 +98,7 @@ export default function CreateUser() {
         </div>
       </div>
       <div className="AgreeBoxWrap">
-        <input type="checkbox" className="CreateAgreeBox" />
+        <input type="checkbox" onClick={handleAgree} className="CreateAgreeBox" />
         이용약관 및 개인정보 처리방침에 동의합니다.
       </div>
       <div>

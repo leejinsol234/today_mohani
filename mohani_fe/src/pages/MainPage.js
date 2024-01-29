@@ -13,6 +13,7 @@ import Schedule from '../components/Schedule';//상세일정
 
 import Button from '../components/Button';//버튼
 import Modal from '../components/Modal';//모달
+import AccountModal from '../components/AccountModal';
 
 
 //관리
@@ -55,7 +56,7 @@ const LeftComponent = ({ title,onChange,value}) => {
   );
 };
 
-const MiddleComponent = ({ value,hasSchedule,scheduleData, onClick }) => {
+const MiddleComponent = ({ value,hasSchedule,scheduleData, onChange}) => {
   //미들컴포넌트에서 받아낸 스케줄데이터
   console.log('메인에서 스케줄데이터 값:',scheduleData)
 
@@ -87,18 +88,28 @@ const MiddleComponent = ({ value,hasSchedule,scheduleData, onClick }) => {
         <ButtonGroup>
           <Button onClick={openModal}>일정 추가
           </Button>
-          {isModalOpen && <Modal closeModal={closeModal} />}
+          {isModalOpen && <Modal closeModal={closeModal} scheduleData={scheduleData} 
+          onChange={onchange}
+ />}
         </ButtonGroup>        
         </>
       )
     }
     {console.log('메인페이지 모멘트 밸류'+ moment(value).format("YYYY년 MM월 DD일") ) }   
-      {console.log(isModalOpen)}
 
   </>);
 };
 
 const RightComponent = ({ title,value,hasAccount,accountData }) => {
+
+  const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
+  const openAccountModal = () => {
+    setIsAccountModalOpen(true);
+  };
+  const closeAccountModal = () => {
+    setIsAccountModalOpen(false);
+  };
+
   return (<>
       <h3>{title}</h3>
 
@@ -116,7 +127,9 @@ const RightComponent = ({ title,value,hasAccount,accountData }) => {
         <p>지출 내역이 없습니다.</p>
         <TotalAccount />
         <ButtonGroup>
-          <Button>가계부 추가</Button>
+          <Button onClick={openAccountModal}>가계부 추가</Button>
+          {isAccountModalOpen && <AccountModal closeAccountModal={closeAccountModal} />}
+
         </ButtonGroup>       
         </>
       )
@@ -228,13 +241,13 @@ function MainPage({ onClick }) {
           title="달력"
           onChange={onChange} 
           value={value}
-        />     
+          />     
         <MiddleComponent 
           title="상세일정"
           value={value}
           hasSchedule ={hasSchedule}
           scheduleData={scheduleData}
-          onClick={onClick}
+          onChange={onChange} 
           /> 
           
         <RightComponent 
