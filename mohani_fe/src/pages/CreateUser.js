@@ -24,7 +24,7 @@ export default function CreateUser({userData,setUserData}) {
         },
         // 요청 본문에 필요한 데이터 전달
         body: JSON.stringify({ email, password, confirmPassword, 
-          username, phoneNumber, agree, ...userData }),
+          username, phoneNumber, agree }),
       });
 
 

@@ -16,6 +16,8 @@ public class ScheduleSaveService {
     private final ScheduleRepository repository;
     private final ScheduleFormValidator validator;
 
+
+
     public void save(ScheduleForm form, Errors errors){
         validator.validate(form, errors);
 
@@ -31,10 +33,13 @@ public class ScheduleSaveService {
                 .startTime(form.getStartTime())
                 .endTime(form.getEndTime())
                 .loc(form.getLoc())
+                .memberNo(form.getMemberNo())
                 .build();
 
         save(schedule);
     }
+
+
 
     public Schedule save(Schedule schedule) {
         return repository.save(schedule);
