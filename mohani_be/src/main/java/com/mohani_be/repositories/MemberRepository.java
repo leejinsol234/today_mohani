@@ -15,6 +15,9 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslP
     // Optional로 null값 처리
     Optional<Member> findByEmail(String email);
 
+    Optional<Member> findByMemberNo(Long memberNo);
+
+
     // email 존재 여부 검증 처리
     default boolean exists(String email) {
         return exists(QMember.member.email.eq(email));

@@ -35,7 +35,7 @@ public class QSchedule extends EntityPathBase<Schedule> {
 
     public final StringPath loc = createString("loc");
 
-    public final QMember member;
+    public final QMember memberNo;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
@@ -66,7 +66,7 @@ public class QSchedule extends EntityPathBase<Schedule> {
 
     public QSchedule(Class<? extends Schedule> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
+        this.memberNo = inits.isInitialized("memberNo") ? new QMember(forProperty("memberNo")) : null;
     }
 
 }
