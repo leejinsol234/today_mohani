@@ -313,3 +313,11 @@
 .CreateFooter1 {
   color : gray;
 }
+
+.ToggleButton {
+  display: absolute;
+  top : 0;
+  left : 0;
+  border : none;
+  background-color: white;
+}

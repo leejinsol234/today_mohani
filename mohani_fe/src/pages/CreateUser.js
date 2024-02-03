@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 export default function CreateUser({userData,setUserData}) {
   const [email, setEmail] = useState('');
@@ -17,6 +19,21 @@ export default function CreateUser({userData,setUserData}) {
 
   const [notAllow, setNotAllow] = useState(true);
 
+  // 비밀번호 보기기능 및 아이콘
+  const [showPassword, setShowPassword] = useState(false);
+  const eye = (
+    <FontAwesomeIcon icon={faEye} />
+  )
+  const closeEye = (
+    <FontAwesomeIcon icon={faEyeSlash} />
+  )
+
+  const passwordToggleButton = (
+    <button type="button" className="ToggleButton"
+    onClick={() => setShowPassword(!showPassword)} >
+      {showPassword ? closeEye : eye}
+    </button>
+  )
   
   //회원가입 동의 true false 관리
   const [agree,setAgree] = useState(false)
@@ -98,13 +115,15 @@ export default function CreateUser({userData,setUserData}) {
         <div className="CreateInputTitle">비밀번호</div>
         <div className="CreateInputWrap">
           <input
-            type="text"
+            type= {showPassword ? "text" : "password"}
             className="CreateInput"
             placeholder="비밀번호"
             value={password}
             onChange={(e) => {setPassword(e.target.value)}}
           />
+          {passwordToggleButton}
         </div>
+
         <div className="errorMessageWrap" 
           style={{visibility : (!pwValid && password.length > 0) ? "visible" : "hidden"}}>
           영문 대소문자, 숫자, 특수기호 포함 8자리 이상 입력해주세요.</div>
@@ -112,12 +131,13 @@ export default function CreateUser({userData,setUserData}) {
         <div className="CreateInputTitle">비밀번호 확인</div>
         <div className="CreateInputWrap">
           <input
-            type="text"
+            type= {showPassword ? "text" : "password"}
             className="CreateInput"
             placeholder="비밀번호 확인"
             value={confirmPassword}
             onChange={(e)=> {setConfirmPassword(e.target.value)}}
           />
+  
         </div>
         <div className="errorMessageWrap" 
           style={{visibility : (!confirmPasswordValid && confirmPassword.length > 0) ? "visible" : "hidden"}}>
@@ -156,8 +176,8 @@ export default function CreateUser({userData,setUserData}) {
         <input type="checkbox" onClick={handleAgree} className="CreateAgreeBox" />
         이용약관 및 개인정보 처리방침에 동의합니다.
       </div>
-      <div className="errorMessageWrap">
-          이용약관에 동의해주세요.</div>
+      {/* <div className="errorMessageWrap">
+          이용약관에 동의해주세요.</div> */}
 
       <div>
         <button onClick={handleSubmit} 
