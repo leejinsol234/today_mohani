@@ -19,6 +19,7 @@ import AccountModal from '../components/AccountModal';
 //관리
 import { React, useEffect,useState } from 'react';
 import moment from "moment";
+import { useNavigate } from 'react-router-dom';
 
 //버튼 구역 css
 const ButtonGroup =styled.div`
@@ -28,14 +29,18 @@ margin-top : 1rem;
 `
 
 function AppHeader({username,onClick}){
+  const navigate = useNavigate();
+
+  function onLogout(){
+  localStorage.setItem("accessToken", null)
+  navigate('/mohani/');
+}
 
   return(<>
   <div className="header">
     <span>{username} 님, 안녕하세요!</span>
-    <button className="header_logout" onClick={onClick}>
-      {/* <a href="#"> */}
+    <button className="header_logout" onClick={onLogout}>
         로그아웃
-      {/* </a> */}
     </button>    
   </div>
   
