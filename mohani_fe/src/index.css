@@ -67,9 +67,11 @@
 }
 
 .errorMessageWrap {
+  visibility: hidden;
   margin-top : 8px;
   color : #ef0000;
   font-size: 12px;
+  margin-left : 10px;
 }
 
 .bottomButton {
@@ -285,6 +287,11 @@
   cursor: pointer;
 }
 
+.CreateAddButton:disabled {
+  background-color: #dadada;
+  color : white;
+}
+
 .AgreeBoxWrap {
   display : flex;
   justify-content: start;
@@ -305,4 +312,12 @@
 
 .CreateFooter1 {
   color : gray;
+}
+
+.ToggleButton {
+  display: absolute;
+  top : 0;
+  left : 0;
+  border : none;
+  background-color: white;
 }

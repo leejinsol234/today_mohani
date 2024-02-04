@@ -91,15 +91,12 @@ export default function Login({onClick}) {
           type='text' className="input" placeholder="test@gmail.com" value={email}
           onChange={handleEmail}/>
         </div>
-        <div className="errorMessageWrap">
-          {
-            !emailValid && email.length > 0 && (
-              <div>올바른 이메일을 입력해주세요.</div>
-            )
-          }
-        </div>
-
-        <div style = {{marginTop : "26px"}}className="inputTitle">비밀번호</div>
+          
+        <div className="errorMessageWrap" 
+          style={{visibility : (!emailValid && email.length > 0) ? "visible" : "hidden"}}>
+          올바른 이메일을 입력해주세요.</div>
+            
+        <div style = {{marginTop : "12px"}}className="inputTitle">비밀번호</div>
         <div className="inputWrap">
           <input
           type = 'password' 
@@ -107,12 +104,9 @@ export default function Login({onClick}) {
           value={password}
           onChange={handlePassword}/>
         </div>
-        <div className="errorMessageWrap">
-          {
-            !pwValid && password.length > 0 && (
-            <div>영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.</div>
-            )
-          }
+        <div className="errorMessageWrap"
+          style={{visibility : (!pwValid && password.length > 0) ? "visible" : "hidden"}}>
+            영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.
         </div>
       </div>
         
