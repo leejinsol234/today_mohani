@@ -38,37 +38,43 @@ export default function Login({onClick}) {
 //     {true}
 //   }
 
-  useEffect(()=> {
-    if(emailValid && pwValid){
-      setNotAllow(false)
-      return;
+useEffect(()=> {
+  if(emailValid && pwValid){
+    setNotAllow(false)
+    return;
+  }
+  setNotAllow(true);
+}, [emailValid, pwValid])
+
+const navigate = useNavigate(); 
+
+const loginUser = async () => {
+  try {
+    const response = await fetch('/mohani/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password, }),
+    });
+
+    const data = await response.json();
+
+    console.log('응답데이터', data);
+
+    if (response.ok) {
+      const token = response.headers.get('Authorization');
+
+      localStorage.setItem('accessToken', token)
+      navigate('/mohani/main');
+    } else {
+      console.error(data.message);
     }
-    setNotAllow(true);
-  }, [emailValid, pwValid])
+  } catch (error) {
+    console.error('로그인 중 오류 발생:', error.message);
+  }
+};
 
-  const navigate = useNavigate(); 
-
-  const loginUser = async () => {
-    try {
-      const response = await fetch('/mohani/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        navigate('/mohani/main');
-      } else {
-        console.error(data.message);
-      }
-    } catch (error) {
-      console.error('로그인 중 오류 발생:', error.message);
-    }
-  };
 
 
 
