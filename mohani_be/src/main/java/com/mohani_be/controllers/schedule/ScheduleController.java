@@ -1,11 +1,8 @@
 package com.mohani_be.controllers.schedule;
 
-import com.mohani_be.commons.Utils;
-import com.mohani_be.commons.exceptions.BadRequestException;
-import com.mohani_be.commons.rests.JSONData;
-import com.mohani_be.entities.Schedule;
-import com.mohani_be.models.schedule.ScheduleInfoService;
+import com.mohani_be.entities.Member;
 import com.mohani_be.models.schedule.ScheduleSaveService;
+import com.mohani_be.repositories.MemberRepository;
 import com.mohani_be.repositories.ScheduleRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/mohani")
@@ -23,20 +21,17 @@ public class ScheduleController {
 
     private final ScheduleSaveService saveService;
     private final ScheduleRepository repository;
-    private final ScheduleInfoService infoService;
+    private final MemberRepository memberRepository;
+
 
     @PostMapping("/post")
-    public ResponseEntity<JSONData> post(@RequestBody @Valid ScheduleForm form, Errors errors) {
+    public ResponseEntity<?> post(@RequestBody @Valid ScheduleForm form, Errors errors){
         saveService.save(form, errors);
 
-        errorProcess(errors);
-
-        JSONData data = new JSONData();
-        data.setStatus(HttpStatus.CREATED);
-        data.setData(form);
-
-
-        return ResponseEntity.status(data.getStatus()).body(data);
+        if(errors.hasErrors()){
+            return ResponseEntity.badRequest().body("유효성 검사 실패");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(form);
     }
 
 /*
@@ -46,35 +41,21 @@ public class ScheduleController {
     }
 
 */
-    /*@GetMapping("/{memberNo}")
-    public ResponseEntity<?> getSchedulesByMemberNo(@RequestParam Long memberNo, @Valid @RequestBody ScheduleForm form, Errors errors){
+    @GetMapping("/{memberNo}")
+    public ResponseEntity<?> getSchedulesByMemberNo(Long memberNo, @Valid @RequestBody ScheduleForm form, Errors errors){
         Optional<Member> schedule = memberRepository.findByMemberNo(memberNo);
-        System.out.println(schedule);
-
         if(schedule == null){
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(form);
-    }*/
-
-    @GetMapping("/{memberNo}")
-    public ResponseEntity<List<Schedule>> getSchedulesByMemberNo(@PathVariable("memberNo") Long memberNo) {
-
-        List<Schedule> schedules = infoService.findByMemberNo(memberNo);
-        System.out.println(schedules);
-
-        if (schedules.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(schedules);
-
+        return ResponseEntity.ok(schedule);
     }
 
-    private void errorProcess(Errors errors) {
-        if (errors.hasErrors()) {
-            throw new BadRequestException(Utils.getMessages(errors));
-        }
-    }
+
+
+
+
+
+
+
 }

@@ -36,7 +36,7 @@ public class ScheduleForm {
     public ScheduleForm(final Schedule entity) {
         this.seq = entity.getSeq();
         this.title = entity.getTitle();
-        this.memberNo = entity.getMember();
+        this.memberNo = entity.getMemberNo();
         this.startDate = entity.getStartDate();
         this.endDate = entity.getEndDate();
         this.startTime = entity.getStartTime();
@@ -48,7 +48,7 @@ public class ScheduleForm {
     public static Schedule toEntity(final ScheduleForm form){
         return Schedule.builder()
                 .seq(form.getSeq())
-                .member(form.getMemberNo())
+                .memberNo(form.getMemberNo())
                 .title(form.getTitle())
                 .content(form.getContent())
                 .startDate(form.getStartDate())
