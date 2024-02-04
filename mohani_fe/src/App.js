@@ -2,7 +2,7 @@ import MainPage from "./pages/MainPage";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from "./pages/Login";
 import CreateUser from "./pages/CreateUser";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState } from "react";
 
 function App() {
 // 서버에 전송할 초기데이터 설정
