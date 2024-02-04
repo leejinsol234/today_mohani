@@ -37,7 +37,7 @@ function Modal({ closeModal, scheduleData, value }) {
     const [addLocation, setAddLocation] = useState('');
     const [addMoney, setAddMoney] = useState('');
     const [addMemo, setAddMemo] = useState('');
-    const [addStartTime, setAddStartTime] = useState('09:00');
+    const [addStartTime, setAddStartTime] = useState('');
     const [addEndTime, setAddEndTime] = useState('10:00');
 
     // 최종 일정
@@ -91,17 +91,36 @@ function Modal({ closeModal, scheduleData, value }) {
       }
     }
 
-    // Modal에서 분 고르기
+    // Modal에서 시간 고르기
+    let hour = [];
+    let optionhour = [];
+    for (let i = 0; i < 25; i++) {
+      let op = {};
+
+      op.value = ('0' + i).slice(-2);
+      op.label = ('0' + i).slice(-2) + ':00';
+
+      hour.push(op);
+      optionhour.push(<option value={op.value} 
+        onClick={(e) =>setAddStartTime(e.target.value)}>
+          {op.label}</option>)
+    }
+  
+  // console.log(optionhour)  
+
+
     function SelectStartTime () {
 
       return (
         <div className='AddTimeInputWrap'>
-          <select className= 'AddTimeInput' 
-                  onChange={(e) => setAddStartTime(e.target.value)}>
-            <option>09:00</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
+          <select className= 'AddTimeInput'  >
+            {hour.map((data)=> (
+              <option key={data.key} value={data.value}
+              onClick={(e) => setAddStartTime(e.target.value)}>
+                {data.label}
+              </option>
+            ))}
+            {/* {optionhour} */}
           </select>
           
         </div>
