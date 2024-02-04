@@ -41,7 +41,7 @@ export default function CreateUser({userData,setUserData}) {
     setAgree(!agree);
   }
   
-  // 이메일 유효성검사
+  // 이메일 유효성 검사
   const USER_REGEX = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   useEffect(() => {
     const result = USER_REGEX.test(email);
@@ -76,7 +76,7 @@ export default function CreateUser({userData,setUserData}) {
         },
         // 요청 본문에 필요한 데이터 전달
         body: JSON.stringify({ email, password, confirmPassword, 
-          username, phoneNumber, agree }),
+          username, phoneNumber, agree })
       });
 
 
@@ -84,7 +84,7 @@ export default function CreateUser({userData,setUserData}) {
       // 서버 응답 처리
       if (response.ok) {
         // 회원가입 성공 시 로그인페이지로 이동
-        navigate('/');
+        navigate('/mohani');
         console.log('서버 요청 성공',response.statusText)
       } else {
         console.error("서버 요청 실패:", response.statusText);
@@ -190,7 +190,7 @@ export default function CreateUser({userData,setUserData}) {
 
       <div className="CreateFooter">
         <div className="CreateFooter1">이미 계정이 있으신가요?</div>
-        <Link to={"/"} className="CreateFooter2">
+        <Link to={"/mohani"} className="CreateFooter2">
           로그인{" "}
         </Link>
       </div>
