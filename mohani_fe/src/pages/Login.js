@@ -19,25 +19,20 @@ export default function Login({onClick}) {
   const [pwValid, setPwValid] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
-  const handleEmail = (e)=> {
-    setEmail(e.target.value);
-    const regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-    if(regex.test(email)){
-      setEmailValid(true);
-    } else {
-      setEmailValid(false);
-    }
-  }
+  
+  // 이메일 유효성 검사
+  const USER_REGEX = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+  useEffect(() => {
+    const result = USER_REGEX.test(email);
+    setEmailValid(result);
+  }, [email]);
 
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-    const regex = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@#!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
-    if(regex.test(password)){
-      setPwValid(true);
-    } else {
-      setPwValid(false);
-    }
-  }
+  // 비밀번호 유효성감사
+  const PW_REGEX = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@#!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+  useEffect(() => {
+    const result = PW_REGEX.test(password);
+    setPwValid(result);
+  }, [password]);
 
 //   const onClickConfirmButton = () => {
 //     {true}
@@ -89,7 +84,7 @@ export default function Login({onClick}) {
         <div className="inputWrap">
           <input 
           type='text' className="input" placeholder="test@gmail.com" value={email}
-          onChange={handleEmail}/>
+          onChange={(e) => {setEmail(e.target.value)}}/>
         </div>
           
         <div className="errorMessageWrap" 
@@ -102,7 +97,7 @@ export default function Login({onClick}) {
           type = 'password' 
           className="input" placeholder="영문, 숫자, 특수문자 포함 8자 이상"
           value={password}
-          onChange={handlePassword}/>
+          onChange={(e) => {setPassword(e.target.value)}}/>
         </div>
         <div className="errorMessageWrap"
           style={{visibility : (!pwValid && password.length > 0) ? "visible" : "hidden"}}>
