@@ -21,9 +21,10 @@ public class Schedule extends Base{
     @GeneratedValue
     private Long seq; //일정 번호
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    //fetch = FetchType.LAZY 로딩으로 인한 JSON 반환 오류
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="memberNo")
-    private Member memberNo;
+    private Member member;
 
     @Column(nullable = false, length = 100)
     private String title; //일정 제목

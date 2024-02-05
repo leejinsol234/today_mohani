@@ -1,8 +1,10 @@
 package com.mohani_be.controllers.schedule;
 
-import com.mohani_be.entities.Member;
+import com.mohani_be.commons.Utils;
+import com.mohani_be.commons.exceptions.BadRequestException;
+import com.mohani_be.entities.Schedule;
+import com.mohani_be.models.schedule.ScheduleInfoService;
 import com.mohani_be.models.schedule.ScheduleSaveService;
-import com.mohani_be.repositories.MemberRepository;
 import com.mohani_be.repositories.ScheduleRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 
 @RestController
@@ -21,7 +23,7 @@ public class ScheduleController {
 
     private final ScheduleSaveService saveService;
     private final ScheduleRepository repository;
-    private final MemberRepository memberRepository;
+    private final ScheduleInfoService infoService;
 
 
     @PostMapping("/post")
@@ -34,23 +36,23 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(form);
     }
 
-/*
-    @GetMapping()
-    public List<Schedule> getAllSchedules(){
-        return repository.findAll();
-    }
 
-*/
     @GetMapping("/{memberNo}")
-    public ResponseEntity<?> getSchedulesByMemberNo(Long memberNo, @Valid @RequestBody ScheduleForm form, Errors errors){
-        Optional<Member> schedule = memberRepository.findByMemberNo(memberNo);
-        if(schedule == null){
+    public ResponseEntity<List<Schedule>> getSchedulesByMemberNo(@PathVariable("memberNo") Long memberNo){
+        List<Schedule> schedules = infoService.findByMemberNo(memberNo);
+
+        if(schedules.isEmpty()){
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(schedule);
+        return ResponseEntity.ok(schedules);
     }
 
+    private void errorProcess(Errors errors){
+        if(errors.hasErrors()){
+            throw new BadRequestException(Utils.getMessages(errors));
+        }
+    }
 
 
 
