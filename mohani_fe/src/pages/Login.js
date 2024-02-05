@@ -74,6 +74,10 @@ const loginUser = async () => {
     console.error('로그인 중 오류 발생:', error.message);
   }
 };
+
+
+
+
   
   return (
     <div className="page">
