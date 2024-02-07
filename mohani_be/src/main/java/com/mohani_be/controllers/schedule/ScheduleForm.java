@@ -15,8 +15,6 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class ScheduleForm {
 
-    //private String mode = "post";
-
     private Long seq;
 
     private Member memberNo;
@@ -36,7 +34,7 @@ public class ScheduleForm {
     public ScheduleForm(final Schedule entity) {
         this.seq = entity.getSeq();
         this.title = entity.getTitle();
-        this.memberNo = entity.getMemberNo();
+        this.memberNo = entity.getMember();
         this.startDate = entity.getStartDate();
         this.endDate = entity.getEndDate();
         this.startTime = entity.getStartTime();
@@ -45,10 +43,12 @@ public class ScheduleForm {
         this.loc = entity.getLoc();
     }
 
+
+
     public static Schedule toEntity(final ScheduleForm form){
         return Schedule.builder()
                 .seq(form.getSeq())
-                .memberNo(form.getMemberNo())
+                .member(form.getMemberNo())
                 .title(form.getTitle())
                 .content(form.getContent())
                 .startDate(form.getStartDate())
@@ -58,4 +58,6 @@ public class ScheduleForm {
                 .loc(form.getLoc())
                 .build();
     }
+
+
 }
