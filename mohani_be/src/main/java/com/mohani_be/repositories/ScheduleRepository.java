@@ -8,4 +8,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule,Long>, QuerydslPredicateExecutor<Schedule> {
 
+/*
+    List<Schedule> findAll();
+
+    List<Schedule> findByMemberNo(Long memberNo);
+*/
+
+
+
 }

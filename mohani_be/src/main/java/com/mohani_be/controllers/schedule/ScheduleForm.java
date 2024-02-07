@@ -1,5 +1,6 @@
 package com.mohani_be.controllers.schedule;
 
+import com.mohani_be.entities.Member;
 import com.mohani_be.entities.Schedule;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -14,9 +15,11 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class ScheduleForm {
 
-    private String mode = "post";
+    //private String mode = "post";
 
     private Long seq;
+
+    private Member memberNo;
 
     @NotBlank
     private String title;
@@ -33,6 +36,7 @@ public class ScheduleForm {
     public ScheduleForm(final Schedule entity) {
         this.seq = entity.getSeq();
         this.title = entity.getTitle();
+        this.memberNo = entity.getMemberNo();
         this.startDate = entity.getStartDate();
         this.endDate = entity.getEndDate();
         this.startTime = entity.getStartTime();
@@ -44,6 +48,7 @@ public class ScheduleForm {
     public static Schedule toEntity(final ScheduleForm form){
         return Schedule.builder()
                 .seq(form.getSeq())
+                .memberNo(form.getMemberNo())
                 .title(form.getTitle())
                 .content(form.getContent())
                 .startDate(form.getStartDate())

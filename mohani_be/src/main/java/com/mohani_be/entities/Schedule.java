@@ -23,7 +23,7 @@ public class Schedule extends Base{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="memberNo")
-    private Member member;
+    private Member memberNo;
 
     @Column(nullable = false, length = 100)
     private String title; //일정 제목
@@ -37,9 +37,5 @@ public class Schedule extends Base{
     private String content; //일정 내용
 
     private String loc; //일정 장소
-
-
-
-
 
 }

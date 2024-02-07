@@ -9,7 +9,7 @@ import {Link, useNavigate} from 'react-router-dom';
 
 export default function Login({onClick}) {
   const [isUser, setIsUser] = useState(false);
-  const [email, setEmail] = useState(localStorage.getItem("email") || '');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [emailValid, setEmailValid] = useState(false);
