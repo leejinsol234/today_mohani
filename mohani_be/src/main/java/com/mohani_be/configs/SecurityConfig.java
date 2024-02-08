@@ -58,6 +58,7 @@ public class SecurityConfig {
                     "/mohani/login", // 로그인
                     "/mohani/main",
                     "/mohani",
+                    "/mohani/info",
                     "/mohani/**").permitAll()
                     .anyRequest().authenticated(); // 나머지 URL은 모두 회원 인증
         });
