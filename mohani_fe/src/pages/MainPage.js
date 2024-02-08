@@ -36,9 +36,11 @@ function AppHeader({userData}){
   navigate('/mohani/');
 }
 
+console.log(userData)
+
   return(<>
   <div className="header">
-    <span>{userData} 님, 안녕하세요!</span>
+    <span>{userData.username} 님, 안녕하세요!</span>
     <button className="header_logout" onClick={onLogout}>
         로그아웃
     </button>    
@@ -144,7 +146,7 @@ const RightComponent = ({ title,value,hasAccount,accountData }) => {
   </>);
 };
 
-function MainPage({ onClick }) {
+function MainPage({ onClick, userData, setUserData }) {
   const username = "username*"; //더미데이터
   //달력 날짜 값 변경관리
   const [value, onChange] = useState(new Date());
@@ -227,6 +229,7 @@ function MainPage({ onClick }) {
     setHasSchedule(checkScheduleForDate(value));
     
   }, [value, scheduleData]);
+
   //가계부 유무 확인
   useEffect(() => {
     const checkAccountForDate = (date) => {
@@ -240,7 +243,7 @@ function MainPage({ onClick }) {
 
   return (
     <div className="App">
-      <AppHeader username={username} onClick={onClick}/>
+      <AppHeader userData={userData} onClick={onClick}/>
       <SplitScreen leftWeight={1.5} middleWeight={1} rightWeight={1}>
         <LeftComponent 
           title="달력"

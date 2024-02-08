@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import CreateUser from "./pages/CreateUser";
 import React, {useEffect, useState } from "react";
 import axios from "axios";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
 // 서버에 전송할 초기데이터 설정
@@ -19,81 +20,35 @@ const [userData, setUserData] = useState({
 //로딩 관리  
 const [loading, setLoading] = useState(true);
 
-// axios 테스트
 const fetchData = async () => {
-  const response = await axios.get('http://localhost:3000/mohani/main');
-  setUserData(response.data);
-  console.log(response)
-}
-// console.log(userData);
+  try {
+    const response = await fetch('http://localhost:3000/mohani/info', {
+      headers: {
+        Accept: "application/json",
+        "Authorization": localStorage.getItem("accessToken"),
 
-// const fetchData = async () => {
-//   const response = await fetch('/mohani/', {
-//     mode: 'cors',
-//     headers : {
-//       Accept: "application/json;",
-//     }
-//   })
-//         .then(response =>  {
-//           if(response.ok) {
-//             console.log('get호출 성공');
-//             return response.json();
-//           } else console.log('get호출 실패');
-//         } )
-//         .then(response => {
-//           const fetchData = response;
-//           console.log('fetch로 받아온 데이터',fetchData);
-//          })
-// }
+      }
+    });
+
+    if (response.ok) {
+      console.log('get호출 성공');
+      const fetchData = await response.json();
+      console.log('fetch로 받아온 데이터', fetchData);
+      setUserData(prevUserData => ({ ...prevUserData, username: fetchData.data }));
+    } else {
+      console.log('get호출 실패');
+    }
+  } catch (error) {
+    console.error('에러 발생', error);
+  } finally {
+    setLoading(false);
+  }
+};
 
 useEffect(() => {
   fetchData();
 }, [])
 
-// useEffect(() => {
-//      fetch('/mohani/info', 
-//      {    method: "GET",
-//           headers: {
-//             "Content-Type": "application/json",
-//             // "Authorization": localStorage.getItem("accessToken"),
-//           }
-//         }
-//         )
-//         .then((response) => {
-//           if(response.ok) {
-//             return response.json();
-//           } else console.log('get호출 실패');
-//         })
-//         .then(data => {
-//           const fetchData = data;
-//           console.log('fetch로 받아온 데이터',fetchData);
-//          })
-
-//         }, [])
-      
-      // console.log(userData)
-
- 
-//   const getuserdata = async () => {
-//     try {
-//    fetch(`/mohani/main`, {
-//     method : 'GET',
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: localStorage.getItem("accessToken"),
-//     },
-//     body: JSON.stringify({}),
-//   })
-//   } catch (error) {
-//     console.log(error);
-//   } 
-// }
- 
-  
-
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
 
   return (
     <div className="App">
@@ -111,7 +66,7 @@ useEffect(() => {
           userData={userData} 
           setUserData={setUserData}
           />} />
-          {console.log(userData)}
+          {/* {console.log(userData)} */}
         </Routes>
       </BrowserRouter>
     </div>
