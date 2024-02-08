@@ -16,7 +16,8 @@ export default function Login({onClick}) {
   const [pwValid, setPwValid] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
-  
+  const navigate = useNavigate(); 
+
   // 이메일 유효성 검사
   const USER_REGEX = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   useEffect(() => {
@@ -31,24 +32,16 @@ export default function Login({onClick}) {
     setPwValid(result);
   }, [password]);
 
-//   const onClickConfirmButton = () => {
-//     {true}
-//   }
-
-  useEffect(()=> {
-
-  }, [])
-
-  const navigate = useNavigate(); 
+  const [test, setTest] = useState('');
 
   const loginUser = async () => {
     try {
       const response = await fetch('/mohani/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json;charset=utf-8',
         },
-        body: JSON.stringify({ email, password, }),
+        body: JSON.stringify({ email : email, password : password, }),
       });
   
       const data = await response.json();
@@ -106,10 +99,9 @@ export default function Login({onClick}) {
                 onClick={loginUser}
                 disabled={!emailValid || !pwValid}
         >
-          {/* <Link to={'/mohani/main'} className=""> */}
             확인
-          {/* </Link> */}
         </button>
+
           {/* <button onClick={onClick} className="bottomButton">
             확인
           </button> */}

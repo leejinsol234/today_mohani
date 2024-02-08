@@ -72,14 +72,12 @@ export default function CreateUser({userData,setUserData}) {
       const response = await fetch("/mohani/join", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json;charset=utf-8",
         },
         // 요청 본문에 필요한 데이터 전달
         body: JSON.stringify({ email, password, confirmPassword, 
           username, phoneNumber, agree })
       });
-
-
   
       // 서버 응답 처리
       if (response.ok) {

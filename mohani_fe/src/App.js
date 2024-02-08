@@ -18,26 +18,44 @@ const [userData, setUserData] = useState({
 //로딩 관리  
 const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const mohaniApi = async () => {
-      try {
-        const response = await fetch('/mohani');
-        const result = await response.json();
+useEffect(() => {
+     fetch('/mohani/main', {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+            "Authorization": localStorage.getItem("accessToken"),
+          }
+        })
+        .then((response) => response.json())
+        .then(data => {
+          const fetchData = data;
+          console.log('fetch로 받아온 데이터',fetchData); })
 
-        setUserData(result.username);
-      } catch (error) {
-        console.error('API 호출 중 에러 발생:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+        }, [])
+      
+      console.log(userData)
 
-    mohaniApi();
-  }, [userData]);
+ 
+//   const getuserdata = async () => {
+//     try {
+//    fetch(`/mohani/main`, {
+//     method : 'GET',
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: localStorage.getItem("accessToken"),
+//     },
+//     body: JSON.stringify({}),
+//   })
+//   } catch (error) {
+//     console.log(error);
+//   } 
+// }
+ 
+  
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div className="App">

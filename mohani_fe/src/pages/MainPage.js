@@ -28,17 +28,17 @@ justify-content: space-around;
 margin-top : 1rem;
 `
 
-function AppHeader({username,onClick}){
+function AppHeader({userData}){
   const navigate = useNavigate();
 
   function onLogout(){
-  localStorage.setItem("accessToken", null)
+  localStorage.removeItem("accessToken")
   navigate('/mohani/');
 }
 
   return(<>
   <div className="header">
-    <span>{username} 님, 안녕하세요!</span>
+    <span>{userData} 님, 안녕하세요!</span>
     <button className="header_logout" onClick={onLogout}>
         로그아웃
     </button>    
