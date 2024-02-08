@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from "./pages/Login";
 import CreateUser from "./pages/CreateUser";
 import React, {useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
 // 서버에 전송할 초기데이터 설정
@@ -18,22 +19,59 @@ const [userData, setUserData] = useState({
 //로딩 관리  
 const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-     fetch('/mohani/main', {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-            "Authorization": localStorage.getItem("accessToken"),
-          }
-        })
-        .then((response) => response.json())
-        .then(data => {
-          const fetchData = data;
-          console.log('fetch로 받아온 데이터',fetchData); })
+// axios 테스트
+const fetchData = async () => {
+  const response = await axios.get('http://localhost:3000/mohani/main');
+  setUserData(response.data);
+  console.log(response)
+}
+// console.log(userData);
 
-        }, [])
+// const fetchData = async () => {
+//   const response = await fetch('/mohani/', {
+//     mode: 'cors',
+//     headers : {
+//       Accept: "application/json;",
+//     }
+//   })
+//         .then(response =>  {
+//           if(response.ok) {
+//             console.log('get호출 성공');
+//             return response.json();
+//           } else console.log('get호출 실패');
+//         } )
+//         .then(response => {
+//           const fetchData = response;
+//           console.log('fetch로 받아온 데이터',fetchData);
+//          })
+// }
+
+useEffect(() => {
+  fetchData();
+}, [])
+
+// useEffect(() => {
+//      fetch('/mohani/info', 
+//      {    method: "GET",
+//           headers: {
+//             "Content-Type": "application/json",
+//             // "Authorization": localStorage.getItem("accessToken"),
+//           }
+//         }
+//         )
+//         .then((response) => {
+//           if(response.ok) {
+//             return response.json();
+//           } else console.log('get호출 실패');
+//         })
+//         .then(data => {
+//           const fetchData = data;
+//           console.log('fetch로 받아온 데이터',fetchData);
+//          })
+
+//         }, [])
       
-      console.log(userData)
+      // console.log(userData)
 
  
 //   const getuserdata = async () => {
