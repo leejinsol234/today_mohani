@@ -41,7 +41,7 @@ export default function CreateUser({userData,setUserData}) {
     setAgree(!agree);
   }
   
-  // 이메일 유효성검사
+  // 이메일 유효성 검사
   const USER_REGEX = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   useEffect(() => {
     const result = USER_REGEX.test(email);
@@ -72,14 +72,12 @@ export default function CreateUser({userData,setUserData}) {
       const response = await fetch("/mohani/join", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json;charset=utf-8",
         },
         // 요청 본문에 필요한 데이터 전달
         body: JSON.stringify({ email, password, confirmPassword, 
-          username, phoneNumber, agree }),
+          username, phoneNumber, agree })
       });
-
-
   
       // 서버 응답 처리
       if (response.ok) {

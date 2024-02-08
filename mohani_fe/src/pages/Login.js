@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {Link, useNavigate} from 'react-router-dom';
-import CreateUser from "./CreateUser";
-import AccountModal from "../components/AccountModal";
-import Modal from "../components/Modal";
 
 // const User = {
 //   email: 'test@example.com',
@@ -19,7 +16,8 @@ export default function Login({onClick}) {
   const [pwValid, setPwValid] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
-  
+  const navigate = useNavigate(); 
+
   // 이메일 유효성 검사
   const USER_REGEX = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   useEffect(() => {
@@ -27,56 +25,41 @@ export default function Login({onClick}) {
     setEmailValid(result);
   }, [email]);
 
-  // 비밀번호 유효성감사
+  // 비밀번호 유효성 검사
   const PW_REGEX = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@#!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
   useEffect(() => {
     const result = PW_REGEX.test(password);
     setPwValid(result);
   }, [password]);
 
-//   const onClickConfirmButton = () => {
-//     {true}
-//   }
+  const [test, setTest] = useState('');
 
-useEffect(()=> {
-  if(emailValid && pwValid){
-    setNotAllow(false)
-    return;
-  }
-  setNotAllow(true);
-}, [emailValid, pwValid])
-
-const navigate = useNavigate(); 
-
-const loginUser = async () => {
-  try {
-    const response = await fetch('/mohani/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password, }),
-    });
-
-    const data = await response.json();
-
-    console.log('응답데이터', data);
-
-    if (response.ok) {
-      const token = response.headers.get('Authorization');
-
-      localStorage.setItem('accessToken', token)
-      navigate('/mohani/main');
-    } else {
-      console.error(data.message);
+  const loginUser = async () => {
+    try {
+      const response = await fetch('/mohani/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify({ email : email, password : password, }),
+      });
+  
+      const data = await response.json();
+  
+      console.log('응답데이터', data);
+  
+      if (response.ok) {
+        const token = response.headers.get('Authorization');
+  
+        localStorage.setItem('accessToken', token)
+        navigate('/mohani/main');
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error('로그인 중 오류 발생:', error.message);
     }
-  } catch (error) {
-    console.error('로그인 중 오류 발생:', error.message);
-  }
-};
-
-
-
+  };
 
   
   return (
@@ -114,12 +97,11 @@ const loginUser = async () => {
       <div className="">
         <button className="bottomButton"
                 onClick={loginUser}
-                disabled={notAllow}
+                disabled={!emailValid || !pwValid}
         >
-          {/* <Link to={'/mohani/main'} className=""> */}
             확인
-          {/* </Link> */}
         </button>
+
           {/* <button onClick={onClick} className="bottomButton">
             확인
           </button> */}
