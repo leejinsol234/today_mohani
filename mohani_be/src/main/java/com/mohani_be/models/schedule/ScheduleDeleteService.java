@@ -1,24 +1,23 @@
 package com.mohani_be.models.schedule;
 
+
 import com.mohani_be.entities.Schedule;
 import com.mohani_be.repositories.ScheduleRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
+@Transactional
 @RequiredArgsConstructor
-public class ScheduleInfoService {
+public class ScheduleDeleteService {
 
+    private final ScheduleInfoService infoService;
     private final ScheduleRepository repository;
 
-    public List<Schedule> findByMemberNo(Long memberNo){
-        return repository.findByMember_MemberNo(memberNo);
-    }
-
-    public Schedule get(Long seq){
-        Schedule schedule = repository.findBySeq(seq);
-        return schedule;
+    public void delete(Long seq){
+        Schedule schedule = infoService.get(seq);
+        repository.delete(schedule);
+        repository.flush();
     }
 }
