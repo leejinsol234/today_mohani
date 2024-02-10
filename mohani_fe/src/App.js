@@ -3,6 +3,8 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from "./pages/Login";
 import CreateUser from "./pages/CreateUser";
 import React, {useEffect, useState } from "react";
+import axios from "axios";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
 // 서버에 전송할 초기데이터 설정
@@ -18,26 +20,35 @@ const [userData, setUserData] = useState({
 //로딩 관리  
 const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const mohaniApi = async () => {
-      try {
-        const response = await fetch('/mohani');
-        const result = await response.json();
+const fetchData = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/mohani/info', {
+      headers: {
+        Accept: "application/json",
+        "Authorization": localStorage.getItem("accessToken"),
 
-        setUserData(result.username);
-      } catch (error) {
-        console.error('API 호출 중 에러 발생:', error);
-      } finally {
-        setLoading(false);
       }
-    };
+    });
 
-    mohaniApi();
-  }, [userData]);
-
-  if (loading) {
-    return <div>Loading...</div>;
+    if (response.ok) {
+      console.log('get호출 성공');
+      const fetchData = await response.json();
+      console.log('fetch로 받아온 데이터', fetchData);
+      setUserData(prevUserData => ({ ...prevUserData, username: fetchData.data }));
+    } else {
+      console.log('get호출 실패');
+    }
+  } catch (error) {
+    console.error('에러 발생', error);
+  } finally {
+    setLoading(false);
   }
+};
+
+useEffect(() => {
+  fetchData();
+}, [])
+
 
   return (
     <div className="App">
@@ -55,7 +66,7 @@ const [loading, setLoading] = useState(true);
           userData={userData} 
           setUserData={setUserData}
           />} />
-          {console.log(userData)}
+          {/* {console.log(userData)} */}
         </Routes>
       </BrowserRouter>
     </div>
