@@ -3,6 +3,7 @@ package com.mohani_be.controllers.schedule;
 import com.mohani_be.commons.Utils;
 import com.mohani_be.commons.exceptions.BadRequestException;
 import com.mohani_be.entities.Schedule;
+import com.mohani_be.models.schedule.ScheduleDeleteService;
 import com.mohani_be.models.schedule.ScheduleInfoService;
 import com.mohani_be.models.schedule.ScheduleSaveService;
 import com.mohani_be.repositories.ScheduleRepository;
@@ -24,6 +25,7 @@ public class ScheduleController {
     private final ScheduleSaveService saveService;
     private final ScheduleRepository repository;
     private final ScheduleInfoService infoService;
+    private final ScheduleDeleteService deleteService;
 
 
     @PostMapping("/main")
@@ -48,16 +50,17 @@ public class ScheduleController {
         return ResponseEntity.ok(schedules);
     }
 
+    @DeleteMapping("/{seq}")
+    public ResponseEntity<?> delete(@PathVariable("seq") Long seq){
+        deleteService.delete(seq);
+        return ResponseEntity.noContent().build();
+    }
+
+
     private void errorProcess(Errors errors){
         if(errors.hasErrors()){
             throw new BadRequestException(Utils.getMessages(errors));
         }
     }
-
-
-
-
-
-
 
 }
