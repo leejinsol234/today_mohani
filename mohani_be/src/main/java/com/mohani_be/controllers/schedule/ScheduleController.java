@@ -26,7 +26,7 @@ public class ScheduleController {
     private final ScheduleInfoService infoService;
 
 
-    @PostMapping("/post")
+    @PostMapping("/main")
     public ResponseEntity<?> post(@RequestBody @Valid ScheduleForm form, Errors errors){
         saveService.save(form, errors);
 
