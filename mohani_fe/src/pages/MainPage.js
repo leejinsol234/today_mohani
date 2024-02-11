@@ -45,7 +45,6 @@ function AppHeader({userData}){
         로그아웃
     </button>    
   </div>
-  
   </>)
 };
 

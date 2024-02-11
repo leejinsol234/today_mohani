@@ -92,6 +92,14 @@ export default function CreateUser({userData,setUserData}) {
     }
   }
 
+    // token 있을 시 자동으로 main이동
+    useEffect(() => {
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        navigate('/mohani/main');
+      }
+    }, [navigate]);
+
   return (
     <div className="CreatePage">
       <div className="titleWrap">회원가입</div>
