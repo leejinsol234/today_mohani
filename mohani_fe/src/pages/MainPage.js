@@ -241,6 +241,16 @@ function MainPage({ onClick, userData, setUserData }) {
     
   }, [value, accountData]);
 
+  const navigate = useNavigate();
+
+  // token 없을 시 자동으로 main이동
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      navigate('/mohani/');
+    }
+  }, [navigate]);
+
   return (
     <div className="App">
       <AppHeader userData={userData} onClick={onClick}/>
