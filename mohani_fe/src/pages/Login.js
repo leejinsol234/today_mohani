@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {Link, useNavigate} from 'react-router-dom';
 
-// const User = {
-//   email: 'test@example.com',
-//   password : 'test1234@@@'
-// }
-
 
 export default function Login({onClick}) {
   const [isUser, setIsUser] = useState(false);
@@ -31,8 +26,6 @@ export default function Login({onClick}) {
     const result = PW_REGEX.test(password);
     setPwValid(result);
   }, [password]);
-
-  const [test, setTest] = useState('');
 
   const loginUser = async () => {
     try {
@@ -60,6 +53,14 @@ export default function Login({onClick}) {
       console.error('로그인 중 오류 발생:', error.message);
     }
   };
+
+  // token 있을 시 자동으로 main이동
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      navigate('/mohani/main');
+    }
+  }, [navigate]);
 
   
   return (

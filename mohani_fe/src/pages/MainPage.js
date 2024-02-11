@@ -36,7 +36,7 @@ function AppHeader({userData}){
   navigate('/mohani/');
 }
 
-console.log(userData)
+// console.log(userData)
 
   return(<>
   <div className="header">
