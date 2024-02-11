@@ -41,18 +41,18 @@ const fetchData = async () => {
 };
 
 const handleFetchData = async () => {
-  // setLoading(true); // 데이터 가져오는 중 로딩 상태로 변경
+  setLoading(true); // 데이터 가져오는 중 로딩 상태로 변경
   await fetchData(); // fetchData 함수 호출
-  // setLoading(false); // 데이터 가져오기 완료 후 로딩 상태 변경
+  setLoading(false); // 데이터 가져오기 완료 후 로딩 상태 변경
 };
 
 useEffect(() => {
   handleFetchData(); // 초기 렌더링 시에 데이터 가져오기
 }, []);
 
-// if(loading){
-//   <>Loading...</>
-// }
+if(loading){
+  <>Loading...</>
+}
 
   return (
     <div className="App">
