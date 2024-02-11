@@ -2,6 +2,8 @@ import React ,{ useMemo, useState } from 'react';
 import moment from 'moment';
 import { SplitDetailScreen } from '../SplitScreen';
 import '../App.css' ;
+import Button from './Button';
+import { ButtonGroup } from '../pages/MainPage';
 
 function TimeRange(date, startTime, endTime) {
   const endTimeFilterling = endTime ? `~${endTime}` : '';
@@ -119,6 +121,7 @@ function Schedule({scheduleData ,value}){
       />
 
       {clickedTitle && (
+        <>
         <SplitDetailScreen topWeight={1} middleWeight={1} bottomWeight={2.5}>
           {/* <ScheduleTitle
             title="제목"
@@ -145,6 +148,11 @@ function Schedule({scheduleData ,value}){
             onClick={handleClickTitle}
           />
         </SplitDetailScreen>
+        <ButtonGroup>
+          <Button>일정 수정</Button>
+          <Button>일정 삭제</Button>
+        </ButtonGroup>  
+        </>
       )}
     </>)  
 }

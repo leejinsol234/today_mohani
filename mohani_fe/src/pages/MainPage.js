@@ -22,7 +22,7 @@ import moment from "moment";
 import { useNavigate } from 'react-router-dom';
 
 //버튼 구역 css
-const ButtonGroup =styled.div`
+export const ButtonGroup =styled.div`
 display : flex;
 justify-content: space-around;
 margin-top : 1rem;
@@ -82,11 +82,7 @@ const MiddleComponent = ({ value,hasSchedule,scheduleData, onChange}) => {
       </div>
       {hasSchedule ? (
         <>
-          <Schedule scheduleData={scheduleData} value={value}/>
-        <ButtonGroup>
-          <Button>일정 수정</Button>
-          <Button>일정 삭제</Button>
-        </ButtonGroup>    
+          <Schedule scheduleData={scheduleData} value={value}/>  
         </>  
       ) : (
         <>
@@ -122,11 +118,7 @@ const RightComponent = ({ title,value,hasAccount,accountData }) => {
       {hasAccount ? (
         <>
           <Account accountData={accountData} value={value}/>
-          <TotalAccount />
-        <ButtonGroup>
-          <Button>가계부 수정</Button>
-          <Button>가계부 삭제</Button>
-        </ButtonGroup>  
+        <TotalAccount />        
         </>  
       ) : (
         <>
@@ -135,7 +127,6 @@ const RightComponent = ({ title,value,hasAccount,accountData }) => {
         <ButtonGroup>
           <Button onClick={openAccountModal}>가계부 추가</Button>
           {isAccountModalOpen && <AccountModal closeAccountModal={closeAccountModal} />}
-
         </ButtonGroup>       
         </>
       )
@@ -242,7 +233,7 @@ function MainPage({ onClick, userData, setUserData }) {
 
   const navigate = useNavigate();
 
-  // token 없을 시 자동으로 main이동
+  // token 없을 시 자동으로 mohani 이동
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) {
