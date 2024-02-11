@@ -29,6 +29,7 @@ public class ScheduleForm {
     private LocalTime endTime;
 
     private String content;
+
     private String loc;
 
     public ScheduleForm(final Schedule entity) {
@@ -42,8 +43,6 @@ public class ScheduleForm {
         this.content = entity.getContent();
         this.loc = entity.getLoc();
     }
-
-
 
     public static Schedule toEntity(final ScheduleForm form){
         return Schedule.builder()
