@@ -53,7 +53,7 @@ export default function Login({onClick}) {
       console.error('로그인 중 오류 발생:', error.message);
     }
   };
-
+  
   // token 있을 시 자동으로 main이동
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
