@@ -1,12 +1,12 @@
 .react-calendar {
   width: 100%;
   /* min-width: 350px; */
-  height: 400px;
+  /* height: 400px; */
   max-width: 100%;
   background: white;
   border: 1px solid #a0a096;
   font-family: Arial, Helvetica, sans-serif;
-  line-height: 2rem;
+  line-height: 2.5rem;
 }
 
 .react-calendar--doubleView {
@@ -45,7 +45,6 @@
 .react-calendar__navigation {
   display: flex;
   height: 44px;
-  margin-bottom: 1em;
 }
 
 .react-calendar__navigation button {
@@ -63,8 +62,9 @@
 }
 
 .react-calendar__month-view__weekdays {
-  text-align: center;
-  text-transform: uppercase;
+  /* text-align: center; */
+  margin-left: 0.2rem;
+  /* text-transform: uppercase; */
   font: inherit;
   font-size: 0.75em;
   font-weight: bold;
@@ -99,12 +99,16 @@
 
 .react-calendar__tile {
   max-width: 100%;
-  padding: 10px 6.6667px;
+  /* padding: 10px 6.6667px; */
   background: none;
-  text-align: center;
+  /* text-align: center; */
+  text-align: justify;
   line-height: 16px;
   font: inherit;
   font-size: 0.833em;
+  height: 4.5rem;
+  display: flex;
+  align-items: flex-start;
 }
 
 .react-calendar__tile:disabled {
@@ -146,4 +150,14 @@
 
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
+}
+
+
+/* 요일 밑에 밑줄 제거 */
+.react-calendar abbr[title] {
+  text-decoration: none; /* 변경된 밑줄 스타일 */
+}
+
+.react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from {
+  font-weight: bold;
 }
