@@ -246,7 +246,7 @@ function MainPage({ onClick, userData, setUserData }) {
       <AppHeader userData={userData} onClick={onClick}/>
       <SplitScreen leftWeight={1.5} middleWeight={1} rightWeight={1}>
         <LeftComponent 
-          title="달력"
+          // title="달력"
           onChange={onChange} 
           value={value}
           />     
