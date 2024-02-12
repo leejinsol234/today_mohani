@@ -3,8 +3,10 @@ package com.mohani_be.controllers.schedule;
 import com.mohani_be.commons.Utils;
 import com.mohani_be.commons.exceptions.BadRequestException;
 import com.mohani_be.entities.Schedule;
+import com.mohani_be.models.schedule.ScheduleDeleteService;
 import com.mohani_be.models.schedule.ScheduleInfoService;
 import com.mohani_be.models.schedule.ScheduleSaveService;
+import com.mohani_be.models.schedule.ScheduleUpdateService;
 import com.mohani_be.repositories.ScheduleRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +26,11 @@ public class ScheduleController {
     private final ScheduleSaveService saveService;
     private final ScheduleRepository repository;
     private final ScheduleInfoService infoService;
+    private final ScheduleDeleteService deleteService;
+    private final ScheduleUpdateService updateService;
 
 
-    @PostMapping("/post")
+    @PostMapping("/main")
     public ResponseEntity<?> post(@RequestBody @Valid ScheduleForm form, Errors errors){
         saveService.save(form, errors);
 
@@ -48,16 +52,23 @@ public class ScheduleController {
         return ResponseEntity.ok(schedules);
     }
 
+    @DeleteMapping("/{seq}")
+    public ResponseEntity<?> delete(@PathVariable("seq") Long seq){
+        deleteService.delete(seq);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{seq}")
+    public ResponseEntity<?> update(@PathVariable("seq")Long seq, @RequestBody @Valid ScheduleForm updateSchedule, Errors errors){
+        Schedule schedule = updateService.update(seq, updateSchedule);
+
+        return ResponseEntity.ok(schedule);
+    }
+
     private void errorProcess(Errors errors){
         if(errors.hasErrors()){
             throw new BadRequestException(Utils.getMessages(errors));
         }
     }
-
-
-
-
-
-
 
 }

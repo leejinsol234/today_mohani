@@ -45,7 +45,7 @@
 
 .income{
   display: inline-flex;
-  width: 60%;
+  width: 30%;
   justify-content: flex-end;
   padding: 0 10px;
   color: green;
@@ -55,7 +55,7 @@
 
 .expense{
   display: inline-flex;
-  width: 60%;
+  width: 30%;
   justify-content: flex-end;
   padding: 0 10px;
   color: red;

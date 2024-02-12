@@ -54,12 +54,12 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(c -> {
             c.requestMatchers(
-                    "/mohani/join", // 회원가입
-                    "/mohani/login", // 로그인
-                    "/mohani/main",
-                    "/mohani",
-                    "/mohani/info",
-                    "/mohani/**").permitAll()
+                            "/mohani/join", // 회원가입
+                            "/mohani/login", // 로그인
+                            "/mohani").permitAll()
+                    //"/mohani/main",
+                    //"/mohani/info",
+                    //"/mohani/**")
                     .anyRequest().authenticated(); // 나머지 URL은 모두 회원 인증
         });
 
