@@ -15,7 +15,6 @@ import Button from '../components/Button';//버튼
 import Modal from '../components/Modal';//모달
 import AccountModal from '../components/AccountModal';
 
-
 //관리
 import { React, useEffect,useState } from 'react';
 import moment from "moment";
@@ -30,10 +29,11 @@ margin-top : 1rem;
 
 function AppHeader({userData}){
   const navigate = useNavigate();
-
+  
   function onLogout(){
   localStorage.removeItem("accessToken")
   navigate('/mohani/');
+  window.location.reload(true);
 }
 
 // console.log(userData)
@@ -145,7 +145,7 @@ const RightComponent = ({ title,value,hasAccount,accountData }) => {
   </>);
 };
 
-function MainPage({ onClick, userData, setUserData }) {
+function MainPage({ onClick }) {
   const username = "username*"; //더미데이터
   //달력 날짜 값 변경관리
   const [value, onChange] = useState(new Date());
@@ -218,6 +218,46 @@ function MainPage({ onClick, userData, setUserData }) {
     //나중에 추가할 가계부 데이터
   ])
 
+  // userdata
+  const [userData, setUserData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    username: '',
+    phoneNumber: '',
+    agree: false,
+  });
+  
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/mohani/info', {
+          headers: {
+            Accept: "application/json",
+            "Authorization": localStorage.getItem("accessToken"),
+            'Cache-Control': 'no-cache',
+          }
+        });
+        
+        if (response.ok) {
+          console.log('get호출 성공');
+          const fetchData = await response.json();
+          console.log('fetch로 받아온 데이터', fetchData);
+          setUserData(prevUserData => ({ ...prevUserData, username: fetchData.data }));
+        } else {
+          console.log('get호출 실패');
+        }
+      } catch (error) {
+        console.error('에러 발생', error);
+      } 
+    };
+  
+    useEffect(() => {
+    
+    // if(localStorage.getItem('accessToken')){
+      fetchData(); // 데이터 가져오기
+    // }  
+  }, [])
+
   //일정 유무확인
   useEffect(() => {
     const checkScheduleForDate = (date) => {
@@ -239,6 +279,16 @@ function MainPage({ onClick, userData, setUserData }) {
     setHasAccount(checkAccountForDate(value));
     
   }, [value, accountData]);
+
+    // token 없을 시 자동으로 Login이동
+  const navigate = useNavigate();
+
+    useEffect(() => {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        navigate('/mohani/');
+      }
+    }, [navigate]);
 
   return (
     <div className="App">
