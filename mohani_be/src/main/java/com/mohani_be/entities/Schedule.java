@@ -6,9 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 
 @Data
 @Entity
@@ -29,10 +26,10 @@ public class Schedule extends Base{
     @Column(nullable = false, length = 100)
     private String title; //일정 제목
 
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private String startDate;
+    private String endDate;
+    private String startTime;
+    private String endTime;
 
     @Lob
     private String content; //일정 내용
