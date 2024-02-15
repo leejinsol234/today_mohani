@@ -7,9 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,11 +19,11 @@ public class ScheduleForm {
     @NotBlank
     private String title;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String startDate;
+    private String endDate;
 
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private String startTime;
+    private String endTime;
 
     private String content;
 
