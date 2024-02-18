@@ -1,7 +1,11 @@
 package com.mohani_be.models.member;
 
+import com.mohani_be.commons.exceptions.InvalidRefreshTokenException;
 import com.mohani_be.configs.jwt.TokenProvider;
 import com.mohani_be.controllers.member.RequestLogin;
+import com.mohani_be.entities.RefreshToken;
+import com.mohani_be.models.RefreshTokenSaveService;
+import com.mohani_be.repositories.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,6 +18,8 @@ public class MemberLoginService {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final RefreshTokenSaveService saveService;
 
     public String login(RequestLogin form) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(form.getEmail(), form.getPassword());
@@ -25,5 +31,23 @@ public class MemberLoginService {
         String accessToken = tokenProvider.createToken(authentication);
 
         return accessToken;
+    }
+
+    public String reLogin() {
+
+        String refreshToken = tokenProvider.createRefreshToken();
+
+        return refreshToken;
+    }
+
+    public void matches(String refreshToken, Long memberNo) {
+        RefreshToken savedToken = refreshTokenRepository.findByMember_MemberNo(memberNo)
+                .orElseThrow(InvalidRefreshTokenException::new);
+
+        if (!tokenProvider.equals(savedToken.getToken())) {
+            refreshTokenRepository.delete(savedToken);
+            throw new InvalidRefreshTokenException();
+        }
+        saveService.save(savedToken);
     }
 }
