@@ -92,9 +92,6 @@ const MiddleComponent = ({ value, hasSchedule, scheduleData, onChange }) => {
     setIsModalOpen(false);
   };
 
-  const currentTime = new Date().getTime();
-  console.log(currentTime);
-
   return (
     <>
       <div className="">{moment(value).format("YYYY년 MM월 DD일")}</div>
