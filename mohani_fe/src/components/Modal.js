@@ -64,7 +64,7 @@ function Modal({ closeModal, scheduleData, value }) {
       console.log(scheduleData)
       
       const Data = {
-        seq : 'null',
+        //seq : 'null',
         startDate : addStartDate,
         EndDate : addEndDate,
         title : addEvent,
@@ -75,7 +75,7 @@ function Modal({ closeModal, scheduleData, value }) {
         content : addMemo,
       };
       
-      setAddData([...addData, Data]);
+      setAddData([{...addData}, Data]);
       console.log(addData)
       console.log(Data)
 
@@ -86,11 +86,11 @@ function Modal({ closeModal, scheduleData, value }) {
             'Content-Type' : 'application/json',
             Authorization : `${token}`,
           },
-          body : JSON.stringify(addData),
+          body : JSON.stringify(Data),
         })
 
         if (res.ok) {
-          console.log("일정제목 : " + addData.title);
+          console.log("일정제목 : " + Data.title);
           navigate('/mohani/main');
         } else {
         console.error('서버 요청 실패:', res.statusText);
