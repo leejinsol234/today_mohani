@@ -43,6 +43,7 @@ public class MemberController {
         errorProcess(errors);
 
         String accessToken = loginService.login(form);
+        String refreshToken = loginService.reLogin();
 
         /**
          * 1. 응답 body - JSONData 형식으로
@@ -53,6 +54,7 @@ public class MemberController {
         data.setData(form); // 데이터 확인 용도로 임시 추가
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
+        headers.add("Refresh-Token", "Bearer " + refreshToken);
 
         return ResponseEntity.status(data.getStatus()).headers(headers).body(data);
     }
@@ -63,7 +65,7 @@ public class MemberController {
         Member member = memberInfo.getMember();
         String userNm = member.getUsername();
 
-        /*Member member = Member.builder()
+        /*Member userNm = Member.builder()
                 .username(memberInfo.getUsername())
                 .build();*/
 
