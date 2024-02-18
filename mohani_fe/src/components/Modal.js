@@ -1,6 +1,6 @@
 import styled,{keyframes} from 'styled-components';
 import { React, useEffect, useState } from 'react';
-import {Navigate} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
@@ -28,16 +28,17 @@ const fadeIn = keyframes`
     animation: ${fadeIn} 0.5s ease;
   `;
 
-
 function Modal({ closeModal, scheduleData, value }) {
+  const navigate = useNavigate();
 
   // 모달 일정추가 데이터
     const [addEvent, setAddEvent] = useState('');
-    const [addDate, setAddDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+    const [addStartDate, setAddStartDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+    const [addEndDate, setAddEndDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
     const [addLocation, setAddLocation] = useState('');
     const [addMoney, setAddMoney] = useState('');
     const [addMemo, setAddMemo] = useState('');
-    const [addStartTime, setAddStartTime] = useState('');
+    const [addStartTime, setAddStartTime] = useState('09:00');
     const [addEndTime, setAddEndTime] = useState('10:00');
 
     // 최종 일정
@@ -45,24 +46,33 @@ function Modal({ closeModal, scheduleData, value }) {
 
     // 달력 출력
     const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
 
-    const changedate = (e) => {
-      setStartDate(e);
-      setAddDate(moment(startDate).format("YYYY-MM-DD"));
+    const ChangeStartDate = (date) => {
+      setStartDate(date); // 달력 설정
+      // 데이터 설정
+      setAddStartDate(moment(date).format("YYYY-MM-DD"));
+    }
+    const ChangeEndDate = (date) => {
+      setEndDate(date);
+      setAddEndDate(moment(date).format("YYYY-MM-DD"));
     }
     
     const handleSubmit = async () => {
+    const token = localStorage.getItem("accessToken");
+
       console.log(scheduleData)
       
-      
       const Data = {
-        date : addDate,
-        event : addEvent,
+        seq : 'null',
+        startDate : addStartDate,
+        EndDate : addEndDate,
+        title : addEvent,
         startTime : addStartTime,
         endTime : addEndTime,
-        location : addLocation,
-        money : addMoney,
-        memo : addMemo,
+        loc : addLocation,
+        // money : addMoney,
+        content : addMemo,
       };
       
       setAddData([...addData, Data]);
@@ -70,18 +80,18 @@ function Modal({ closeModal, scheduleData, value }) {
       console.log(Data)
 
       try {
-
         const res = await fetch('/mohani/main', {
           method : 'POST',
           headers : {
             'Content-Type' : 'application/json',
+            Authorization : `${token}`,
           },
           body : JSON.stringify(addData),
         })
 
-        console.log("일정제목 : " + addData.event);
         if (res.ok) {
-          Navigate('/mohani/main');
+          console.log("일정제목 : " + addData.title);
+          navigate('/mohani/main');
         } else {
         console.error('서버 요청 실패:', res.statusText);
         }
@@ -108,40 +118,41 @@ function Modal({ closeModal, scheduleData, value }) {
   
   // console.log(optionhour)  
 
-
-    function SelectStartTime () {
-
-      return (
-        <div className='AddTimeInputWrap'>
-          <select className= 'AddTimeInput'  >
-            {hour.map((data)=> (
-              <option key={data.key} value={data.value}
-              onClick={(e) => setAddStartTime(e.target.value)}>
-                {data.label}
-              </option>
-            ))}
-            {/* {optionhour} */}
-          </select>
-          
-        </div>
-      )
-    } 
-
-    function SelectEndTime () {
-
-      return (
-        <div className='AddTimeInputWrap'>
-          <select className= 'AddTimeInput' 
-                  onChange={(e) => setAddEndTime(e.target.value)}>
-            <option>09:00</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-          </select>
-          
-        </div>
-      )
-    } 
+  function SelectStartTime() {
+    return (
+      <div className='AddTimeInputWrap'>
+        <select
+          className='AddTimeInput'
+          onChange={(e) => setAddStartTime(e.target.value)}
+          value={addStartTime} // 선택된 값을 유지하도록 설정
+        >
+          {hour.map((data) => (
+            <option key={data.value} value={data.label}>
+              {data.label}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
+  
+  function SelectEndTime() {
+    return (
+      <div className='AddTimeInputWrap'>
+        <select
+          className='AddTimeInput'
+          onChange={(e) => setAddEndTime(e.target.value)}
+          value={addEndTime} // 선택된 값을 유지하도록 설정
+        >
+          {hour.map((data) => (
+            <option key={data.value} value={data.label}>
+              {data.label}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
     
     
     return (
@@ -167,7 +178,8 @@ function Modal({ closeModal, scheduleData, value }) {
               {/* <input className="AddInput" value={addDate} placeholder="2014.01.10"
               onChange={(e) => setAddDate(e.target.value)}/> */}
               <DatePicker selected={startDate} dateFormat="yyyy. MM. dd" 
-              onChange ={changedate} 
+              onChange ={ChangeStartDate} shouldCloseOnSelect
+              onSelect={ChangeStartDate}
               className='datePicker AddInput' />
             </div>
               <SelectStartTime />
@@ -175,7 +187,11 @@ function Modal({ closeModal, scheduleData, value }) {
             
           <div className="AddWrap">
             <div style={{marginLeft : 60}} className="AddCalInputWrap">
-              <input className="AddInput" placeholder="2014.01.11"/>
+              {/* <input className="AddInput" placeholder="2014.01.11"/> */}
+              <DatePicker selected={endDate} dateFormat="yyyy. MM. dd" 
+              onChange ={ChangeEndDate} shouldCloseOnSelect
+              onSelect={ChangeEndDate}
+              className='datePicker AddInput' />
             </div>
             <SelectEndTime />
           </div>
