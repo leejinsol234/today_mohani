@@ -56,17 +56,6 @@ public class TokenProvider {
                 .compact();
     }
 
-    // refresh token 생성
-    public String createRefreshToken() {
-
-        Date expires = new Date(new Date().getTime() + tokenValidityInSeconds * 1000); // 토큰 유효시간 1시간
-
-        return Jwts.builder()
-                .signWith(key, SignatureAlgorithm.HS256)
-                .setExpiration(expires)
-                .compact();
-    }
-
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(key)
