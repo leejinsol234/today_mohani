@@ -58,50 +58,6 @@ function Modal({ closeModal, scheduleData, value }) {
       setAddEndDate(moment(date).format("YYYY-MM-DD"));
     }
     
-    /*
-    const handleSubmit = async () => {
-    const token = localStorage.getItem("accessToken");
-
-      console.log(scheduleData)
-      
-      const Data = {
-        //seq : ,
-        startDate : addStartDate,
-        EndDate : addEndDate,
-        title : addEvent,
-        startTime : addStartTime,
-        endTime : addEndTime,
-        loc : addLocation,
-        money : addMoney,
-        content : addMemo,
-      };
-      
-      setAddData([{...addData}, Data]);
-      console.log(addData)
-      console.log(Data)
-
-      try {
-        const res = await fetch('/mohani/main', {
-          method : 'POST',
-          headers : {
-            'Content-Type' : 'application/json',
-            Authorization : `${token}`,
-          },
-          body : JSON.stringify(addData),
-        })
-
-        if (res.ok) {
-          console.log("일정제목 : " + addData.title);
-          navigate('/mohani/main');
-        } else {
-        console.error('서버 요청 실패:', res.statusText);
-        }
-
-      } catch (error) {
-        console.error('에러 발생', error)
-      }
-    }
-    */
     const handleSubmit = async () => {
       const token = localStorage.getItem("accessToken");
     
