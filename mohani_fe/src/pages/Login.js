@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {Link, useNavigate} from 'react-router-dom';
 
 
@@ -46,13 +46,44 @@ export default function Login({onClick}) {
   
         localStorage.setItem('accessToken', token)
         navigate('/mohani/main');
-      } else {
-        console.error(data.message);
+      }  else {
+        if (response.status === 400) {
+          // 아이디가 유효하지 않음
+          alert('유효하지 않은 아이디입니다.');
+        } else if (response.status === 403) {
+          // 비밀번호가 틀림
+          alert('비밀번호가 올바르지 않습니다.');
+        } else {
+          console.error(data.message);
+        }
       }
-    } catch (error) {
+    }catch (error) {
       console.error('로그인 중 오류 발생:', error.message);
     }
   };
+
+  // const loginUser = async () => {
+  //   try {
+  //     const response = await fetch('/mohani',{
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+
+  //     if(response.ok){
+  //       const result = await response.json();
+  //       console.log(result);
+  //       if(email !== result.email){
+  //         alert('유효하지않은 아이디입니다.');
+  //       }
+  //     } else {
+  //       console.log("호출실패")
+  //     }
+
+  //   } catch (error) {
+  //     console.error("Error :". error);
+  //   }
+  // }
   
   // token 있을 시 자동으로 main이동
   useEffect(() => {
@@ -60,7 +91,17 @@ export default function Login({onClick}) {
     if (accessToken) {
       navigate('/mohani/main');
     }
-  }, [navigate]);
+    emailFocus.current.focus();
+  }, []);
+  
+  // Enter클릭시 로그인 EVENT
+  const onKeyPress = (e) => {
+    if(e.key == 'Enter'){
+      loginUser();
+    }
+  }
+
+  const emailFocus = useRef(null);
 
   
   return (
@@ -74,6 +115,7 @@ export default function Login({onClick}) {
         <div className="inputWrap">
           <input 
           type='text' className="input" placeholder="test@gmail.com" value={email}
+          ref={emailFocus}
           onChange={(e) => {setEmail(e.target.value)}}/>
         </div>
           
@@ -86,7 +128,7 @@ export default function Login({onClick}) {
           <input
           type = 'password' 
           className="input" placeholder="영문, 숫자, 특수문자 포함 8자 이상"
-          value={password}
+          value={password} onKeyDown={onKeyPress}
           onChange={(e) => {setPassword(e.target.value)}}/>
         </div>
         <div className="errorMessageWrap"
