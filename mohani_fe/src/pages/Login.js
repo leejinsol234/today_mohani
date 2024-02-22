@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {Link, useNavigate} from 'react-router-dom';
 
 
@@ -37,17 +37,26 @@ export default function Login({onClick}) {
         body: JSON.stringify({ email : email, password : password, }),
       });
   
-      const data = await response.json();
-  
-      console.log('응답데이터', data);
-  
-      if (response.ok) {
-        const token = response.headers.get('Authorization');
-  
-        localStorage.setItem('accessToken', token)
-        navigate('/mohani/main');
+      if (!response.ok) {
+        // Handle non-OK responses
+        if (response.status === 400) {
+          const data = await response.json();
+          if (data.message.email) {
+            // 아이디가 유효하지 않음
+            alert(data.message.email[0]); // "이메일을 확인해주세요."
+          } else if (data.message.password && data.message.password[0]) {
+            // 비밀번호가 틀림
+            alert(data.message.password[0]); // "비밀번호를 확인해주세요."
+          } else {
+            console.error(data.message);
+          }
+        } else {
+          console.error('서버에서 오류 응답:', response.status);
+        }
       } else {
-        console.error(data.message);
+        const token = response.headers.get('Authorization');
+        localStorage.setItem('accessToken', token);
+        navigate('/mohani/main');
       }
     } catch (error) {
       console.error('로그인 중 오류 발생:', error.message);
@@ -60,7 +69,17 @@ export default function Login({onClick}) {
     if (accessToken) {
       navigate('/mohani/main');
     }
-  }, [navigate]);
+    emailFocus.current.focus();
+  }, []);
+  
+  // Enter클릭시 로그인 EVENT
+  const onKeyPress = (e) => {
+    if(e.key == 'Enter'){
+      loginUser();
+    }
+  }
+
+  const emailFocus = useRef(null);
 
   
   return (
@@ -74,6 +93,7 @@ export default function Login({onClick}) {
         <div className="inputWrap">
           <input 
           type='text' className="input" placeholder="test@gmail.com" value={email}
+          ref={emailFocus}
           onChange={(e) => {setEmail(e.target.value)}}/>
         </div>
           
@@ -86,7 +106,7 @@ export default function Login({onClick}) {
           <input
           type = 'password' 
           className="input" placeholder="영문, 숫자, 특수문자 포함 8자 이상"
-          value={password}
+          value={password} onKeyDown={onKeyPress}
           onChange={(e) => {setPassword(e.target.value)}}/>
         </div>
         <div className="errorMessageWrap"
