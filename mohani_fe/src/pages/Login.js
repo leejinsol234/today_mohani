@@ -37,53 +37,31 @@ export default function Login({onClick}) {
         body: JSON.stringify({ email : email, password : password, }),
       });
   
-      const data = await response.json();
-  
-      console.log('응답데이터', data);
-  
-      if (response.ok) {
-        const token = response.headers.get('Authorization');
-  
-        localStorage.setItem('accessToken', token)
-        navigate('/mohani/main');
-      }  else {
+      if (!response.ok) {
+        // Handle non-OK responses
         if (response.status === 400) {
-          // 아이디가 유효하지 않음
-          alert('유효하지 않은 아이디입니다.');
-        } else if (response.status === 403) {
-          // 비밀번호가 틀림
-          alert('비밀번호가 올바르지 않습니다.');
+          const data = await response.json();
+          if (data.message.email) {
+            // 아이디가 유효하지 않음
+            alert(data.message.email[0]); // "이메일을 확인해주세요."
+          } else if (data.message.password && data.message.password[0]) {
+            // 비밀번호가 틀림
+            alert(data.message.password[0]); // "비밀번호를 확인해주세요."
+          } else {
+            console.error(data.message);
+          }
         } else {
-          console.error(data.message);
+          console.error('서버에서 오류 응답:', response.status);
         }
+      } else {
+        const token = response.headers.get('Authorization');
+        localStorage.setItem('accessToken', token);
+        navigate('/mohani/main');
       }
-    }catch (error) {
+    } catch (error) {
       console.error('로그인 중 오류 발생:', error.message);
     }
   };
-
-  // const loginUser = async () => {
-  //   try {
-  //     const response = await fetch('/mohani',{
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-
-  //     if(response.ok){
-  //       const result = await response.json();
-  //       console.log(result);
-  //       if(email !== result.email){
-  //         alert('유효하지않은 아이디입니다.');
-  //       }
-  //     } else {
-  //       console.log("호출실패")
-  //     }
-
-  //   } catch (error) {
-  //     console.error("Error :". error);
-  //   }
-  // }
   
   // token 있을 시 자동으로 main이동
   useEffect(() => {

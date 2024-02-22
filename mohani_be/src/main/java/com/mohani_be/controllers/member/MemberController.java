@@ -42,7 +42,7 @@ public class MemberController {
 
         errorProcess(errors);
 
-        String accessToken = loginService.login(form);
+        String accessToken = loginService.login(form, errors);
 
         /**
          * 1. 응답 body - JSONData 형식으로
