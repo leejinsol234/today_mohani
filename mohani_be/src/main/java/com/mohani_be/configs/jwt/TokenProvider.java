@@ -46,7 +46,7 @@ public class TokenProvider {
         String authories = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        Date expires = new Date(new Date().getTime() + tokenValidityInSeconds * 1000 * 60 * 60); // 토큰 유효시간 1시간
+        Date expires = new Date(new Date().getTime() + tokenValidityInSeconds * 1000);
 
         return Jwts.builder()
                 .setSubject(authentication.getName()) // 아이디
