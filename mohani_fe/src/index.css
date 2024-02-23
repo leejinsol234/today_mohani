@@ -327,5 +327,48 @@
   background-color :antiquewhite;
   border-radius: 5px;
   color : gray;
-  padding: 5px;
+  padding: 9px;
 }
+
+.modalIcon {
+  padding : 10px;
+  width : 20px;
+  height: 20px;
+  
+}
+
+.titleIcon {
+  
+}
+
+.upDownButton {
+  position : absolute;
+  left : 105px;
+  top : 100px;
+  cursor: pointer;
+  background-color: white;
+  border : none;
+}
+
+.pallet {
+  position: absolute;
+  display : block;
+  top : 120px;
+  left : 90px;
+  width : 120px;
+  height: 60px;
+  border : 1px solid gray;
+  z-index: 6;
+  background-color: white;
+  border-radius: 10px;
+  padding : 2px;
+  padding-left : 8px;
+}
+
+.palletIcon {
+  width : 20px;
+  height: 20px;
+  padding : 4px;
+
+}
+

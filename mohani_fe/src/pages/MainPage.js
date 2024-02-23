@@ -36,7 +36,7 @@ function AppHeader({ userData }) {
   function onLogout() {
     localStorage.removeItem("accessToken");
     navigate("/mohani/");
-    window.location.reload(true);
+    // window.location.reload(true);
   }
 
   // console.log(userData)
@@ -154,46 +154,46 @@ function MainPage({ onClick }) {
   const [hasAccount, setHasAccount] = useState(false);
   //더미 일정 데이터와 일정추가하기
   const [scheduleData, setScheduleData] = useState([
-    {
-      date: "2024-01-14",
-      event: "팀프로젝트 회의 2주차",
-      startTime: "14:00",
-      endTime: "18:00",
-      location: "인천시 부평22",
-      memo: "메모메모1111111111111111",
-    },
-    {
-      date: "2024-01-21",
-      event: "팀프로젝트 회의 3주차",
-      startTime: "14:00",
-      endTime: "19:00",
-      location: "인천시 부평33",
-      memo: "메모메모메모2",
-    },
-    {
-      date: "2024-01-20",
-      event: "장소가 안적혀있는 이벤트11",
-      startTime: "15:00",
-      endTime: "18:00",
-      location: "",
-      memo: "메모메모메모4444",
-    },
-    {
-      date: "2024-01-20",
-      event: "메모가 안적혀있는 이벤트22",
-      startTime: "12:00",
-      endTime: "21:00",
-      location: "메모가 안적혀있는 이벤트의 장소 ",
-      memo: "",
-    },
-    {
-      date: "2024-01-19",
-      event: "메모가 안적혀있는 이벤트33",
-      startTime: "12:00",
-      endTime: "21:00",
-      location: "메모가 안적혀있는 이벤트의 장소33 ",
-      memo: "",
-    },
+    // {
+    //   date: "2024-01-14",
+    //   event: "팀프로젝트 회의 2주차",
+    //   startTime: "14:00",
+    //   endTime: "18:00",
+    //   location: "인천시 부평22",
+    //   memo: "메모메모1111111111111111",
+    // },
+    // {
+    //   date: "2024-01-21",
+    //   event: "팀프로젝트 회의 3주차",
+    //   startTime: "14:00",
+    //   endTime: "19:00",
+    //   location: "인천시 부평33",
+    //   memo: "메모메모메모2",
+    // },
+    // {
+    //   date: "2024-01-20",
+    //   event: "장소가 안적혀있는 이벤트11",
+    //   startTime: "15:00",
+    //   endTime: "18:00",
+    //   location: "",
+    //   memo: "메모메모메모4444",
+    // },
+    // {
+    //   date: "2024-01-20",
+    //   event: "메모가 안적혀있는 이벤트22",
+    //   startTime: "12:00",
+    //   endTime: "21:00",
+    //   location: "메모가 안적혀있는 이벤트의 장소 ",
+    //   memo: "",
+    // },
+    // {
+    //   date: "2024-01-19",
+    //   event: "메모가 안적혀있는 이벤트33",
+    //   startTime: "12:00",
+    //   endTime: "21:00",
+    //   location: "메모가 안적혀있는 이벤트의 장소33 ",
+    //   memo: "",
+    // },
     // 추가적인 일정 데이터
   ]);
   const navigate = useNavigate();
@@ -230,6 +230,7 @@ function MainPage({ onClick }) {
     return Date.now() < expirationTime;
   };
 
+  // Username fetch GET
   const fetchData = async () => {
     const token = localStorage.getItem("accessToken");
 
