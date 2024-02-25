@@ -48,50 +48,6 @@ function Modal({ closeModal, scheduleData, value }) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
-}
-    const ChangeStartDate = (date) => {
-      setStartDate(date); // 달력 설정
-      // 데이터 설정
-      setAddStartDate(moment(date).format("YYYY-MM-DD"));
-    }
-    const ChangeEndDate = (date) => {
-      setEndDate(date);
-      setAddEndDate(moment(date).format("YYYY-MM-DD"));
-    }
-    
-    const handleSubmit = async () => {
-      const token = localStorage.getItem("accessToken");
-    
-      const Data = {
-        startDate: addStartDate,
-        endDate: addEndDate,
-        title: addEvent,
-        startTime: addStartTime,
-        endTime: addEndTime,
-        loc: addLocation,
-        money: addMoney,
-        content: addMemo,
-      };
-    
-      try {
-        const res = await fetch('/mohani/main', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `${token}`,
-          },
-          body: JSON.stringify(Data), // 수정된 부분
-        });
-    
-        if (res.ok) {
-          console.log("일정제목 : " + addEvent);
-          navigate('/mohani/main');
-        } else {
-          console.error('서버 요청 실패:', res.statusText);
-        }
-      } catch (error) {
-        console.error('에러 발생', error)
-      }
   // 일정 색 변경
   const [iconColor, setIconColor] = useState("#C5EDC8");
 
@@ -211,15 +167,11 @@ function Modal({ closeModal, scheduleData, value }) {
         closeModal();
       } else {
         console.error("서버 요청 실패:", res.statusText);
-
       }
     } catch (error) {
       console.error("에러 발생", error);
     }
-    
-
   };
-
 
   // Modal에서 시간 고르기
   let hour = [];
