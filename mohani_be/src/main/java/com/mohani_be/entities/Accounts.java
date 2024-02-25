@@ -27,8 +27,8 @@ public class Accounts extends Base {
     @Column(nullable = false)
     private boolean in_ex; // true = 수입 , false = 지출
 
-    @Column
-    private String memo; // 수입, 지출에 대한 설명
+    @Lob
+    private String memo;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="memberNo")
