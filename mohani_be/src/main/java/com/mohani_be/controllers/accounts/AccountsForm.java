@@ -8,16 +8,13 @@ public class AccountsForm {
 
     private Long idx; // 번호
 
-
     private Long accounts; //금액
-
 
     private String date; // 날짜
 
-
     private boolean in_ex; // true = 수입 , false = 지출
 
-    @Size(max = 10)
+    @Size(max = 10) // 글자 수 10자로 제한
     private String memo;
 
 }
