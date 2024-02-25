@@ -68,4 +68,4 @@ logging:
 jwt:
   header: Authorization
   secret: YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd6eXoxMjMxMjMxMjMxMjMxMjMxMzEyMzEyMzEzMTIzMTIzMTIzMTMxMjMxMzEzMTMxMjM
-  accessTokenValidityInSeconds: 3600 # 60 min
+  accessTokenValidityInSeconds: 3600 # 토큰 유효시간 (3600sec == 60 min)
