@@ -250,7 +250,10 @@ function MainPage({ onClick }) {
             username: result.data,
           }));
         } else {
-          console.log("API 호출 실패 처리");
+          alert("토큰이 만료되었습니다. 다시 로그인 부탁드립니다.");
+          // 토큰이 만료되었을 경우 로그인 페이지
+          navigate("/mohani/");
+          localStorage.removeItem("accessToken");
         }
       } catch (error) {
         console.error("Error fetching data:", error);

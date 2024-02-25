@@ -14,9 +14,7 @@
   left: 50%;
   transform: translate(-50%, 0);
   background-color: white;
-
   overflow: hidden;
-
   display: flex;
   flex-direction: column;
   z-index: 999;
@@ -50,7 +48,15 @@
 }
 
 .inputWrap:focus-within {
-  border : 1px solid #f47d31;
+  border : 1px solid #96CCA8;
+}
+
+.CreateInputWrap:focus-within{
+  border : 1px solid #96cca8;
+}
+
+.AddInputWrap:focus-within{
+  border : 1px solid #96cca8;
 }
 
 .input {
@@ -80,7 +86,7 @@
   height: 48px;
   border : none;
   font-weight: 700;
-  background-color: #f47d31;
+  background-color: #009eff;
   border-radius: 64px;
   color : white;
   margin-bottom: 20px;
@@ -119,6 +125,7 @@
   display: flex;
   margin : 10px 50px;
   align-items: center;
+  width : 400px;
 }
 
 .AddInputWrap {
@@ -148,7 +155,7 @@
   border-radius: 8px;
   margin-top: 8px;
   background-color: white;
-  width : 38%;
+  width : 37%;
   margin-left: 0px;
   margin-right: 0px;
   border : 1px solid #dadada;
@@ -215,7 +222,7 @@
   height: 40px;
   border : none;
   font-weight: 700;
-  background-color: #f47d31;
+  background-color: #009eff;
   border-radius: 64px;
   color : white;
   margin-top : 10px;
@@ -279,7 +286,7 @@
   height: 40px;
   border : none;
   font-weight: 700;
-  background-color: #f47d31;
+  background-color: #009eff;
   border-radius: 10px;
   color : white;
   margin-top : 20px;

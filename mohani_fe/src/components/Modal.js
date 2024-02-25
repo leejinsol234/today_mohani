@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
@@ -36,7 +36,8 @@ function Modal({ closeModal, scheduleData, value }) {
   const [addStartDate, setAddStartDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [addEndDate, setAddEndDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [addLocation, setAddLocation] = useState("");
-  const [addMoney, setAddMoney] = useState("");
+  const [addPlusMoney, setAddPlusMoney] = useState("");
+  const [addMinusMoney, setAddMinusMoney] = useState("");
   const [addMemo, setAddMemo] = useState("");
   const [addStartTime, setAddStartTime] = useState("09:00");
   const [addEndTime, setAddEndTime] = useState("10:00");
@@ -125,12 +126,25 @@ function Modal({ closeModal, scheduleData, value }) {
 
   // updown 버튼
   const [showUpDown, setShowUpDown] = useState(false);
+  const palletRef = useRef();
+
   const down = <FontAwesomeIcon icon={faCaretDown} />;
   const up = <FontAwesomeIcon icon={faCaretUp} />;
+  const palletHandler = (e) => {
+    // if (showUpDown && palletRef.current && !palletRef.current.contains(e.target)) {
+    //   setShowUpDown(false);
+    // }
+    setShowUpDown((prevState) => !prevState);
+    e.stopPropagation(); // 이벤트캡처링 방지
+    // 팔레트 끄는 기능 구현 중
+    if (palletRef.current === e.target) {
+      setShowUpDown((prevState) => !prevState);
+    }
+  };
 
   const updownToggleButton = (
     <div>
-      <button type="button" className="upDownButton" onClick={() => setShowUpDown(!showUpDown)}>
+      <button type="button" className="upDownButton" onClick={palletHandler}>
         {showUpDown ? down : up}
       </button>
       {showUpDown && pallet}
@@ -148,7 +162,8 @@ function Modal({ closeModal, scheduleData, value }) {
       startTime: addStartTime,
       endTime: addEndTime,
       loc: addLocation,
-      money: addMoney,
+      plusMoney: addPlusMoney,
+      minusMoney: addMinusMoney,
       content: addMemo,
     };
 
@@ -190,13 +205,15 @@ function Modal({ closeModal, scheduleData, value }) {
     );
   }
 
-  function SelectStartTime() {
+  function TimeSelector({ value, onChange }) {
     return (
       <div className="AddTimeInputWrap">
         <select
           className="AddTimeInput"
-          onChange={(e) => setAddStartTime(e.target.value)}
-          value={addStartTime} // 선택된 값을 유지하도록 설정
+          onChange={(e) => {
+            onChange(e.target.value);
+          }}
+          value={value}
         >
           {hour.map((data) => (
             <option key={data.value} value={data.label}>
@@ -208,30 +225,19 @@ function Modal({ closeModal, scheduleData, value }) {
     );
   }
 
-  function SelectEndTime() {
-    return (
-      <div className="AddTimeInputWrap">
-        <select
-          className="AddTimeInput"
-          onChange={(e) => setAddEndTime(e.target.value)}
-          value={addEndTime} // 선택된 값을 유지하도록 설정
-        >
-          {hour.map((data) => (
-            <option key={data.value} value={data.label}>
-              {data.label}
-            </option>
-          ))}
-        </select>
-      </div>
-    );
-  }
+  // Title Focus
+  const titleFocus = useRef(null);
+
+  useEffect(() => {
+    titleFocus.current.focus();
+  }, []);
 
   return (
     <>
       <ModalBackground onClick={closeModal} />
       <div className="page">
         <div className="AddTitleWrap"> 일정추가 </div>
-        <div>
+        <div ref={palletRef}>
           <div className="AddWrap">
             <FontAwesomeIcon style={{ color: iconColor }} className="modalIcon titleIcon" icon={faCircle} />
             {updownToggleButton}
@@ -241,6 +247,7 @@ function Modal({ closeModal, scheduleData, value }) {
                 className="AddInput"
                 value={addEvent}
                 placeholder="일정 제목을 입력해 주세요."
+                ref={titleFocus}
                 onChange={(e) => setAddEvent(e.target.value)}
               />
             </div>
@@ -261,7 +268,7 @@ function Modal({ closeModal, scheduleData, value }) {
                   className="datePicker AddInput"
                 />
               </div>
-              <SelectStartTime />
+              <TimeSelector value={addStartTime} onChange={setAddStartTime} />
             </div>
 
             <div className="AddWrap">
@@ -276,7 +283,7 @@ function Modal({ closeModal, scheduleData, value }) {
                   className="datePicker AddInput"
                 />
               </div>
-              <SelectEndTime />
+              <TimeSelector className="AddInputWrap" value={addEndTime} onChange={setAddEndTime} />
             </div>
           </div>
 
@@ -294,12 +301,21 @@ function Modal({ closeModal, scheduleData, value }) {
 
           <div className="AddWrap">
             <FontAwesomeIcon className="modalIcon" icon={faWallet} />
-            <div className="AddInputWrap">
+            <div className="AddInputWrap" style={{ width: "33%" }}>
               <input
                 className="AddInput"
-                value={addMoney}
-                onChange={(e) => setAddMoney(e.target.value)}
-                placeholder="금액 입력"
+                value={addPlusMoney}
+                onChange={(e) => setAddPlusMoney(e.target.value)}
+                placeholder="수입 입력"
+              />
+            </div>
+
+            <div className="AddInputWrap" style={{ marginLeft: "10px", width: "33%" }}>
+              <input
+                className="AddInput"
+                value={addMinusMoney}
+                onChange={(e) => setAddMinusMoney(e.target.value)}
+                placeholder="지출 입력"
               />
             </div>
           </div>
