@@ -1,5 +1,6 @@
 package com.mohani_be.controllers.accounts;
 
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -16,6 +17,7 @@ public class AccountsForm {
 
     private boolean in_ex; // true = 수입 , false = 지출
 
+    @Size(max = 10)
     private String memo;
 
 }
