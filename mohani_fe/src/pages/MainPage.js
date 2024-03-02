@@ -109,10 +109,6 @@ const MiddleComponent = ({ value, hasSchedule, scheduleData, onChange }) => {
       ) : (
         <>
           <p>일정이 없습니다.</p>
-          <ButtonGroup>
-            <Button onClick={openModal}>일정 추가</Button>
-            {isModalOpen && <Modal closeModal={closeModal} scheduleData={scheduleData} onChange={onchange} />}
-          </ButtonGroup>
         </>
       )}
       {console.log("메인페이지 모멘트 밸류" + moment(value).format("YYYY년 MM월 DD일"))}
@@ -141,11 +137,10 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
       ) : (
         <>
           <p>지출 내역이 없습니다.</p>
-          <TotalAccount />
           <ButtonGroup>
-            <Button onClick={openAccountModal}>가계부 추가</Button>
-            {isAccountModalOpen && <AccountModal closeAccountModal={closeAccountModal} />}
+            <Button>가계부 추가</Button>
           </ButtonGroup>
+          <TotalAccount />
         </>
       )}
     </>
