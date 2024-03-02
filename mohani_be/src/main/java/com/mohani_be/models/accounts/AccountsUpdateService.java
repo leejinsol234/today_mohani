@@ -27,7 +27,7 @@ public class AccountsUpdateService {
         Accounts accountData = infoService.get(idx);
 
         accountData.setIn_ex(form.isIn_ex());
-        accountData.setAccounts(form.getAccounts());
+        accountData.setMoney(form.getMoney());
         accountData.setMemo(form.getMemo());
 
         update(accountData);

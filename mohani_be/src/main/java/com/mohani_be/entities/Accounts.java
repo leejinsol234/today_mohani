@@ -19,7 +19,7 @@ public class Accounts extends Base {
     private Long idx; // 번호
 
     @Column(nullable = false)
-    private Long accounts; //금액
+    private Long money; // 금액
 
     @Column(nullable = false)
     private String date; // 날짜
