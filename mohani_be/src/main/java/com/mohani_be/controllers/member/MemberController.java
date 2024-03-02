@@ -64,7 +64,9 @@ public class MemberController {
         //String userNm = member.getUsername();
 
         /*Member member = Member.builder()
-                .username(memberInfo.getUsername())
+                .username(memberInfo.getMember().getUsername())
+                .memberNo(memberInfo.getMember().getMemberNo())
+                .email(memberInfo.getEmail())
                 .build();*/
 
         return new JSONData(member);
