@@ -28,10 +28,10 @@ public class AccountsRepositoryImpl implements AccountsRepositoryCustom {
                 .where(accounts.date.eq(date).and(accounts.in_ex.eq(true)))
                 .fetchOne();
 
-        AccountsTotalMoney moneySummaryDTO = new AccountsTotalMoney();
-        moneySummaryDTO.setExpenditure(expenditure != null ? expenditure : 0L);
-        moneySummaryDTO.setIncome(income != null ? income : 0L);
+        AccountsTotalMoney totalMoney = new AccountsTotalMoney();
+        totalMoney.setExpenditure(expenditure != null ? expenditure : 0L);
+        totalMoney.setIncome(income != null ? income : 0L);
 
-        return moneySummaryDTO;
+        return totalMoney;
     }
 }
