@@ -50,7 +50,12 @@
 
 .titleWrap{
   text-align: center;  
-  /* margin-top: 60px; */
+  font-size: 30px;
+}
+
+.CreateTitleWrap{
+  text-align: center;  
+  margin-top: 60px;
   font-size: 32px;
   font-weight: 700;
   color : #262626;

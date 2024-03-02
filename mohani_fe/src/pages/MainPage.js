@@ -190,6 +190,7 @@ function MainPage({ onClick }) {
   // // userdata
   const [userData, setUserData] = useState({
     email: "",
+    memberNo : "",
     password: "",
     confirmPassword: "",
     username: "",
@@ -222,7 +223,8 @@ function MainPage({ onClick }) {
           const result = await response.json();
           setUserData((prevUserData) => ({
             ...prevUserData,
-            username: result.data,
+            username: result.data.username,
+              memberNo : result.data.memberNo
           }));
           console.log(result)
         } else {
@@ -248,9 +250,10 @@ function MainPage({ onClick }) {
     const [finalSchedulaData, setFinalSchedulaData] = useState(scheduleData);
     const fetchDoData = async () => {
       const token = localStorage.getItem("accessToken");
+      const memberNo = userData.memberNo;
   
       try {
-        const res = await fetch("http://localhost:3000/mohani/{memberNo}", {
+        const res = await fetch(`http://localhost:3000/mohani/${memberNo}`, {
           header: {
             Accepts: "application/json",
             Authorization: `${token}`,
@@ -266,7 +269,6 @@ function MainPage({ onClick }) {
         }else {
           console.log('스케줄 데이터 가져오기 실패');
         }
-  
       } catch (error) {
         console.error("error message : ", error);
       }
