@@ -1,7 +1,9 @@
 package com.mohani_be.models.accounts;
 
+import com.mohani_be.controllers.accounts.AccountsTotalMoney;
 import com.mohani_be.entities.Accounts;
 import com.mohani_be.repositories.AccountsRepository;
+import com.mohani_be.repositories.AccountsRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import java.util.List;
 public class AccountsInfoService {
 
     private final AccountsRepository repository;
+    private final AccountsRepositoryImpl total;
 
     public List<Accounts> findByMemberNo(Long memberNo){
         return repository.findByMember_MemberNo(memberNo);
@@ -21,6 +24,11 @@ public class AccountsInfoService {
     public Accounts get(Long idx) {
 
         Accounts accounts = repository.findByIdx(idx).orElseThrow(() -> new AccountsNotFoundException("데이터를 찾을 수 없습니다.", HttpStatus.NOT_FOUND));
+
+        AccountsTotalMoney totalMoney = total.getTotal(accounts.getDate());
+        accounts.setIncome(totalMoney.getIncome());
+        accounts.setExpenditure(totalMoney.getExpenditure());
+
         return accounts;
 
     }
