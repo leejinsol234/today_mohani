@@ -28,7 +28,7 @@ public class AccountsController {
     private final AccountsUpdateService updateService;
 
     @PostMapping("/save")
-    public ResponseEntity<JSONData> save(@RequestBody @Valid AccountsForm form, Errors errors){
+    public ResponseEntity<JSONData> save(@RequestBody @Valid AccountsForm form, Errors errors) {
 
         saveService.save(form, errors);
 
@@ -61,7 +61,6 @@ public class AccountsController {
         data.setData(form);
 
         return ResponseEntity.status(data.getStatus()).body(data);
-
     }
 
     @DeleteMapping("/del/{idx}")

@@ -2,9 +2,11 @@ package com.mohani_be.models.accounts;
 
 import com.mohani_be.controllers.accounts.AccountsForm;
 import com.mohani_be.controllers.accounts.AccountsFormValidator;
+import com.mohani_be.controllers.accounts.AccountsTotalMoney;
 import com.mohani_be.entities.Accounts;
 import com.mohani_be.models.member.MemberInfo;
 import com.mohani_be.repositories.AccountsRepository;
+import com.mohani_be.repositories.AccountsRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +19,7 @@ public class AccountsSaveService {
 
     private final AccountsRepository repository;
     private final AccountsFormValidator validator;
+    private final AccountsRepositoryImpl total;
 
     public void save(AccountsForm form, Errors errors) {
 
@@ -38,6 +41,11 @@ public class AccountsSaveService {
                 .member(memberInfo.getMember())
                 .build();
 
+        save(accounts);
+
+        AccountsTotalMoney totalMoney = total.getTotal(accounts.getDate());
+        accounts.setExpenditure(totalMoney.getExpenditure());
+        accounts.setIncome(totalMoney.getIncome());
         save(accounts);
     }
 
