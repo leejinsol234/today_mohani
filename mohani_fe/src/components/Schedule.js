@@ -1,4 +1,4 @@
-import React ,{ useMemo, useState } from 'react';
+import React ,{ useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
 import { SplitDetailScreen } from '../SplitScreen';
 import '../App.css' ;
@@ -22,7 +22,7 @@ export function ScheduleUseMemo({dataKey, scheduleData, value}){
 
   
   return useMemo(() => {
-    if (!Array.isArray(scheduleData)) {
+    if (!Array.isArray(scheduleData)) { 
       return [];
     }
 
@@ -91,6 +91,7 @@ function ScheduleMemo({ scheduleData }) {
 
 
 function Schedule({scheduleData ,value}){
+
   //일정 배열에서 해당 날짜만 필터링하기
   const filteredScheduleData = useMemo(() => {
     const clickedDate = moment(value).format('YYYY-MM-DD');
@@ -100,7 +101,7 @@ function Schedule({scheduleData ,value}){
   //상세일정 클릭했을때 상태관리
   const [clickedTitle, setClickedTitle] = useState(null);
   const handleClickTitle = (item) => {
-    setClickedTitle(item);
+    setClickedTitle((item) => !item);
   };
   //상세일정리스트 필터링
   const filteredDetailData = useMemo(() => {
