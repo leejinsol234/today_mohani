@@ -31,7 +31,7 @@ public class AccountsSaveService {
 
         Accounts accounts = Accounts.builder()
                 .idx(form.getIdx())
-                .accounts(form.getAccounts())
+                .money(form.getMoney())
                 .in_ex(form.isIn_ex())
                 .date(form.getDate())
                 .memo(form.getMemo())
