@@ -61,13 +61,13 @@ public class MemberController {
     public JSONData info(@AuthenticationPrincipal MemberInfo memberInfo) {
 
         Member member = memberInfo.getMember();
-        String userNm = member.getUsername();
+        //String userNm = member.getUsername();
 
         /*Member member = Member.builder()
                 .username(memberInfo.getUsername())
                 .build();*/
 
-        return new JSONData(userNm);
+        return new JSONData(member);
     }
 
     private void errorProcess(Errors errors) {
