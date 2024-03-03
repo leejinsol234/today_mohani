@@ -99,6 +99,8 @@ const MiddleComponent = ({ value, hasSchedule, scheduleData, onChange }) => {
     setIsModalOpen(false);
   };
 
+  
+
   return (
     <>
       <div className="">{moment(value).format("YYYY년 MM월 DD일")}</div>
@@ -117,12 +119,21 @@ const MiddleComponent = ({ value, hasSchedule, scheduleData, onChange }) => {
 };
 
 const RightComponent = ({ title, value, hasAccount, accountData }) => {
-  const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
-  const openAccountModal = () => {
-    setIsAccountModalOpen(true);
+  //새로운 가계부
+  const [inputValue, setInputValue] = useState(""); 
+  const [showInput, setShowInput] = useState(false); // 인풋 창을 보여줄지 여부 상태
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value); // 입력 값 변경 시 상태 업데이트
   };
-  const closeAccountModal = () => {
-    setIsAccountModalOpen(false);
+
+  const handleAddExpense = () => {
+    // 여기에 가계부 항목을 추가하는 로직을 추가할 수 있습니다.
+    console.log("새로운 가계부 항목 추가:", inputValue);
+    // 추가 후 입력 값을 초기화합니다.
+    setInputValue("");
+    // 인풋 창 보이도록 상태 업데이트
+    setShowInput(true);
   };
 
   return (
@@ -132,16 +143,33 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
       {hasAccount ? (
         <>
           <Account accountData={accountData} value={value} />
+          <ButtonGroup>
+            <Button onClick={handleAddExpense}>가계부 추가</Button>
+          </ButtonGroup>
           <TotalAccount />
         </>
       ) : (
         <>
           <p>지출 내역이 없습니다.</p>
           <ButtonGroup>
-            <Button>가계부 추가</Button>
+            <Button onClick={handleAddExpense}>가계부 추가</Button>
           </ButtonGroup>
           <TotalAccount />
         </>
+      )}
+
+      {/* 인풋 창 */}
+      {showInput && (
+        <div>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder="새로운 가계부 항목"
+          />
+          <button onClick={handleAddExpense}>추가</button>
+          <button onClick={() => setShowInput(false)}>취소</button>
+        </div>
       )}
     </>
   );
@@ -172,12 +200,22 @@ function MainPage({ onClick }) {
     {
       date: "2024-01-20",
       category: "지출",
+      memo: "식비",
       expense: "500",
       income: "",
-      memo: "식비 지출",
     },
-    { date: "2024-01-21", category: "지출", expense: "1000", income: "", memo: "쇼핑 지출" },
-    { date: "2024-01-21", category: "수입", expense: "", income: "1000", memo: "수입11" },
+    { date: "2024-01-21", 
+    category: "지출",
+    memo: "쇼핑", 
+    expense: "1000", 
+    income: "", 
+ },
+    { date: "2024-01-21", 
+    category: "수입",
+    memo: "월급", 
+    expense: "", 
+    income: "1000", 
+ },
     //나중에 추가할 가계부 데이터
   ]);
 

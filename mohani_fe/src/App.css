@@ -54,3 +54,14 @@ li {
   margin-bottom: 1rem;
   cursor: pointer;
 }
+
+.account_memo{
+  display: inline-flex;
+  width: 15%;
+  height: 21px;
+  justify-content: flex-end;
+  padding: 0 10px;
+  color: black;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}

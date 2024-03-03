@@ -52,7 +52,8 @@ function Account({accountData,value}) {
         {filteredAccountData.map((item, index) => (
             <li key={index}>
               <div className='category'>{item.category}</div>
-              <div className='title_account'>{item.title}</div>
+              {/* 지출내역 */}
+              <div className='account_memo'>{item.memo}</div>
               {editIndex === index ? (
                 <input
                   type="text"

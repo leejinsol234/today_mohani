@@ -38,7 +38,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 
 }
 
@@ -258,7 +258,7 @@
   background-color: #009eff;
   border-radius: 64px;
   color : white;
-  margin-top : 10px;
+  margin-top : 10px; 
   margin-bottom: 20px;
   cursor: pointer;
 }
