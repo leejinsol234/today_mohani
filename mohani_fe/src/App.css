@@ -1,13 +1,5 @@
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-.App {
-  padding: 1rem;
-  box-sizing: border-box;  
-  height: 95vh;
+li {
+  list-style-type: none;
 }
 
 .header_logout{

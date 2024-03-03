@@ -13,9 +13,9 @@ import Schedule from "../components/Schedule"; //상세일정
 
 import Button from "../components/Button"; //버튼
 import Modal from "../components/Modal"; //모달
+import AccountModal from "../components/AccountModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import AccountModal from "../components/AccountModal";
 import { jwtDecode } from "jwt-decode";
 
 //관리
@@ -33,6 +33,7 @@ export const ButtonGroup = styled.div`
 function AppHeader({ userData }) {
   const navigate = useNavigate();
 
+  // 로그아웃 기능
   function onLogout() {
     localStorage.removeItem("accessToken");
     navigate("/mohani/");
@@ -41,10 +42,13 @@ function AppHeader({ userData }) {
 
   // console.log(userData)
 
+  const logoUrl = 'LogoTrans.png';
+
   return (
     <>
       <div className="header">
         <span>{userData.username} 님, 안녕하세요!</span>
+        <img className="mainLogo" src={process.env.PUBLIC_URL + '/' + logoUrl} />
         <button className="header_logout" onClick={onLogout}>
           로그아웃
         </button>
@@ -75,7 +79,10 @@ const LeftComponent = ({ title, onChange, value }) => {
       <div style={{ position: "relative" }}>
         <FontAwesomeIcon className="plusButton" icon={faPlus} onClick={openModal} />
       </div>
-      {isModalOpen && <Modal closeModal={closeModal} />}
+      <div className="plusButtonWrap">
+        <button className="plusButton2" onClick={openModal}>일정 추가</button>
+      </div>
+      {isModalOpen && <Modal closeModal={closeModal} value={value} />}
     </>
   );
 };
@@ -102,10 +109,6 @@ const MiddleComponent = ({ value, hasSchedule, scheduleData, onChange }) => {
       ) : (
         <>
           <p>일정이 없습니다.</p>
-          <ButtonGroup>
-            <Button onClick={openModal}>일정 추가</Button>
-            {isModalOpen && <Modal closeModal={closeModal} scheduleData={scheduleData} onChange={onchange} />}
-          </ButtonGroup>
         </>
       )}
       {console.log("메인페이지 모멘트 밸류" + moment(value).format("YYYY년 MM월 DD일"))}
@@ -134,11 +137,10 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
       ) : (
         <>
           <p>지출 내역이 없습니다.</p>
-          <TotalAccount />
           <ButtonGroup>
-            <Button onClick={openAccountModal}>가계부 추가</Button>
-            {isAccountModalOpen && <AccountModal closeAccountModal={closeAccountModal} />}
+            <Button>가계부 추가</Button>
           </ButtonGroup>
+          <TotalAccount />
         </>
       )}
     </>
@@ -154,46 +156,14 @@ function MainPage({ onClick }) {
   const [hasAccount, setHasAccount] = useState(false);
   //더미 일정 데이터와 일정추가하기
   const [scheduleData, setScheduleData] = useState([
-    // {
-    //   date: "2024-01-14",
-    //   event: "팀프로젝트 회의 2주차",
-    //   startTime: "14:00",
-    //   endTime: "18:00",
-    //   location: "인천시 부평22",
-    //   memo: "메모메모1111111111111111",
-    // },
-    // {
-    //   date: "2024-01-21",
-    //   event: "팀프로젝트 회의 3주차",
-    //   startTime: "14:00",
-    //   endTime: "19:00",
-    //   location: "인천시 부평33",
-    //   memo: "메모메모메모2",
-    // },
-    // {
-    //   date: "2024-01-20",
-    //   event: "장소가 안적혀있는 이벤트11",
-    //   startTime: "15:00",
-    //   endTime: "18:00",
-    //   location: "",
-    //   memo: "메모메모메모4444",
-    // },
-    // {
-    //   date: "2024-01-20",
-    //   event: "메모가 안적혀있는 이벤트22",
-    //   startTime: "12:00",
-    //   endTime: "21:00",
-    //   location: "메모가 안적혀있는 이벤트의 장소 ",
-    //   memo: "",
-    // },
-    // {
-    //   date: "2024-01-19",
-    //   event: "메모가 안적혀있는 이벤트33",
-    //   startTime: "12:00",
-    //   endTime: "21:00",
-    //   location: "메모가 안적혀있는 이벤트의 장소33 ",
-    //   memo: "",
-    // },
+    {
+      date: "2024-01-14",
+      event: "팀프로젝트 회의 2주차",
+      startTime: "14:00",
+      endTime: "18:00",
+      location: "인천시 부평22",
+      memo: "메모메모1111111111111111",
+    },
     // 추가적인 일정 데이터
   ]);
   const navigate = useNavigate();
@@ -215,6 +185,7 @@ function MainPage({ onClick }) {
   // // userdata
   const [userData, setUserData] = useState({
     email: "",
+    memberNo : "",
     password: "",
     confirmPassword: "",
     username: "",
@@ -247,8 +218,10 @@ function MainPage({ onClick }) {
           const result = await response.json();
           setUserData((prevUserData) => ({
             ...prevUserData,
-            username: result.data,
+            username: result.data.username,
+              memberNo : result.data.memberNo
           }));
+          console.log(result)
         } else {
           alert("토큰이 만료되었습니다. 다시 로그인 부탁드립니다.");
           // 토큰이 만료되었을 경우 로그인 페이지
@@ -268,8 +241,37 @@ function MainPage({ onClick }) {
     }
   };
 
+    // Schedule fetch GET
+    const [finalSchedulaData, setFinalSchedulaData] = useState(scheduleData);
+    const fetchDoData = async () => {
+      const token = localStorage.getItem("accessToken");
+      const memberNo = userData.memberNo;
+  
+      try {
+        const res = await fetch(`http://localhost:3000/mohani/${memberNo}`, {
+          header: {
+            Accepts: "application/json",
+            Authorization: `${token}`,
+          },
+        });
+        if(res.ok){
+          const result = await res.json();
+          // setFinalSchedulaData((prevSchedule) => ({
+          //   ...prevSchedule, 
+          // }))
+          console.log(result)
+          console.log(result.data)
+        }else {
+          console.log('스케줄 데이터 가져오기 실패');
+        }
+      } catch (error) {
+        console.error("error message : ", error);
+      }
+    }
+
   useEffect(() => {
     fetchData();
+    fetchDoData();
   }, []);
 
   //일정 유무확인

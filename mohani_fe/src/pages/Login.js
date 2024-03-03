@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import {Link, useNavigate} from 'react-router-dom';
 
-
 export default function Login({onClick}) {
   const [isUser, setIsUser] = useState(false);
   const [email, setEmail] = useState('');
@@ -81,11 +80,18 @@ export default function Login({onClick}) {
 
   const emailFocus = useRef(null);
 
+  function Logo() {
+    const logoUrl = 'todaymohaniLogo.png';
+    return <img className="Logo" src={process.env.PUBLIC_URL + '/' + logoUrl} alt="logoImage" />;
+  }
+
   
   return (
     <div className="page">
       <div className="titleWrap">
-        오늘 머하니
+        {/* 오늘 머하니 */}
+      {Logo()}
+      
       </div>
 
       <div className="contentWrap">

@@ -10,7 +10,6 @@ const Container = styled.div`
 const Box = styled.div`
   flex: ${(props) => props.weight}; // props로 받은 가중치(weight) 사용
   & + & {
-    border-left : solid #000;
     margin-left : 0.5rem;
   }
   padding : 0.5rem;

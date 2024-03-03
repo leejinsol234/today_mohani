@@ -102,7 +102,7 @@ export default function CreateUser({userData,setUserData}) {
 
   return (
     <div className="CreatePage">
-      <div className="titleWrap">회원가입</div>
+      <div className="CreateTitleWrap">회원가입</div>
       <div className="contentWrap">
         <div className="CreateInputTitle">이메일</div>
         <div className="CreateInputWrap">

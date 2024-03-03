@@ -33,8 +33,8 @@ const ModalBackground = styled.div`
 function Modal({ closeModal, scheduleData, value }) {
   // 모달 일정추가 데이터
   const [addEvent, setAddEvent] = useState("");
-  const [addStartDate, setAddStartDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
-  const [addEndDate, setAddEndDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  const [addStartDate, setAddStartDate] = useState(moment(value).format("YYYY-MM-DD"));
+  const [addEndDate, setAddEndDate] = useState(moment(value).format("YYYY-MM-DD"));
   const [addLocation, setAddLocation] = useState("");
   const [addPlusMoney, setAddPlusMoney] = useState("");
   const [addMinusMoney, setAddMinusMoney] = useState("");
@@ -46,20 +46,20 @@ function Modal({ closeModal, scheduleData, value }) {
   const [addData, setAddData] = useState("");
 
   // 달력 출력
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(value);
+  const [endDate, setEndDate] = useState(value);
 
   // 일정 색 변경
   const [iconColor, setIconColor] = useState("#C5EDC8");
 
   // 달력 날짜 변경
   const ChangeStartDate = (date) => {
-    setStartDate(date); // 달력 설정
+    setStartDate(moment(date).format("YYYY-MM-DD")); // 달력 설정
     // 데이터 설정
     setAddStartDate(moment(date).format("YYYY-MM-DD"));
   };
   const ChangeEndDate = (date) => {
-    setEndDate(date);
+    setEndDate(moment(date).format("YYYY-MM-DD"));
     setAddEndDate(moment(date).format("YYYY-MM-DD"));
   };
 
@@ -70,56 +70,72 @@ function Modal({ closeModal, scheduleData, value }) {
         value="#e53a40"
         className="palletIcon"
         icon={faCircle}
-        onClick={() => setIconColor("#e53a40")}
+        onClick={() => {
+          setIconColor("#e53a40"), setShowUpDown(false);
+        }}
       />
       <FontAwesomeIcon
         style={{ color: "#8cd790" }}
         value="#8cd790"
         className="palletIcon"
         icon={faCircle}
-        onClick={() => setIconColor("#8cd790")}
+        onClick={() => {
+          setIconColor("#8cd790"), setShowUpDown(false);
+        }}
       />
       <FontAwesomeIcon
         style={{ color: "#f68657" }}
         value="#f68657"
         className="palletIcon"
         icon={faCircle}
-        onClick={() => setIconColor("#f68657")}
+        onClick={() => {
+          setIconColor("f68657"), setShowUpDown(false);
+        }}
       />
       <FontAwesomeIcon
         style={{ color: "#d499b9" }}
         value="#d499b9"
         className="palletIcon"
         icon={faCircle}
-        onClick={() => setIconColor("#d499b9")}
+        onClick={() => {
+          setIconColor("#d499b9"), setShowUpDown(false);
+        }}
       />
       <FontAwesomeIcon
         style={{ color: "#30a9de" }}
         value="#30a9de"
         className="palletIcon"
         icon={faCircle}
-        onClick={() => setIconColor("#30a9de")}
+        onClick={() => {
+          setIconColor("#30a9de"), setShowUpDown(false);
+        }}
       />
       <FontAwesomeIcon
         style={{ color: "#efdc05" }}
         value="#efdc05"
         className="palletIcon"
         icon={faCircle}
-        onClick={() => setIconColor("#efdc05")}
+        onClick={() => {
+          setIconColor("#efdc05"), setShowUpDown(false);
+        }}
       />
       <FontAwesomeIcon
         style={{ color: "#d09e88" }}
         value="#d09e88"
         className="palletIcon"
         icon={faCircle}
-        onClick={() => setIconColor("#d09e88")}
+        onClick={() => {
+          setIconColor("#d09e88"), setShowUpDown(false);
+        }}
       />
       <FontAwesomeIcon
         style={{ color: "#8b8687" }}
         value="#8b8687"
         className="palletIcon"
         icon={faCircle}
-        onClick={() => setIconColor("#8b8687")}
+        onClick={() => {
+          setIconColor("#8b8687"), setShowUpDown(false);
+        }}
       />
     </div>
   );
@@ -131,21 +147,25 @@ function Modal({ closeModal, scheduleData, value }) {
   const down = <FontAwesomeIcon icon={faCaretDown} />;
   const up = <FontAwesomeIcon icon={faCaretUp} />;
   const palletHandler = (e) => {
-    // if (showUpDown && palletRef.current && !palletRef.current.contains(e.target)) {
-    //   setShowUpDown(false);
-    // }
     setShowUpDown((prevState) => !prevState);
-    e.stopPropagation(); // 이벤트캡처링 방지
-    // 팔레트 끄는 기능 구현 중
-    if (palletRef.current === e.target) {
-      setShowUpDown((prevState) => !prevState);
-    }
   };
 
+  // pallet 다른 곳 눌렀을 때 꺼지기 기능
+  const handleDocumentClick = (e) => {
+    if(palletRef.current && !palletRef.current.contains(e.target)){
+      setShowUpDown(false);
+    }
+  }
+  useEffect(() => {
+    document.addEventListener('click', handleDocumentClick);
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    }}, []);
+
   const updownToggleButton = (
-    <div>
+    <div ref={palletRef}>
       <button type="button" className="upDownButton" onClick={palletHandler}>
-        {showUpDown ? down : up}
+        {showUpDown ? up : down}
       </button>
       {showUpDown && pallet}
     </div>
@@ -182,6 +202,7 @@ function Modal({ closeModal, scheduleData, value }) {
         closeModal();
       } else {
         console.error("서버 요청 실패:", res.statusText);
+        alert("추가할 일정제목을 입력해주세요.")
       }
     } catch (error) {
       console.error("에러 발생", error);
@@ -190,7 +211,6 @@ function Modal({ closeModal, scheduleData, value }) {
 
   // Modal에서 시간 고르기
   let hour = [];
-  let optionhour = [];
   for (let i = 0; i < 25; i++) {
     let op = {};
 
@@ -198,11 +218,6 @@ function Modal({ closeModal, scheduleData, value }) {
     op.label = ("0" + i).slice(-2) + ":00";
 
     hour.push(op);
-    optionhour.push(
-      <option value={op.value} onClick={(e) => setAddStartTime(e.target.value)}>
-        {op.label}
-      </option>
-    );
   }
 
   function TimeSelector({ value, onChange }) {
@@ -237,7 +252,7 @@ function Modal({ closeModal, scheduleData, value }) {
       <ModalBackground onClick={closeModal} />
       <div className="page">
         <div className="AddTitleWrap"> 일정추가 </div>
-        <div ref={palletRef}>
+        <div>
           <div className="AddWrap">
             <FontAwesomeIcon style={{ color: iconColor }} className="modalIcon titleIcon" icon={faCircle} />
             {updownToggleButton}
