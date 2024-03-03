@@ -226,7 +226,7 @@ function MainPage({ onClick }) {
             username: result.data.username,
               memberNo : result.data.memberNo
           }));
-          console.log(result)
+          // console.log(result)
         } else {
           alert("토큰이 만료되었습니다. 다시 로그인 부탁드립니다.");
           // 토큰이 만료되었을 경우 로그인 페이지
@@ -253,6 +253,7 @@ function MainPage({ onClick }) {
       const memberNo = userData.memberNo;
   
       try {
+        // console.log(`http://localhost:3000/mohani/${memberNo}`)
         const res = await fetch(`http://localhost:3000/mohani/${memberNo}`, {
           header: {
             Accepts: "application/json",
@@ -261,9 +262,9 @@ function MainPage({ onClick }) {
         });
         if(res.ok){
           const result = await res.json();
-          // setFinalSchedulaData((prevSchedule) => ({
-          //   ...prevSchedule, 
-          // }))
+          setFinalSchedulaData((prevSchedule) => ({
+            ...prevSchedule, 
+          }))
           console.log(result)
           console.log(result.data)
         }else {
