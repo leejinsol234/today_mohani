@@ -8,7 +8,7 @@ public class AccountsForm {
 
     private Long idx; // 번호
 
-    private Long accounts; //금액
+    private Long money; // 금액
 
     private String date; // 날짜
 

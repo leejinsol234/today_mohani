@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @Entity
 @Builder
@@ -19,7 +17,7 @@ public class Accounts extends Base {
     private Long idx; // 번호
 
     @Column(nullable = false)
-    private Long accounts; //금액
+    private Long money; // 금액
 
     @Column(nullable = false)
     private String date; // 날짜
@@ -33,4 +31,10 @@ public class Accounts extends Base {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="memberNo")
     private Member member;
+
+    @Column
+    private Long expenditure; // 총 지출
+
+    @Column
+    private Long income; // 총 수입
 }

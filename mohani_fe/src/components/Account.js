@@ -11,15 +11,15 @@ function TodayAccount() {
     </>
   );
 }
-
-function MemoAccount({ memo }) {
-  return (
-    <>
-      <h4 className=''>메모</h4>
-      <div className=''>{memo}</div>
-    </>
-  );
-}
+//메모삭제
+// function MemoAccount({ memo }) {
+//   return (
+//     <>
+//       <h4 className=''>메모</h4>
+//       <div className=''>{memo}</div>
+//     </>
+//   );
+// }
 
 function Account({accountData,value}) {
   //일정 배열에서 해당 날짜만 필터링하기
@@ -52,6 +52,8 @@ function Account({accountData,value}) {
         {filteredAccountData.map((item, index) => (
             <li key={index}>
               <div className='category'>{item.category}</div>
+              {/* 지출내역 */}
+              <div className='account_memo'>{item.memo}</div>
               {editIndex === index ? (
                 <input
                   type="text"
@@ -79,7 +81,6 @@ function Account({accountData,value}) {
         ))}
         </>
     </div>  
-      <MemoAccount />
     </>
   );
 }

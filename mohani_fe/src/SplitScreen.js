@@ -1,6 +1,6 @@
 //화면 분할 레이아웃 설정
 
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 
 const Container = styled.div`
   display: flex;
@@ -10,10 +10,15 @@ const Container = styled.div`
 const Box = styled.div`
   flex: ${(props) => props.weight}; // props로 받은 가중치(weight) 사용
   & + & {
-    border-left : solid #000;
     margin-left : 0.5rem;
   }
   padding : 0.5rem;
+
+  ${(props) =>
+    props.highlight &&
+    css`
+      background-color: #e5f3f3; // 2번째 Box에 배경색상 추가
+    `}
 `;
 
 
@@ -23,7 +28,7 @@ const SplitScreen = ({ children, leftWeight,middleWeight, rightWeight}) => {
   return (
     <Container>
       <Box weight={leftWeight}>{left}</Box>
-      <Box weight={middleWeight}>{middle}</Box>
+      <Box weight={middleWeight} highlight>{middle}</Box>
       <Box weight={rightWeight}>{right}</Box>
     </Container>
   );
@@ -41,7 +46,7 @@ const DetailBox = styled.div`
   flex: ${(props) => props.weight}; // props로 받은 가중치(weight) 사용
   & + & {
     border-bottom : solid #000;
-    margin-bottom : 0.5rem;
+    // margin-bottom : 0.5rem;
   }
   padding : 0 5px;
   border-radius : 5px;
