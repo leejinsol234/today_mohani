@@ -2,14 +2,16 @@ package com.mohani_be.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TotalMoney {
+public class TotalMoney extends Base {
 
     @Id
     @GeneratedValue
@@ -21,11 +23,12 @@ public class TotalMoney {
     @Column
     private Long income; // 총 수입
 
+    @Column
+    private String date; // 날짜
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="memberNo")
     private Member member;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="date")
-    private Accounts accounts;
+
 }

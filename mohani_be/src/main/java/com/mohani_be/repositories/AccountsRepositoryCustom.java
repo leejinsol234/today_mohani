@@ -1,10 +1,10 @@
 package com.mohani_be.repositories;
 
-import com.mohani_be.controllers.accounts.AccountsTotalMoney;
+import com.mohani_be.entities.TotalMoney;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountsRepositoryCustom {
 
-    AccountsTotalMoney getTotal(String date);
+    TotalMoney getTotal(String date, Long memberNo); // 추가 시 총 수입, 총 합계 계산
 }
