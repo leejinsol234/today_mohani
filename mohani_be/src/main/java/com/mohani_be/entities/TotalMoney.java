@@ -23,7 +23,7 @@ public class TotalMoney extends Base {
     @Column
     private Long income; // 총 수입
 
-    @Column
+    @Column(nullable = false)
     private String date; // 날짜
 
     @ManyToOne(fetch = FetchType.EAGER)
