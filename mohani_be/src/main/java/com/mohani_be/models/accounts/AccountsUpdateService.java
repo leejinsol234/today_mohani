@@ -2,10 +2,11 @@ package com.mohani_be.models.accounts;
 
 import com.mohani_be.controllers.accounts.AccountsForm;
 import com.mohani_be.controllers.accounts.AccountsFormValidator;
-import com.mohani_be.controllers.accounts.AccountsTotalMoney;
 import com.mohani_be.entities.Accounts;
+import com.mohani_be.entities.TotalMoney;
 import com.mohani_be.repositories.AccountsRepository;
 import com.mohani_be.repositories.AccountsRepositoryImpl;
+import com.mohani_be.repositories.TotalMoneyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
@@ -18,6 +19,7 @@ public class AccountsUpdateService {
     private final AccountsFormValidator validator;
     private final AccountsInfoService infoService;
     private final AccountsRepositoryImpl total;
+    private final TotalMoneyRepository moneyRepository;
 
     public void update(Long idx, AccountsForm form, Errors errors) {
 
@@ -35,10 +37,12 @@ public class AccountsUpdateService {
 
         update(accountData);
 
-        AccountsTotalMoney totalMoney = total.getTotal(accountData.getDate());
-        accountData.setExpenditure(totalMoney.getExpenditure());
-        accountData.setIncome(totalMoney.getIncome());
-        update(accountData);
+        // 총 수입, 총 지출
+        TotalMoney totalMoney = total.getTotal(accountData.getDate(), accountData.getMember().getMemberNo());
+        totalMoney.setExpenditure(totalMoney.getExpenditure());
+        totalMoney.setIncome(totalMoney.getIncome());
+
+        moneyRepository.save(totalMoney);
     }
 
     public Accounts update(Accounts accounts) {return repository.save(accounts);}
