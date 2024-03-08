@@ -56,12 +56,9 @@ public class AccountsRepositoryImpl implements AccountsRepositoryCustom {
     // 기존 TotalMoney 엔티티를 업데이트하고 반환
     private TotalMoney updateExistingTotalMoney(TotalMoney existingTotalMoney, Long expenditure, Long income) {
         // 기존 데이터가 있으면 수정
-        if (expenditure != null) {
-            existingTotalMoney.setExpenditure(expenditure);
-        }
-        if (income != null) {
-            existingTotalMoney.setIncome(income);
-        }
+        existingTotalMoney.setExpenditure(expenditure != null ? expenditure : 0L);
+        existingTotalMoney.setIncome(income != null ? income : 0L);
+
         return moneyRepository.save(existingTotalMoney);
     }
 }

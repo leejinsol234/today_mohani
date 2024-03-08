@@ -29,6 +29,4 @@ public class TotalMoney extends Base {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="memberNo")
     private Member member;
-
-
 }
