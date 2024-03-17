@@ -132,6 +132,15 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
     <>
       <h3>{title}</h3>
 
+      {/* 인풋 창 */}
+      {showInput && (
+        <div>
+          <input type="text" value={inputValue} onChange={handleInputChange} placeholder="새로운 가계부 항목" />
+          <button onClick={handleAddExpense}>추가</button>
+          <button onClick={() => setShowInput(false)}>취소</button>
+        </div>
+      )}
+
       {hasAccount ? (
         <>
           <Account accountData={accountData} value={value} />
@@ -150,14 +159,7 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
         </>
       )}
 
-      {/* 인풋 창 */}
-      {showInput && (
-        <div>
-          <input type="text" value={inputValue} onChange={handleInputChange} placeholder="새로운 가계부 항목" />
-          <button onClick={handleAddExpense}>추가</button>
-          <button onClick={() => setShowInput(false)}>취소</button>
-        </div>
-      )}
+
     </>
   );
 };
@@ -178,14 +180,14 @@ function MainPage({ onClick }) {
 
   const [accountData, setAccountData] = useState([
     {
-      date: "2024-01-20",
+      date: "2024-03-20",
       category: "지출",
       memo: "식비",
       expense: "500",
       income: "",
     },
-    { date: "2024-01-21", category: "지출", memo: "쇼핑", expense: "1000", income: "" },
-    { date: "2024-01-21", category: "수입", memo: "월급", expense: "", income: "1000" },
+    { date: "2024-03-21", category: "지출", memo: "쇼핑", expense: "1000", income: "" },
+    { date: "2024-03-21", category: "수입", memo: "월급", expense: "", income: "1000" },
     //나중에 추가할 가계부 데이터
   ]);
 
@@ -249,7 +251,6 @@ function MainPage({ onClick }) {
   };
 
   // Schedule fetch GET
- 
   const fetchDoData = async () => {
     const token = localStorage.getItem("accessToken");
     const memberNo = userData.memberNo;

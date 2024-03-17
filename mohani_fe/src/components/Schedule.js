@@ -130,7 +130,7 @@ console.log('checkSeq 값 :',checkSeq)
   console.log('필터스케쥴데이터',filteredScheduleData)
 
 
-  // 일정 삭제
+  // 일정 삭제 (fetch Delete)
   const fetchDelete = async (seq) => {
     
     try {
