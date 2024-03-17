@@ -129,29 +129,43 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
     
   };
 
-  function addDBexpense(){
+  const addDBexpense = async(data) =>{
+    const token = localStorage.getItem("accessToken");
+    const Data = {
+      // seq: addSeq,
+    
+      money: money,
+      date : date,
+      in_ex : in_ex, // true 수입 false 지출
+      memoe : memo
+    };
     // API를 통해 데이터를 백엔드로 전송
-    fetch('/mohani/accounts/save', {
+  try{
+    const res = await fetch('/mohani/accounts/save', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `${token}`,
       },
-      body: JSON.stringify(data), // 입력된 값 전송
+      body: JSON.stringify(Data), // 입력된 값 전송
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(responseData => {
-      console.log('서버 응답:', responseData);
 
-    })
-    .catch(error => {
-      console.error('Error adding expense:', error);
-    });
+
+    if (res.ok) {
+      console.log("일정제목 : " + XXX);
+      console.log("가계부추가.")
+
+    } else {
+      console.error("서버 요청 실패:", res.statusText);
+      alert("예외 발생.")
+    }
+  } catch (error) {
+    console.error("에러 발생", error);
+  }
+
+
   };
+
   const handleRegisterButtonClick = () => {
     if (inputValue !== "") { // 입력 값이 비어 있지 않을 때만 등록합니다.
       const data = {
@@ -189,7 +203,15 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
       {/* 인풋 창 */}
       {showInput && (
         <div>
-          <input type="text" value={inputValue} onChange={handleInputChange} placeholder="새로운 가계부 항목" />
+          <input type="text" 
+          value={inputValue} 
+          onChange={handleInputChange} 
+          placeholder="새로운 가계부 항목" 
+          money ={money}
+          date = {date}
+          in_ex = {in_ex} // true 수입 false 지출
+          memoe = {memo}
+          />
           <button onClick={handleRegisterButtonClick}>추가</button>
           <button onClick={() => setShowInput(false)}>취소</button>
         </div>
