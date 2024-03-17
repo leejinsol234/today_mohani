@@ -114,6 +114,10 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
   //새로운 가계부
   const [inputValue, setInputValue] = useState(""); 
   const [showInput, setShowInput] = useState(false); // 인풋 창을 보여줄지 여부 상태
+  const [addMemo, setAddMemo] = useState("");
+  const [addEvent, setAddEvent] = useState("");
+  const [addPlusMoney, setAddPlusMoney] = useState("");
+  const [addMinusMoney, setAddMinusMoney] = useState("");
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value); // 입력 값 변경 시 상태 업데이트
@@ -134,10 +138,9 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
     const Data = {
       // seq: addSeq,
     
-      money: money,
-      date : date,
-      in_ex : in_ex, // true 수입 false 지출
-      memoe : memo
+      money: addPlusMoney,
+      in_ex : true, // true 수입 false 지출
+      memo : addMemo,
     };
     // API를 통해 데이터를 백엔드로 전송
   try{
@@ -204,13 +207,9 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
       {showInput && (
         <div>
           <input type="text" 
-          value={inputValue} 
+          value={addPlusMoney} 
           onChange={handleInputChange} 
           placeholder="새로운 가계부 항목" 
-          money ={money}
-          date = {date}
-          in_ex = {in_ex} // true 수입 false 지출
-          memoe = {memo}
           />
           <button onClick={handleRegisterButtonClick}>추가</button>
           <button onClick={() => setShowInput(false)}>취소</button>
