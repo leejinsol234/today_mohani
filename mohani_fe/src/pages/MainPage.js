@@ -280,6 +280,7 @@ function MainPage({ onClick }) {
             memberNo: result.data.memberNo,
           }));
           // console.log(result)
+          fetchDoData(result.data.memberNo);
         } else {
           alert("토큰이 만료되었습니다. 다시 로그인 부탁드립니다.");
           // 토큰이 만료되었을 경우 로그인 페이지
@@ -300,12 +301,11 @@ function MainPage({ onClick }) {
   };
 
   // Schedule fetch GET
-  const fetchDoData = async () => {
+  const fetchDoData = async (memberNo) => {
     const token = localStorage.getItem("accessToken");
-    const memberNo = userData.memberNo;
 
     try {
-      const res = await fetch("http://localhost:3000/mohani/1", {
+      const res = await fetch(`http://localhost:3000/mohani/${memberNo}`, {
         header: {
           Accepts: "application/json",
             Authorization: `${token}`,
@@ -333,7 +333,6 @@ function MainPage({ onClick }) {
 
   useEffect(() => {
     fetchData();
-    fetchDoData();
   }, []);
 
   //일정 유무확인
