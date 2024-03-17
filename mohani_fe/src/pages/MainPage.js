@@ -112,7 +112,7 @@ const MiddleComponent = ({ value, hasSchedule, scheduleData, onChange }) => {
 
 const RightComponent = ({ title, value, hasAccount, accountData }) => {
   //새로운 가계부
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(""); 
   const [showInput, setShowInput] = useState(false); // 인풋 창을 보여줄지 여부 상태
 
   const handleInputChange = (e) => {
@@ -125,8 +125,58 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
     // 추가 후 입력 값을 초기화합니다.
     setInputValue("");
     // 인풋 창 보이도록 상태 업데이트
-    setShowInput(true);
+    setShowInput(true); // "등록" 후에는 인풋 창을 숨깁니다.
+    
   };
+
+  const addDBexpense = async(data) =>{
+    const token = localStorage.getItem("accessToken");
+    const Data = {
+      // seq: addSeq,
+    
+      money: money,
+      date : date,
+      in_ex : in_ex, // true 수입 false 지출
+      memoe : memo
+    };
+    // API를 통해 데이터를 백엔드로 전송
+  try{
+    const res = await fetch('/mohani/accounts/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify(Data), // 입력된 값 전송
+    })
+
+
+    if (res.ok) {
+      console.log("일정제목 : " + XXX);
+      console.log("가계부추가.")
+
+    } else {
+      console.error("서버 요청 실패:", res.statusText);
+      alert("예외 발생.")
+    }
+  } catch (error) {
+    console.error("에러 발생", error);
+  }
+
+
+  };
+
+  const handleRegisterButtonClick = () => {
+    if (inputValue !== "") { // 입력 값이 비어 있지 않을 때만 등록합니다.
+      const data = {
+        money: parseInt(inputValue), // 숫자로 변환하여 전송
+        date: value.toISOString().split('T')[0],
+        in_ex: true, // 예시로 수입으로 설정
+        memo: "",
+      }
+      addDBexpense(data);
+    }
+  }
 
   return (
     <>
@@ -153,8 +203,16 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
       {/* 인풋 창 */}
       {showInput && (
         <div>
-          <input type="text" value={inputValue} onChange={handleInputChange} placeholder="새로운 가계부 항목" />
-          <button onClick={handleAddExpense}>추가</button>
+          <input type="text" 
+          value={inputValue} 
+          onChange={handleInputChange} 
+          placeholder="새로운 가계부 항목" 
+          money ={money}
+          date = {date}
+          in_ex = {in_ex} // true 수입 false 지출
+          memoe = {memo}
+          />
+          <button onClick={handleRegisterButtonClick}>추가</button>
           <button onClick={() => setShowInput(false)}>취소</button>
         </div>
       )}
