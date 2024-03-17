@@ -28,7 +28,7 @@ const SplitScreen = ({ children, leftWeight,middleWeight, rightWeight}) => {
   return (
     <Container>
       <Box weight={leftWeight}>{left}</Box>
-      <Box weight={middleWeight} highlight>{middle}</Box>
+      <Box weight={middleWeight} highlight="true">{middle}</Box>
       <Box weight={rightWeight}>{right}</Box>
     </Container>
   );

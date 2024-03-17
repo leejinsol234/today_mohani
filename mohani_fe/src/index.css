@@ -4,8 +4,8 @@
   height: 95vh;
 }
 
-.body {
-  background-color: black;
+body {
+  margin : 0;
 }
 
 .page{
@@ -32,20 +32,30 @@
   max-width: 500px;
 }
 
+/* Header 부분 */
 .header {
-  background-color : gray;
+  background-color : #96cca8;
   height : 80px;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  /* margin-bottom: 1rem; */
-
+  padding: 1rem 10px;
 }
 
-.mainLogo {
-  justify-content: center;
-  width : 40%;
-  height : 80%;
+.header_name {
+  width: 33vw;
+  padding-left : 10px;
+}
+
+.header_Logo {
+  width : 33vw;
+  height : 80px;
+  object-fit: contain;
+}
+
+.headerLogoutWrap {
+  width : 33vw;
+  display : flex;
+  justify-content: end;
 }
 
 .titleWrap{
@@ -341,7 +351,6 @@
 .CreateAgreeBox {
   width : 30px;
   height: 20px;
-
 }
 
 .CreateFooter {
@@ -359,17 +368,6 @@
   background-color: white;
 }
 
-.plusButton {
-  position : absolute;
-  right : 0;
-  top : 5px;
-  cursor: pointer;
-  background-color :antiquewhite;
-  border-radius: 5px;
-  color : gray;
-  padding: 9px;
-}
-
 .plusButtonWrap {
   display: flex;
   align-items: center;
@@ -377,7 +375,7 @@
   padding-top : 20px;
 }
 
-.plusButton2 {
+.plusButton {
   background-color: #0093ff;
   border-radius: 20px;
   color : white;
@@ -429,4 +427,3 @@
   height: 20px;
   padding : 4px;
 }
-

@@ -1,4 +1,4 @@
-import React ,{ useEffect, useMemo, useState } from 'react';
+import React ,{ memo, useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
 import { SplitDetailScreen } from '../SplitScreen';
 import '../App.css' ;
@@ -9,6 +9,8 @@ function TimeRange(date, startTime, endTime) {
   const endTimeFilterling = endTime ? `~${endTime}` : '';
   return `${date} ${startTime}${endTimeFilterling}`;
 }
+// 19:00 ~ 20:00로 출력하고 싶으셨던 듯
+
 
 //클릭했을때 일정 순회하는 함수
 export function ScheduleUseMemo({dataKey, scheduleData, value}){
@@ -16,21 +18,21 @@ export function ScheduleUseMemo({dataKey, scheduleData, value}){
   const clickedDate = {
     startDate: moment(value).startOf('day'),
     endDate: moment(value).endOf('day'),
-  };
-
-  console.log('dataKey:', dataKey);
+  };  
 
   
   return useMemo(() => {
     if (!Array.isArray(scheduleData)) { 
       return [];
     }
-
+    
     return scheduleData.map((item) => {
       return dataKey.map(key => item[key]).join(' '); 
     });
   }, [dataKey, scheduleData, clickedDate]);
 };
+
+
 
 //일정리스트
 function ScheduleList({ title, dataKey, scheduleData, value, onClick }) {
@@ -39,7 +41,9 @@ function ScheduleList({ title, dataKey, scheduleData, value, onClick }) {
   const handleClick = (item) => {
     onClick(item);
   };
+  console.log('스케줄데이터',scheduleData)
 
+  
   return (
     <>
       <h4 className=''>{title}</h4>
@@ -68,11 +72,11 @@ function ScheduleDetail({ title, dataKey, scheduleData, value }) {
 }
 
 function ScheduleTitle({ scheduleData }) {
-  return <ScheduleDetail title="제목" dataKey={["event"]} scheduleData={scheduleData} />;
+  return <ScheduleDetail title="제목" dataKey={["title"]} scheduleData={scheduleData} />;
 }
 
 function ScheduleTime({ scheduleData,value }) {
- console.log('스케줄페이지 모멘트 밸류 : ' + moment(value).format('YYYY년 MM월 DD일'));
+//  console.log('스케줄페이지 모멘트 밸류 : ' + moment(value).format('YYYY년 MM월 DD일'));
 
   return <ScheduleDetail 
     title="기간" 
@@ -82,11 +86,11 @@ function ScheduleTime({ scheduleData,value }) {
 }
 
 function ScheduleLocation({ scheduleData }) {
-  return <ScheduleDetail title="장소" dataKey={["location"]} scheduleData={scheduleData} />;
+  return <ScheduleDetail title="장소" dataKey={["loc"]} scheduleData={scheduleData} />;
 }
 
 function ScheduleMemo({ scheduleData }) {
-  return <ScheduleDetail title="메모" dataKey={["memo"]} scheduleData={scheduleData} />;
+  return <ScheduleDetail title="메모" dataKey={["content"]} scheduleData={scheduleData} />;
 }
 
 
@@ -95,27 +99,69 @@ function Schedule({scheduleData ,value}){
   //일정 배열에서 해당 날짜만 필터링하기
   const filteredScheduleData = useMemo(() => {
     const clickedDate = moment(value).format('YYYY-MM-DD');
-    return scheduleData.filter(item => item.date === clickedDate);
-  }, [scheduleData,value]);
+    return scheduleData.filter(item => moment(item.date).format('YYYY-MM-DD') === clickedDate);
+  }, [scheduleData, value]);
+  console.log(filteredScheduleData)
+
+
+  const [checkSeq, setCheckSeq] = useState();
+// seq찾고 하려고 만들어둔 변수  (보류)
+console.log('checkSeq 값 :',checkSeq)
 
   //상세일정 클릭했을때 상태관리
   const [clickedTitle, setClickedTitle] = useState(null);
   const handleClickTitle = (item) => {
-    setClickedTitle((item) => !item);
-  };
+    setClickedTitle(item);
+
+      for(let i=0; i<filteredScheduleData.length; i++){
+    if(item === filteredScheduleData[i].title){
+      setCheckSeq(filteredScheduleData[i].seq);
+    }
+  }};
+
   //상세일정리스트 필터링
   const filteredDetailData = useMemo(() => {
     if (clickedTitle) {
-      return filteredScheduleData.filter(item => item.event === clickedTitle);
+      return filteredScheduleData.filter(item => item.title === clickedTitle);
     }
     return [];
   }, [filteredScheduleData,clickedTitle]);
+
+  console.log('필터스케쥴데이터',filteredScheduleData)
+
+
+  // 일정 삭제
+  const fetchDelete = async (seq) => {
+    
+    try {
+      const response = await fetch(`/mohani/${seq}`,{
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      
+      if(!response.ok){
+        throw new Error('삭제 실패했습니다.');
+      }
+
+      if(response) {
+        scheduleData.splice(seq-1,1);
+        alert('일정을 삭제했습니다.');
+        window.location.reload();
+      }
+
+      } catch(error) {
+        console.error('delete error: ', error);
+      }
+
+    } 
 
 
   return (
     <>
       <ScheduleList
-        dataKey={["event"]}
+        dataKey={["title"]}
         scheduleData={filteredScheduleData}
         value={value}
         onClick={handleClickTitle}
@@ -131,19 +177,19 @@ function Schedule({scheduleData ,value}){
             value={value}
           /> */}
           <ScheduleTime
-            dataKey={["date", "startTime", "endTime"]}
+            dataKey={["startDate", "startTime", "endTime"]}
             scheduleData={filteredDetailData}
             value={value}
             onClick={handleClickTitle}
           />
           <ScheduleLocation
-            dataKey={["location"]}
+            dataKey={["loc"]}
             scheduleData={filteredDetailData}
             value={value}
             onClick={handleClickTitle}
           />
           <ScheduleMemo
-            dataKey={["memo"]}
+            dataKey={["content"]}
             scheduleData={filteredDetailData}
             value={value}
             onClick={handleClickTitle}
@@ -151,7 +197,7 @@ function Schedule({scheduleData ,value}){
         </SplitDetailScreen>
         <ButtonGroup>
           <Button>일정 수정</Button>
-          <Button>일정 삭제</Button>
+          <Button onClick={() => fetchDelete(checkSeq)}>일정 삭제</Button>
         </ButtonGroup>  
         </>
       )}
