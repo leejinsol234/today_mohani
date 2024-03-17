@@ -112,20 +112,17 @@ const MiddleComponent = ({ value, hasSchedule, scheduleData, onChange }) => {
 
 const RightComponent = ({ title, value, hasAccount, accountData }) => {
   //새로운 가계부
-  const [inputValue, setInputValue] = useState(""); 
   const [showInput, setShowInput] = useState(false); // 인풋 창을 보여줄지 여부 상태
   const [addMemo, setAddMemo] = useState("");
-  const [addEvent, setAddEvent] = useState("");
   const [addPlusMoney, setAddPlusMoney] = useState("");
   const [addMinusMoney, setAddMinusMoney] = useState("");
 
  
 
+  // 여기에 가계부 항목을 추가하는 로직을 추가할 수 있습니다.
   const handleAddExpense = () => {
-    // 여기에 가계부 항목을 추가하는 로직을 추가할 수 있습니다.
-    console.log("새로운 가계부 항목 추가:", inputValue);
     // 추가 후 입력 값을 초기화합니다.
-    setInputValue("");
+    setAddPlusMoney("");
     // 인풋 창 보이도록 상태 업데이트
     setShowInput(true); // "등록" 후에는 인풋 창을 숨깁니다.
     
@@ -152,7 +149,8 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
 
 
     if (res.ok) {
-      console.log('가계부추가한 데이터' ,res);
+      alert("가계부 등록 성공!")      
+      setShowInput(false);
     } else {
       console.error("서버 요청 실패:", res.statusText);
       alert("가계부 등록 실패.")
@@ -168,26 +166,12 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
     <>
       <h3>{title}</h3>
 
+
       {hasAccount ? (
         <>
           <Account accountData={accountData} value={value} />
-          <ButtonGroup>
-            <Button onClick={handleAddExpense}>가계부 추가</Button>
-          </ButtonGroup>
-          <TotalAccount />
-        </>
-      ) : (
-        <>
-          <p>지출 내역이 없습니다.</p>
-          <ButtonGroup>
-            <Button onClick={handleAddExpense}>가계부 추가</Button>
-          </ButtonGroup>
-          <TotalAccount />
-        </>
-      )}
-
-      {/* 인풋 창 */}
-      {showInput && (
+        {/* 인풋 창 */}
+        {showInput && (
         <div>
           <input type="text" 
           value={addPlusMoney} 
@@ -198,6 +182,33 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
           <button onClick={() => setShowInput(false)}>취소</button>
         </div>
       )}
+          <ButtonGroup>
+            <Button onClick={handleAddExpense}>가계부 추가</Button>
+          </ButtonGroup>
+          <TotalAccount />
+        </>
+      ) : (
+        <>
+          <p>지출 내역이 없습니다.</p>
+        {/* 인풋 창 */}
+        {showInput && (
+          <div>
+          <input type="text" 
+          value={addPlusMoney} 
+          onChange={(e) => setAddPlusMoney(e.target.value)} 
+          placeholder="새로운 가계부 항목" 
+          />
+          <button onClick={addDBexpense}>추가</button>
+          <button onClick={() => setShowInput(false)}>취소</button>
+        </div>
+      )}
+          <ButtonGroup>
+            <Button onClick={handleAddExpense}>가계부 추가</Button>
+          </ButtonGroup>
+          <TotalAccount />
+        </>
+      )}
+
     </>
   );
 };
@@ -302,7 +313,7 @@ function MainPage({ onClick }) {
       });
       if (res.ok) {
         const result = await res.json();
-        // setFinalSchedulaData
+
         for(let i=0; i<result.length; i++){
         scheduleData.push({seq: result[i].seq, date : result[i].startDate, endDate : result[i].endDate,
         startTime: result[i].startTime, endTime: result[i].endTime,
