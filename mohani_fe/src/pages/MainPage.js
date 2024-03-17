@@ -114,10 +114,12 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
   //새로운 가계부
   const [inputValue, setInputValue] = useState(""); 
   const [showInput, setShowInput] = useState(false); // 인풋 창을 보여줄지 여부 상태
+  const [addMemo, setAddMemo] = useState("");
+  const [addEvent, setAddEvent] = useState("");
+  const [addPlusMoney, setAddPlusMoney] = useState("");
+  const [addMinusMoney, setAddMinusMoney] = useState("");
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value); // 입력 값 변경 시 상태 업데이트
-  };
+ 
 
   const handleAddExpense = () => {
     // 여기에 가계부 항목을 추가하는 로직을 추가할 수 있습니다.
@@ -129,13 +131,13 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
     
   };
 
-  const addDBexpense = async(data) =>{
+  const addDBexpense = async() =>{
     const token = localStorage.getItem("accessToken");
     const Data = {    
-      money: money,
-      date : date,
-      in_ex : in_ex, // true 수입 false 지출
-      memo : memo
+      date : moment(value).format("YYYY-MM-DD"),
+      money: addPlusMoney,
+      in_ex : true, // true 수입 false 지출
+      memo : "ㅇㅇ",
     };
     // API를 통해 데이터를 백엔드로 전송
   try{
@@ -150,44 +152,21 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
 
 
     if (res.ok) {
-      console.log("일정제목 : " + XXX);
-      console.log("가계부추가.")
-
+      console.log('가계부추가한 데이터' ,res);
     } else {
       console.error("서버 요청 실패:", res.statusText);
-      alert("예외 발생.")
+      alert("가계부 등록 실패.")
     }
   } catch (error) {
     console.error("에러 발생", error);
   }
 
-
   };
 
-  const handleRegisterButtonClick = () => {
-    if (inputValue !== "") { // 입력 값이 비어 있지 않을 때만 등록합니다.
-      const data = {
-        money: parseInt(inputValue), // 숫자로 변환하여 전송
-        date: value.toISOString().split('T')[0],
-        in_ex: true, // 예시로 수입으로 설정
-        memo: "",
-      }
-      addDBexpense(data);
-    }console.log('입력data값 :' ,data)
-  }
 
   return (
     <>
       <h3>{title}</h3>
-
-      {/* 인풋 창 */}
-      {showInput && (
-        <div>
-          <input type="text" value={inputValue} onChange={handleInputChange} placeholder="새로운 가계부 항목" />
-          <button onClick={handleAddExpense}>추가</button>
-          <button onClick={() => setShowInput(false)}>취소</button>
-        </div>
-      )}
 
       {hasAccount ? (
         <>
@@ -207,6 +186,18 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
         </>
       )}
 
+      {/* 인풋 창 */}
+      {showInput && (
+        <div>
+          <input type="text" 
+          value={addPlusMoney} 
+          onChange={(e) => setAddPlusMoney(e.target.value)} 
+          placeholder="새로운 가계부 항목" 
+          />
+          <button onClick={addDBexpense}>추가</button>
+          <button onClick={() => setShowInput(false)}>취소</button>
+        </div>
+      )}
     </>
   );
 };
