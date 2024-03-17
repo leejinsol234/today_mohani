@@ -32,9 +32,4 @@ public class Accounts extends Base {
     @JoinColumn(name="memberNo")
     private Member member;
 
-    @Column
-    private Long expenditure; // 총 지출
-
-    @Column
-    private Long income; // 총 수입
 }

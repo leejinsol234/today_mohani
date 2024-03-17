@@ -4,10 +4,8 @@ import com.mohani_be.commons.Utils;
 import com.mohani_be.commons.exceptions.BadRequestException;
 import com.mohani_be.commons.rests.JSONData;
 import com.mohani_be.entities.Accounts;
-import com.mohani_be.models.accounts.AccountsDeleteService;
-import com.mohani_be.models.accounts.AccountsInfoService;
-import com.mohani_be.models.accounts.AccountsSaveService;
-import com.mohani_be.models.accounts.AccountsUpdateService;
+import com.mohani_be.entities.TotalMoney;
+import com.mohani_be.models.accounts.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +24,7 @@ public class AccountsController {
     private final AccountsDeleteService deleteService;
     private final AccountsInfoService infoService;
     private final AccountsUpdateService updateService;
+    private final AccountsTotalMoneyInfoService moneyInfoService;
 
     @PostMapping("/save")
     public ResponseEntity<JSONData> save(@RequestBody @Valid AccountsForm form, Errors errors) {
@@ -47,6 +46,14 @@ public class AccountsController {
         List<Accounts> accounts = infoService.findByMemberNo(memberNo);
 
         return ResponseEntity.ok(accounts);
+    }
+
+    @GetMapping("/totalMoney/{memberNo}")
+    public ResponseEntity<List<TotalMoney>> viewTotalMoney(@PathVariable("memberNo") Long memberNo) {
+
+        List<TotalMoney> totalMoney = moneyInfoService.findByMemberNo(memberNo);
+
+        return ResponseEntity.ok(totalMoney);
     }
 
     @PatchMapping("/update/{idx}")
