@@ -116,7 +116,7 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
   const [showInput, setShowInput] = useState(false); // 인풋 창을 보여줄지 여부 상태
   const [addMemo, setAddMemo] = useState("");
   const [addEvent, setAddEvent] = useState("");
-  const [addPlusMoney, setAddPlusMoney] = useState("");
+  const [addPlusMoney, setAddPlusMoney] = useState("0");
   const [addMinusMoney, setAddMinusMoney] = useState("");
 
   const handleInputChange = (e) => {
