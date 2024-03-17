@@ -42,22 +42,24 @@ function AppHeader({ userData }) {
 
   // console.log(userData)
 
-  const logoUrl = 'LogoTrans.png';
+  const logoUrl = "LogoTrans.png";
 
   return (
     <>
       <div className="header">
-        <span>{userData.username} 님, 안녕하세요!</span>
-        <img className="mainLogo" src={process.env.PUBLIC_URL + '/' + logoUrl} />
-        <button className="header_logout" onClick={onLogout}>
-          로그아웃
-        </button>
+        <span className="header_name">{userData.username} 님, 안녕하세요!</span>
+        <img className="header_Logo" src={process.env.PUBLIC_URL + "/" + logoUrl} />
+        <div className="headerLogoutWrap">
+          <button className="header_logout" onClick={onLogout}>
+            로그아웃
+          </button>
+        </div>
       </div>
     </>
   );
 }
 
-const LeftComponent = ({ title, onChange, value }) => {
+const LeftComponent = ({ title, onChange, value, scheduleData }) => {
   const plus = (
     <div style={{ display: "absolute" }}>
       <FontAwesomeIcon className="plusButton" icon={faPlus} />
@@ -76,13 +78,13 @@ const LeftComponent = ({ title, onChange, value }) => {
     <>
       <h3>{title}</h3>
       <Calendar onChange={onChange} value={value} formatDay={(locale, date) => moment(date).format("DD")} />
-      <div style={{ position: "relative" }}>
-        <FontAwesomeIcon className="plusButton" icon={faPlus} onClick={openModal} />
-      </div>
       <div className="plusButtonWrap">
-        <button className="plusButton2" onClick={openModal}>일정 추가</button>
+        <button className="plusButton" onClick={openModal}>
+          일정 추가
+        </button>
       </div>
-      {isModalOpen && <Modal closeModal={closeModal} value={value} />}
+      {isModalOpen && <Modal closeModal={closeModal} value={value} 
+      scheduleData={scheduleData} />}
     </>
   );
 };
@@ -90,16 +92,6 @@ const LeftComponent = ({ title, onChange, value }) => {
 const MiddleComponent = ({ value, hasSchedule, scheduleData, onChange }) => {
   //미들컴포넌트에서 받아낸 스케줄데이터
   console.log("메인에서 스케줄데이터 값:", scheduleData);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  
 
   return (
     <>
@@ -113,14 +105,14 @@ const MiddleComponent = ({ value, hasSchedule, scheduleData, onChange }) => {
           <p>일정이 없습니다.</p>
         </>
       )}
-      {console.log("메인페이지 모멘트 밸류" + moment(value).format("YYYY년 MM월 DD일"))}
+      {/* {console.log("메인페이지 모멘트 밸류" + moment(value).format("YYYY년 MM월 DD일"))} */}
     </>
   );
 };
 
 const RightComponent = ({ title, value, hasAccount, accountData }) => {
   //새로운 가계부
-  const [inputValue, setInputValue] = useState(""); 
+  const [inputValue, setInputValue] = useState("");
   const [showInput, setShowInput] = useState(false); // 인풋 창을 보여줄지 여부 상태
 
   const handleInputChange = (e) => {
@@ -161,12 +153,7 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
       {/* 인풋 창 */}
       {showInput && (
         <div>
-          <input
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder="새로운 가계부 항목"
-          />
+          <input type="text" value={inputValue} onChange={handleInputChange} placeholder="새로운 가계부 항목" />
           <button onClick={handleAddExpense}>추가</button>
           <button onClick={() => setShowInput(false)}>취소</button>
         </div>
@@ -184,14 +171,7 @@ function MainPage({ onClick }) {
   const [hasAccount, setHasAccount] = useState(false);
   //더미 일정 데이터와 일정추가하기
   const [scheduleData, setScheduleData] = useState([
-    {
-      date: "2024-01-14",
-      event: "팀프로젝트 회의 2주차",
-      startTime: "14:00",
-      endTime: "18:00",
-      location: "인천시 부평22",
-      memo: "메모메모1111111111111111",
-    },
+  
     // 추가적인 일정 데이터
   ]);
   const navigate = useNavigate();
@@ -204,26 +184,15 @@ function MainPage({ onClick }) {
       expense: "500",
       income: "",
     },
-    { date: "2024-01-21", 
-    category: "지출",
-    memo: "쇼핑", 
-    expense: "1000", 
-    income: "", 
- },
-    { date: "2024-01-21", 
-    category: "수입",
-    memo: "월급", 
-    expense: "", 
-    income: "1000", 
- },
+    { date: "2024-01-21", category: "지출", memo: "쇼핑", expense: "1000", income: "" },
+    { date: "2024-01-21", category: "수입", memo: "월급", expense: "", income: "1000" },
     //나중에 추가할 가계부 데이터
   ]);
 
-  // 원본
   // // userdata
   const [userData, setUserData] = useState({
     email: "",
-    memberNo : "",
+    memberNo: "",
     password: "",
     confirmPassword: "",
     username: "",
@@ -257,7 +226,7 @@ function MainPage({ onClick }) {
           setUserData((prevUserData) => ({
             ...prevUserData,
             username: result.data.username,
-              memberNo : result.data.memberNo
+            memberNo: result.data.memberNo,
           }));
           // console.log(result)
         } else {
@@ -279,34 +248,38 @@ function MainPage({ onClick }) {
     }
   };
 
-    // Schedule fetch GET
-    const [finalSchedulaData, setFinalSchedulaData] = useState(scheduleData);
-    const fetchDoData = async () => {
-      const token = localStorage.getItem("accessToken");
-      const memberNo = userData.memberNo;
-  
-      try {
-        // console.log(`http://localhost:3000/mohani/${memberNo}`)
-        const res = await fetch(`http://localhost:3000/mohani/${memberNo}`, {
-          header: {
-            Accepts: "application/json",
+  // Schedule fetch GET
+ 
+  const fetchDoData = async () => {
+    const token = localStorage.getItem("accessToken");
+    const memberNo = userData.memberNo;
+
+    try {
+      const res = await fetch("http://localhost:3000/mohani/1", {
+        header: {
+          Accepts: "application/json",
             Authorization: `${token}`,
-          },
-        });
-        if(res.ok){
-          const result = await res.json();
-          setFinalSchedulaData((prevSchedule) => ({
-            ...prevSchedule, 
-          }))
-          console.log(result)
-          console.log(result.data)
-        }else {
-          console.log('스케줄 데이터 가져오기 실패');
+        },
+      });
+      if (res.ok) {
+        const result = await res.json();
+        // setFinalSchedulaData
+        for(let i=0; i<result.length; i++){
+        scheduleData.push({seq: result[i].seq, date : result[i].startDate, endDate : result[i].endDate,
+        startTime: result[i].startTime, endTime: result[i].endTime,
+      title: result[i].title, loc: result[i].loc, content: result[i].content
+    })
         }
-      } catch (error) {
-        console.error("error message : ", error);
+        console.log(result); // 더미데이터 제외
+        console.log(scheduleData)
+      } else {
+        console.log("스케줄 데이터 가져오기 실패");
       }
+    } catch (error) {
+      console.error("error message : ", error);
     }
+  };
+
 
   useEffect(() => {
     fetchData();
@@ -334,13 +307,14 @@ function MainPage({ onClick }) {
   }, [value, accountData]);
 
   return (
-    <div className="App">
+    <div className="">
       <AppHeader userData={userData} onClick={onClick} />
       <SplitScreen leftWeight={1.5} middleWeight={1} rightWeight={1}>
         <LeftComponent
           // title="달력"
           onChange={onChange}
           value={value}
+          scheduleData={scheduleData}
         />
         <MiddleComponent
           title="상세일정"

@@ -42,9 +42,7 @@ function Modal({ closeModal, scheduleData, value }) {
   const [addStartTime, setAddStartTime] = useState("09:00");
   const [addEndTime, setAddEndTime] = useState("10:00");
 
-  // 최종 일정
-  const [addData, setAddData] = useState("");
-
+  
   // 달력 출력
   const [startDate, setStartDate] = useState(value);
   const [endDate, setEndDate] = useState(value);
@@ -176,6 +174,8 @@ function Modal({ closeModal, scheduleData, value }) {
     const token = localStorage.getItem("accessToken");
 
     const Data = {
+      // seq: addSeq,
+    
       startDate: addStartDate,
       endDate: addEndDate,
       title: addEvent,
@@ -199,7 +199,9 @@ function Modal({ closeModal, scheduleData, value }) {
 
       if (res.ok) {
         console.log("일정제목 : " + addEvent);
+        alert("일정이 추가 됐습니다.")
         closeModal();
+        window.location.reload();
       } else {
         console.error("서버 요청 실패:", res.statusText);
         alert("추가할 일정제목을 입력해주세요.")
@@ -247,10 +249,19 @@ function Modal({ closeModal, scheduleData, value }) {
     titleFocus.current.focus();
   }, []);
 
+  // Enter클릭시 일정등록 EVENT
+  const onKeyPress = (e) => {
+    if(e.key == 'Enter'){
+      handleSubmit();
+    }
+  }
+
+  // console.log('스케줄데이터길이',addSeq)
+
   return (
     <>
       <ModalBackground onClick={closeModal} />
-      <div className="page">
+      <div className="page" onKeyDown={onKeyPress}>
         <div className="AddTitleWrap"> 일정추가 </div>
         <div>
           <div className="AddWrap">

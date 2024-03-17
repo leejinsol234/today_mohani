@@ -56,7 +56,8 @@ public class SecurityConfig {
             c.requestMatchers(
                             "/mohani/join", // 회원가입
                             "/mohani/login", // 로그인
-                            "/mohani").permitAll()
+                            "/mohani/",
+                            "/mohani/**").permitAll()
                     //"/mohani/main",
                     //"/mohani/info",
                     //"/mohani/**")

@@ -1,8 +1,11 @@
 li {
-  list-style-type: none;
+  /* list-style-type: none; */
 }
 
-.header_logout{
+.App {
+}
+
+.header_logout {
   border: none;
   cursor: pointer;
   font-size: 1rem;
@@ -18,24 +21,24 @@ li {
 }
 
 /* Schedule 컴포넌트 */
-.lists{
+.lists {
   height: 50px;
   margin-bottom: 5px;
 }
 
 /* Account 컴포넌트 */
-.accountlists{
+.accountlists {
   height: 20%;
 }
 
-.category{
+.category {
   display: inline-flex;
   border-right: 1px solid #000;
   width: 20%;
   cursor: pointer;
 }
 
-.income{
+.income {
   display: inline-flex;
   width: 30%;
   justify-content: flex-end;
@@ -45,7 +48,7 @@ li {
   cursor: pointer;
 }
 
-.expense{
+.expense {
   display: inline-flex;
   width: 30%;
   justify-content: flex-end;
@@ -55,7 +58,7 @@ li {
   cursor: pointer;
 }
 
-.account_memo{
+.account_memo {
   display: inline-flex;
   width: 15%;
   height: 21px;
