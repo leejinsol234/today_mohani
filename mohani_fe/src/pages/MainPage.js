@@ -119,9 +119,7 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
   const [addPlusMoney, setAddPlusMoney] = useState("0");
   const [addMinusMoney, setAddMinusMoney] = useState("");
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value); // 입력 값 변경 시 상태 업데이트
-  };
+ 
 
   const handleAddExpense = () => {
     // 여기에 가계부 항목을 추가하는 로직을 추가할 수 있습니다.
@@ -133,14 +131,13 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
     
   };
 
-  const addDBexpense = async(data) =>{
+  const addDBexpense = async() =>{
     const token = localStorage.getItem("accessToken");
-    const Data = {
-      // seq: addSeq,
-    
+    const Data = {    
+      date : moment(value).format("YYYY-MM-DD"),
       money: addPlusMoney,
       in_ex : true, // true 수입 false 지출
-      memo : addMemo,
+      memo : "ㅇㅇ",
     };
     // API를 통해 데이터를 백엔드로 전송
   try{
@@ -155,31 +152,17 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
 
 
     if (res.ok) {
-      console.log("일정제목 : " + XXX);
-      console.log("가계부추가.")
-
+      console.log('가계부추가한 데이터' ,res);
     } else {
       console.error("서버 요청 실패:", res.statusText);
-      alert("예외 발생.")
+      alert("가계부 등록 실패.")
     }
   } catch (error) {
     console.error("에러 발생", error);
   }
 
-
   };
 
-  const handleRegisterButtonClick = () => {
-    if (inputValue !== "") { // 입력 값이 비어 있지 않을 때만 등록합니다.
-      const data = {
-        money: parseInt(inputValue), // 숫자로 변환하여 전송
-        date: value.toISOString().split('T')[0],
-        in_ex: true, // 예시로 수입으로 설정
-        memo: "",
-      }
-      addDBexpense(data);
-    }
-  }
 
   return (
     <>
@@ -208,10 +191,10 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
         <div>
           <input type="text" 
           value={addPlusMoney} 
-          onChange={handleInputChange} 
+          onChange={(e) => setAddPlusMoney(e.target.value)} 
           placeholder="새로운 가계부 항목" 
           />
-          <button onClick={handleRegisterButtonClick}>추가</button>
+          <button onClick={addDBexpense}>추가</button>
           <button onClick={() => setShowInput(false)}>취소</button>
         </div>
       )}
@@ -235,14 +218,14 @@ function MainPage({ onClick }) {
 
   const [accountData, setAccountData] = useState([
     {
-      date: "2024-01-20",
+      date: "2024-03-20",
       category: "지출",
       memo: "식비",
       expense: "500",
       income: "",
     },
-    { date: "2024-01-21", category: "지출", memo: "쇼핑", expense: "1000", income: "" },
-    { date: "2024-01-21", category: "수입", memo: "월급", expense: "", income: "1000" },
+    { date: "2024-03-21", category: "지출", memo: "쇼핑", expense: "1000", income: "" },
+    { date: "2024-03-21", category: "수입", memo: "월급", expense: "", income: "1000" },
     //나중에 추가할 가계부 데이터
   ]);
 
@@ -306,7 +289,6 @@ function MainPage({ onClick }) {
   };
 
   // Schedule fetch GET
- 
   const fetchDoData = async () => {
     const token = localStorage.getItem("accessToken");
     const memberNo = userData.memberNo;

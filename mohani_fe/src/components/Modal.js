@@ -175,7 +175,6 @@ function Modal({ closeModal, scheduleData, value }) {
 
     const Data = {
       // seq: addSeq,
-    
       startDate: addStartDate,
       endDate: addEndDate,
       title: addEvent,
@@ -256,7 +255,6 @@ function Modal({ closeModal, scheduleData, value }) {
     }
   }
 
-  // console.log('스케줄데이터길이',addSeq)
 
   return (
     <>
