@@ -143,6 +143,8 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
   //새로운 가계부
   const [showInput, setShowInput] = useState(false); // 인풋 창을 보여줄지 여부 상태
   const [addMemo, setAddMemo] = useState("");
+  const [addEvent, setAddEvent] = useState("");
+  const [addPlusMoney, setAddPlusMoney] = useState("0");
   const [addPlusMoney, setAddPlusMoney] = useState("");
   const [addMinusMoney, setAddMinusMoney] = useState("");
 
