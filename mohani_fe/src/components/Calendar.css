@@ -140,7 +140,7 @@ display: none;
 /* 요일 칸 */
 .react-calendar__tile {
   /* height : 100px; */
-  padding: 6px 0 50px 3px;
+  padding: 14px 0 50px 3px;
   background: none;
   text-align: center;
   line-height: 100px;
