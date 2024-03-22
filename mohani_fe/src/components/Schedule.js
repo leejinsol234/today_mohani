@@ -19,12 +19,12 @@ export function ScheduleUseMemo({dataKey, scheduleData, value}){
     startDate: moment(value).startOf('day'),
     endDate: moment(value).endOf('day'),
   };  
-
   
   return useMemo(() => {
     if (!Array.isArray(scheduleData)) { 
       return [];
     }
+    // console.log('array체크값 : ', !Array.isArray(scheduleData))
     
     return scheduleData.map((item) => {
       return dataKey.map(key => item[key]).join(' '); 
@@ -71,9 +71,9 @@ function ScheduleDetail({ title, dataKey, scheduleData, value }) {
   );
 }
 
-function ScheduleTitle({ scheduleData }) {
-  return <ScheduleDetail title="제목" dataKey={["title"]} scheduleData={scheduleData} />;
-}
+// function ScheduleTitle({ scheduleData }) {
+//   return <ScheduleDetail title="제목" dataKey={["title"]} scheduleData={scheduleData} />;
+// }
 
 function ScheduleTime({ scheduleData,value }) {
 //  console.log('스케줄페이지 모멘트 밸류 : ' + moment(value).format('YYYY년 MM월 DD일'));
@@ -101,12 +101,11 @@ function Schedule({scheduleData ,value}){
     const clickedDate = moment(value).format('YYYY-MM-DD');
     return scheduleData.filter(item => moment(item.date).format('YYYY-MM-DD') === clickedDate);
   }, [scheduleData, value]);
-  console.log(filteredScheduleData)
 
 
   const [checkSeq, setCheckSeq] = useState();
 // seq찾고 하려고 만들어둔 변수  (보류)
-console.log('checkSeq 값 :',checkSeq)
+// console.log('checkSeq 값 :',checkSeq)
 
   //상세일정 클릭했을때 상태관리
   const [clickedTitle, setClickedTitle] = useState(null);
@@ -127,7 +126,7 @@ console.log('checkSeq 값 :',checkSeq)
     return [];
   }, [filteredScheduleData,clickedTitle]);
 
-  console.log('필터스케쥴데이터',filteredScheduleData)
+  console.log('필터스케쥴데이터',filteredScheduleData);
 
 
   // 일정 삭제 (fetch Delete)
@@ -156,6 +155,9 @@ console.log('checkSeq 값 :',checkSeq)
       }
 
     } 
+    // useEffect(() => {
+    //   ScheduleMemo();
+    // }, [value]);
 
 
   return (
