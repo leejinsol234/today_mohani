@@ -45,8 +45,38 @@ function Account({accountData,value}) {
     setEditedValue("");
   };
 
+  //DB적재된 가계부 조회
+
+  //가계부 삭제
+  const fetchDelete = async (seq) => {
+    
+    try {
+      const response = await fetch(`/mohani/accounts/del/${idx}`,{
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      
+      if(!response.ok){
+        throw new Error('삭제 실패했습니다.');
+      }
+
+      if(response) {
+        scheduleData.splice(seq-1,1);
+        alert('가계부를 삭제했습니다.');
+        window.location.reload();
+      }
+
+      } catch(error) {
+        console.error('delete error: ', error);
+      }
+
+    } 
+
   return (
     <>
+
     <div className='accountlists'>
         <>          
         {filteredAccountData.map((item, index) => (
@@ -69,12 +99,12 @@ function Account({accountData,value}) {
               {editIndex === index ? (
                 <>
                   <ButtonList onClick={() => handleSave(index)}>저장</ButtonList>
-                  <ButtonList>삭제</ButtonList>
+                  <ButtonList onClick={() => fetchDelete(checkSeq)}>일정 삭제</ButtonList>
                 </>
               ) : (
                 <>
                 <ButtonList onClick={() => handleEdit(index, item.income || item.expense)}>수정</ButtonList>
-                <ButtonList>삭제</ButtonList>
+                <ButtonList onClick={() => fetchDelete(checkSeq)}>일정 삭제</ButtonList>
                 </>
               )}
             </li>
