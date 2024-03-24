@@ -1,9 +1,8 @@
 li {
-  /* list-style-type: none; */
+  list-style-type: none; 
 }
 
-.App {
-}
+
 
 .header_logout {
   border: none;
@@ -18,6 +17,10 @@ li {
 
 .pointer {
   cursor: pointer;
+}
+
+.input_account{
+ height: 1rem;
 }
 
 /* Schedule 컴포넌트 */

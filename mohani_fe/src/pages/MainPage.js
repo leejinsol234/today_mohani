@@ -147,10 +147,11 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
   const [addPlusMoney, setAddPlusMoney] = useState("");
   const [addMinusMoney, setAddMinusMoney] = useState("");
 
-  // 여기에 가계부 항목을 추가하는 로직을 추가할 수 있습니다.
+  //가계부 DB추가
   const handleAddExpense = () => {
     // 추가 후 입력 값을 초기화합니다.
     setAddPlusMoney("");
+    setAddMemo("")
     // 인풋 창 보이도록 상태 업데이트
     setShowInput(true); // "등록" 후에는 인풋 창을 숨깁니다.
   };
@@ -161,7 +162,7 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
       date: moment(value).format("YYYY-MM-DD"),
       money: addPlusMoney,
       in_ex: true, // true 수입 false 지출
-      memo: "ㅇㅇ",
+      memo: addMemo,
     };
     // API를 통해 데이터를 백엔드로 전송
     try {
@@ -197,10 +198,18 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
           {showInput && (
             <div>
               <input
+                className="input_account"
                 type="text"
                 value={addPlusMoney}
                 onChange={(e) => setAddPlusMoney(e.target.value)}
                 placeholder="새로운 가계부 항목"
+              />
+              <input
+                className="input_account"
+                type="text"
+                value={addMemo}
+                onChange={(aa) => setAddMemo(aa.target.value)}
+                placeholder="메모"
               />
               <button onClick={addDBexpense}>추가</button>
               <button onClick={() => setShowInput(false)}>취소</button>
@@ -217,11 +226,21 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
           {/* 인풋 창 */}
           {showInput && (
             <div>
+              <input 
+               type="radio"
+
+              /> 
               <input
                 type="text"
                 value={addPlusMoney}
                 onChange={(e) => setAddPlusMoney(e.target.value)}
                 placeholder="새로운 가계부 항목"
+              />
+               <input
+                type="text"
+                value={addMemo}
+                onChange={(aa) => setAddMemo(aa.target.value)}
+                placeholder="메모"
               />
               <button onClick={addDBexpense}>추가</button>
               <button onClick={() => setShowInput(false)}>취소</button>
@@ -251,18 +270,7 @@ function MainPage({ onClick }) {
   const [mark, setMark] = useState([]);
   // console.log('mark에 들어온 date값들 : ', mark);
 
-  const [accountData, setAccountData] = useState([
-    //가계부 더미 데이터
-    {
-      date: "2024-03-20",
-      category: "지출",
-      memo: "식비",
-      expense: "500",
-      income: "",
-    },
-    { date: "2024-03-21", category: "지출", memo: "쇼핑", expense: "1000", income: "" },
-    { date: "2024-03-21", category: "수입", memo: "월급", expense: "", income: "1000" },
-  ]);
+  const [accountData, setAccountData] = useState([])
 
   // // userdata
   const [userData, setUserData] = useState({
@@ -356,7 +364,7 @@ function MainPage({ onClick }) {
         // console.log(scheduleData)
         console.log("fetch 스케줄 완료");
       } else {
-        console.log("스케줄 데이터 가져오기 실패");
+        console.log("스케줄데이터 가져오기 실패");
       }
     } catch (error) {
       console.error("error message : ", error);
@@ -382,7 +390,7 @@ function MainPage({ onClick }) {
 
     // fetchDataAndCheckSchedule 함수를 호출하여 스케줄 데이터를 가져오고, hasSchedule 상태를 업데이트합니다.
     fetchDataAndCheckSchedule().then((result) => {
-      setHasSchedule(result);
+      setHasAccount(result);
     });
   }, [value]);
 
@@ -395,6 +403,64 @@ function MainPage({ onClick }) {
     // 달력 리랜더링 될때마다 hasSchedule 상태를 업데이트
     setHasAccount(checkAccountForDate(value));
   }, [value, accountData]);
+
+      // 가계부 fetch GET
+      const fetchAccountData = async (memberNo) => {
+        const token = localStorage.getItem("accessToken");
+    
+        try {
+          const res = await fetch(`/mohani/accounts/view/${memberNo}`, {
+            header: {
+              Accepts: "application/json",
+                Authorization: `${token}`,
+            },
+          });
+          if (res.ok) {
+            const result = await res.json();
+    
+            for(let i=0; i<result.length; i++){
+            accountData.push({
+              money: result[i].money, 
+              date : result[i].date, 
+              in_ex: result[i].in_ex, 
+              memo: result[i].memo, 
+              content: result[i].content,
+              idx : result[i].idx
+        })
+            }
+            console.log(result); // 더미데이터 제외
+            console.log(accountData)
+          } else {
+            console.log("가계부 가져오기 실패");
+          }
+        } catch (error) {
+          console.error("error message : ", error);
+        }
+      };
+  
+  
+      useEffect(() => {
+        const fetchDataAndCheckAccount = async () => {
+          try {
+            // fetchData 함수를 호출하여 멤버 번호를 가져옵니다.
+            if (!accountData.length) {
+              // 스케줄 데이터를 가져오지 않은 경우에만 fetchData 함수를 호출하여 멤버 번호를 가져옵니다.
+              const memberNo = await fetchData();
+              // fetchDoData 함수를 호출하여 스케줄 데이터를 가져옵니다.
+              await fetchAccountData(memberNo);
+            }
+            return accountData.some((schedule) => schedule.date === moment(value).format("YYYY-MM-DD"));
+          } catch (error) {
+            console.error("fetch 에러발생", error);
+            return false;
+          }
+        };
+    
+        // fetchDataAndCheckSchedule 함수를 호출하여 스케줄 데이터를 가져오고, hasSchedule 상태를 업데이트합니다.
+        fetchDataAndCheckAccount().then((result) => {
+          setHasAccount(result);
+        });
+      }, [value]);
 
   return (
     <div className="">
@@ -416,7 +482,13 @@ function MainPage({ onClick }) {
           onChange={onChange}
         />
 
-        <RightComponent title="가계부" value={value} hasAccount={hasAccount} accountData={accountData} />
+        <RightComponent 
+        title="가계부" 
+        value={value} 
+        hasAccount={hasAccount} 
+        accountData={accountData} 
+        fetchAccountData ={fetchAccountData}
+        />
       </SplitScreen>
     </div>
   );
