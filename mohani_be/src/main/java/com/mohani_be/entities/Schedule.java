@@ -36,4 +36,6 @@ public class Schedule extends Base{
 
     private String loc; //일정 장소
 
+    private String color; //일정 색깔
+
 }
