@@ -3,6 +3,7 @@ import moment from 'moment';
 import '../App.css'
 import ButtonList from './ButtonList';
 import { useState } from 'react';
+import { faUserXmark } from '@fortawesome/free-solid-svg-icons';
 
 function TodayAccount() {
   return (
@@ -24,13 +25,15 @@ function TodayAccount() {
 function Account({accountData,value}) {
   //일정 배열에서 해당 날짜만 필터링하기
   const clickedDate = moment(value).format('YYYY-MM-DD');
-  const filteredAccountData = accountData.filter(item => item.date === clickedDate);
+  const filteredAccountData = accountData.filter(item => item.date === clickedDate)
+
 
   // 수정할 항목의 상태 관리
   const [editIndex, setEditIndex] = useState(null);
 
   // 수정된 값을 저장할 상태 관리
   const [editedValue, setEditedValue] = useState("");
+
 
   const handleEdit = (index, value) => {
     setEditIndex(index);
@@ -45,10 +48,20 @@ function Account({accountData,value}) {
     setEditedValue("");
   };
 
-  //DB적재된 가계부 조회
+  const [checkIdx,setCheckIdx] = useState ();     
+function deleteAccount(checkIdx){
 
+  //idx 조회
+//Account idx 찾기
+const handleClickAccount = (item) => {
+  setClickedAccount(item);
+
+    for(let i=0; i<filteredAccountData.length; i++){
+    setCheckIdx(filteredScheduleData[i].idx);
+  }
+};
   //가계부 삭제
-  const fetchDelete = async (seq) => {
+  const fetchDelete = async (idx) => {
     
     try {
       const response = await fetch(`/mohani/accounts/del/${idx}`,{
@@ -63,7 +76,7 @@ function Account({accountData,value}) {
       }
 
       if(response) {
-        scheduleData.splice(seq-1,1);
+        accountData.splice(idx-1,1);
         alert('가계부를 삭제했습니다.');
         window.location.reload();
       }
@@ -72,7 +85,9 @@ function Account({accountData,value}) {
         console.error('delete error: ', error);
       }
 
-    } 
+    }
+
+  } 
 
   return (
     <>
@@ -83,6 +98,7 @@ function Account({accountData,value}) {
             <li key={index}>
               <div className='category'>{item.category}</div>
               {/* 지출내역 */}
+              <div className='account_memo'>{item.money}</div>
               <div className='account_memo'>{item.memo}</div>
               {editIndex === index ? (
                 <input
@@ -99,12 +115,12 @@ function Account({accountData,value}) {
               {editIndex === index ? (
                 <>
                   <ButtonList onClick={() => handleSave(index)}>저장</ButtonList>
-                  <ButtonList onClick={() => fetchDelete(checkSeq)}>일정 삭제</ButtonList>
+                  <ButtonList onClick={() => deleteAccount(checkIdx)}>삭제</ButtonList>
                 </>
               ) : (
                 <>
                 <ButtonList onClick={() => handleEdit(index, item.income || item.expense)}>수정</ButtonList>
-                <ButtonList onClick={() => fetchDelete(checkSeq)}>일정 삭제</ButtonList>
+                <ButtonList onClick={() => deleteAccount(checkIdx)}>삭제</ButtonList>
                 </>
               )}
             </li>
