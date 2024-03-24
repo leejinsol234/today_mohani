@@ -24,7 +24,6 @@ export function ScheduleUseMemo({dataKey, scheduleData, value}){
     if (!Array.isArray(scheduleData)) { 
       return [];
     }
-    // console.log('array체크값 : ', !Array.isArray(scheduleData))
     
     return scheduleData.map((item) => {
       return dataKey.map(key => item[key]).join(' '); 
@@ -105,7 +104,7 @@ function Schedule({scheduleData ,value}){
 
   const [checkSeq, setCheckSeq] = useState();
 // seq찾고 하려고 만들어둔 변수  (보류)
-// console.log('checkSeq 값 :',checkSeq)
+console.log('checkSeq 값 :',checkSeq)
 
   //상세일정 클릭했을때 상태관리
   const [clickedTitle, setClickedTitle] = useState(null);
@@ -171,7 +170,7 @@ function Schedule({scheduleData ,value}){
 
       {clickedTitle && (
         <>
-        <SplitDetailScreen topWeight={1} middleWeight={1} bottomWeight={2.5}>
+        <SplitDetailScreen topWeight={0.7} middleWeight={1} bottomWeight={2}>
           {/* <ScheduleTitle
             title="제목"
             dataKey={["event"]}
