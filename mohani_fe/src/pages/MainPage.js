@@ -81,6 +81,7 @@ const LeftComponent = ({ title, onChange, value, scheduleData, mark }) => {
     return ""; // 다른 날짜는 추가 클래스가 없습니다.
   };
 
+
   const addContent = ({ date }) => {
     // 해당 날짜(하루)에 추가할 컨텐츠의 배열
     const contents = [];
@@ -353,7 +354,7 @@ function MainPage({ onClick }) {
         }
         // console.log(result);
         // console.log(scheduleData)
-        console.log("fetch 스케줄 완료");
+        // console.log("fetch 스케줄 완료");
       } else {
         console.log("스케줄 데이터 가져오기 실패");
       }
@@ -382,6 +383,7 @@ function MainPage({ onClick }) {
     // fetchDataAndCheckSchedule 함수를 호출하여 스케줄 데이터를 가져오고, hasSchedule 상태를 업데이트합니다.
     fetchDataAndCheckSchedule().then((result) => {
       setHasSchedule(result);
+      console.log('hasSchedule 값 : ',hasSchedule);
     });
   }, [value]);
 
