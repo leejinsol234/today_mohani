@@ -40,6 +40,7 @@ public class ScheduleSaveService {
                 .endTime(form.getEndTime())
                 .loc(form.getLoc())
                 .member(memberInfo.getMember())
+                .color(form.getColor())
                 .build();
 
         save(schedule);

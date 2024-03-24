@@ -29,6 +29,8 @@ public class ScheduleForm {
 
     private String loc;
 
+    private String color;
+
     public ScheduleForm(final Schedule entity) {
         this.seq = entity.getSeq();
         this.title = entity.getTitle();
@@ -39,6 +41,7 @@ public class ScheduleForm {
         this.endTime = entity.getEndTime();
         this.content = entity.getContent();
         this.loc = entity.getLoc();
+        this.color = entity.getColor();
     }
 
     public static Schedule toEntity(final ScheduleForm form){
@@ -52,6 +55,7 @@ public class ScheduleForm {
                 .startTime(form.getStartTime())
                 .endTime(form.getEndTime())
                 .loc(form.getLoc())
+                .color(form.getColor())
                 .build();
     }
 

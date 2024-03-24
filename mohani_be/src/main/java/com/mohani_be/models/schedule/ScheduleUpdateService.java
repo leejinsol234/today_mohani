@@ -24,6 +24,7 @@ public class ScheduleUpdateService {
         existingSchedule.setEndTime(updateSchedule.getEndTime());
         existingSchedule.setContent(updateSchedule.getContent());
         existingSchedule.setLoc(updateSchedule.getLoc());
+        existingSchedule.setColor(updateSchedule.getColor());
 
 
         return repository.save(existingSchedule);

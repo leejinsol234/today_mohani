@@ -24,6 +24,8 @@ public class QSchedule extends EntityPathBase<Schedule> {
 
     public final QBase _super = new QBase(this);
 
+    public final StringPath color = createString("color");
+
     public final StringPath content = createString("content");
 
     //inherited
