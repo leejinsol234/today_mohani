@@ -209,7 +209,7 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
               <input
                 className="input_account"
                 type="text"
-                value={addPlusMoney}
+                value={addMemo}
                 onChange={(aa) => setAddMemo(aa.target.value)}
                 placeholder="메모"
               />
@@ -240,7 +240,7 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
               />
                <input
                 type="text"
-                value={addPlusMoney}
+                value={addMemo}
                 onChange={(aa) => setAddMemo(aa.target.value)}
                 placeholder="메모"
               />
@@ -272,18 +272,7 @@ function MainPage({ onClick }) {
   const [mark, setMark] = useState([]);
   // console.log('mark에 들어온 date값들 : ', mark);
 
-  const [accountData, setAccountData] = useState([
-    //가계부 더미 데이터
-    {
-      date: "2024-03-20",
-      category: "지출",
-      memo: "식비",
-      expense: "500",
-      income: "",
-    },
-    { date: "2024-03-21", category: "지출", memo: "쇼핑", expense: "1000", income: "" },
-    { date: "2024-03-21", category: "수입", memo: "월급", expense: "", income: "1000" },
-  ]);
+  const [accountData, setAccountData] = useState([])
 
   // // userdata
   const [userData, setUserData] = useState({
@@ -377,7 +366,7 @@ function MainPage({ onClick }) {
         // console.log(scheduleData)
         // console.log("fetch 스케줄 완료");
       } else {
-        console.log("스케줄 데이터 가져오기 실패");
+        console.log("스케줄데이터 가져오기 실패");
       }
     } catch (error) {
       console.error("error message : ", error);
@@ -404,7 +393,7 @@ function MainPage({ onClick }) {
     // fetchDataAndCheckSchedule 함수를 호출하여 스케줄 데이터를 가져오고, hasSchedule 상태를 업데이트합니다.
     fetchDataAndCheckSchedule().then((result) => {
       setHasSchedule(result);
-      console.log('hasSchedule 값 : ',hasSchedule);
+      // console.log('hasSchedule 값 : ',hasSchedule);
     });
   }, [value]);
 
@@ -434,18 +423,16 @@ function MainPage({ onClick }) {
     
             for(let i=0; i<result.length; i++){
             accountData.push({
-              seq: result[i].seq, 
-              date : result[i].startDate, 
-              endDate : result[i].endDate,
-              startTime: result[i].startTime, 
-              endTime: result[i].endTime,
-              title: result[i].title, 
-              loc: result[i].loc, 
-              content: result[i].content
+              money: result[i].money, 
+              date : result[i].date, 
+              in_ex: result[i].in_ex, 
+              memo: result[i].memo, 
+              content: result[i].content,
+              idx : result[i].idx
         })
             }
             console.log(result); // 더미데이터 제외
-            //console.log(Account)
+            console.log(accountData)
           } else {
             console.log("가계부 가져오기 실패");
           }
@@ -454,6 +441,29 @@ function MainPage({ onClick }) {
         }
       };
   
+  
+      useEffect(() => {
+        const fetchDataAndCheckAccount = async () => {
+          try {
+            // fetchData 함수를 호출하여 멤버 번호를 가져옵니다.
+            if (!accountData.length) {
+              // 스케줄 데이터를 가져오지 않은 경우에만 fetchData 함수를 호출하여 멤버 번호를 가져옵니다.
+              const memberNo = await fetchData();
+              // fetchDoData 함수를 호출하여 스케줄 데이터를 가져옵니다.
+              await fetchAccountData(memberNo);
+            }
+            return accountData.some((schedule) => schedule.date === moment(value).format("YYYY-MM-DD"));
+          } catch (error) {
+            console.error("fetch 에러발생", error);
+            return false;
+          }
+        };
+    
+        // fetchDataAndCheckSchedule 함수를 호출하여 스케줄 데이터를 가져오고, hasSchedule 상태를 업데이트합니다.
+        fetchDataAndCheckAccount().then((result) => {
+          setHasAccount(result);
+        });
+      }, [value]);
 
   return (
     <div className="">
@@ -475,7 +485,13 @@ function MainPage({ onClick }) {
           onChange={onChange}
         />
 
-        <RightComponent title="가계부" value={value} hasAccount={hasAccount} accountData={accountData} />
+        <RightComponent 
+        title="가계부" 
+        value={value} 
+        hasAccount={hasAccount} 
+        accountData={accountData} 
+        fetchAccountData ={fetchAccountData}
+        />
       </SplitScreen>
     </div>
   );
