@@ -429,8 +429,17 @@ body {
 }
 
 .dotWrap {
-  /* display: flex; */
+  display: flex;
+  gap : 3px;
+  /* padding-top: 8px; */
   position: absolute;
+  overflow: hidden;
+  flex-wrap: wrap;
+  justify-content: center;
+  width : 45px;
+  min-width: 45px;
+  margin-top: 30px;
+
 }
 
 .dot {
@@ -439,6 +448,8 @@ body {
   background-color: #E53A40;
   border-radius: 50%;
   z-index: 1;
-  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
 
 }
+
