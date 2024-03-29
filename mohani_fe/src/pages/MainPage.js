@@ -13,7 +13,7 @@ import Schedule from "../components/Schedule"; //상세일정
 
 import Button from "../components/Button"; //버튼
 import Modal from "../components/Modal"; //모달
-import AccountModal from "../components/AccountModal";
+import AccountModal from "../components/EditModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
@@ -68,6 +68,7 @@ const LeftComponent = ({ title, onChange, value, scheduleData, mark }) => {
     setIsModalOpen(false);
   };
   console.log("레프트컴포넌트에서 스케줄 값 : ", scheduleData);
+  console.log('mark 값 : ', mark);
 
   // 캘린더 토요일 일요일 확인
   const tileClassName = ({ date }) => {
@@ -86,15 +87,35 @@ const LeftComponent = ({ title, onChange, value, scheduleData, mark }) => {
     // 해당 날짜(하루)에 추가할 컨텐츠의 배열
     const contents = [];
 
+    const colors = ["#e53a40","#8cd790", "#f68657","#d499b9", "#30a9de", "#efdc05", "#d09e88","#8b8687" ];
+    
     // date(각 날짜)가  리스트의 날짜와 일치하면 해당 컨텐츠 추가
-    if (mark.find((day) => day === moment(date).format("YYYY-MM-DD"))) {
-      contents.push(
+    // if (mark.find((day) => day.color)) {
+    //   return mark;
+    // }
+    // for(let i=0; i<colors.length; i++){
+    //   if(mark.find((item) => item.color === colors[i])){
+    //     setRealColor(colors[i]);
+    //   }
+    // }
+
+    // if (scheduleData.find((day) => (day.date === moment(date).format("YYYY-MM-DD")))) {
+    //   contents.push(
+    //       <div className="dot" style={{backgroundColor: ''}}></div>
+    //   );
+    // }
+    scheduleData.forEach((schedule) => {
+      if (schedule.date === moment(date).format("YYYY-MM-DD")) {
+          contents.push(
+              <div className="dot" style={{ backgroundColor: schedule.color }}></div>
+          );
+      }
+  });
+    return <>
         <div className="dotWrap">
-          <div className="dot"></div>
-        </div>
-      );
-    }
-    return <>{contents}</>; // 각 날짜마다 해당 요소가 들어감
+    {contents}
+    </div>
+    </>; // 각 날짜마다 해당 요소가 들어감
   };
 
   return (
@@ -350,6 +371,7 @@ function MainPage({ onClick }) {
 
         for (let i = 0; i < result.length; i++) {
           scheduleData.push({
+            color : result[i].color,
             seq: result[i].seq,
             date: result[i].startDate,
             endDate: result[i].endDate,
@@ -359,7 +381,8 @@ function MainPage({ onClick }) {
             loc: result[i].loc,
             content: result[i].content,
           }),
-            mark.push(result[i].startDate);
+            mark.push({startDate:result[i].startDate, endDate: result[i].endDate,
+            color:result[i].color});
         }
         // console.log(result);
         // console.log(scheduleData)
@@ -430,8 +453,8 @@ function MainPage({ onClick }) {
               idx : result[i].idx
         })
             }
-            console.log(result); // 더미데이터 제외
-            console.log(accountData)
+            // console.log(result); // 더미데이터 제외
+            // console.log(accountData)
           } else {
             console.log("가계부 가져오기 실패");
           }

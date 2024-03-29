@@ -31,17 +31,20 @@ const ModalBackground = styled.div`
   animation: ${fadeIn} 0.5s ease;
 `;
 
-function Modal({ closeModal, scheduleData, value }) {
+function EditModal({ closeModal, scheduleData, value }) {
   // 모달 일정추가 데이터
-  const [addEvent, setAddEvent] = useState("");
-  const [addStartDate, setAddStartDate] = useState(moment(value).format("YYYY-MM-DD"));
-  const [addEndDate, setAddEndDate] = useState(moment(value).format("YYYY-MM-DD"));
-  const [addLocation, setAddLocation] = useState("");
-  const [addPlusMoney, setAddPlusMoney] = useState("");
-  const [addMinusMoney, setAddMinusMoney] = useState("");
-  const [addMemo, setAddMemo] = useState("");
-  const [addStartTime, setAddStartTime] = useState("09:00");
-  const [addEndTime, setAddEndTime] = useState("10:00");
+  const editData = [...scheduleData];
+  const [editSeq, setEditSeq] = useState(editData[0].seq);
+  const [editEvent, setEditEvent] = useState(editData[0].title);
+  const [editStartDate, setEditStartDate] = useState(moment(value).format("YYYY-MM-DD"));
+  const [editEndDate, setEditEndDate] = useState(moment(value).format("YYYY-MM-DD"));
+  const [editLocation, setEditLocation] = useState(editData[0].loc);
+  const [editPlusMoney, setEditPlusMoney] = useState("");
+  const [editMinusMoney, setEditMinusMoney] = useState("");
+  const [editMemo, setEditMemo] = useState(editData[0].content);
+  const [editStartTime, setEditStartTime] = useState(editData[0].startTime);
+  const [editEndTime, setEditEndTime] = useState(editData[0].endTime);
+  // console.log(editData); // 데이터 그대로 넘어왔다
 
   
   // 달력 출력
@@ -49,17 +52,17 @@ function Modal({ closeModal, scheduleData, value }) {
   const [endDate, setEndDate] = useState(value);
 
   // 일정 색 변경
-  const [iconColor, setIconColor] = useState("#8cd790");
+  const [iconColor, setIconColor] = useState(editData[0].color);
 
   // 달력 날짜 변경
   const ChangeStartDate = (date) => {
     setStartDate(moment(date).format("YYYY-MM-DD")); // 달력 설정
     // 데이터 설정
-    setAddStartDate(moment(date).format("YYYY-MM-DD"));
+    setEditStartDate(moment(date).format("YYYY-MM-DD"));
   };
   const ChangeEndDate = (date) => {
     setEndDate(moment(date).format("YYYY-MM-DD"));
-    setAddEndDate(moment(date).format("YYYY-MM-DD"));
+    setEditEndDate(moment(date).format("YYYY-MM-DD"));
   };
 
   const pallet = (
@@ -170,28 +173,28 @@ function Modal({ closeModal, scheduleData, value }) {
     </div>
   );
 
-  // 일정 등록 제출
+  // 일정 수정 제출
   const handleSubmit = async () => {
     const token = localStorage.getItem("accessToken");
 
     const Data = {
       // seq: addSeq,
       color : iconColor,
-      startDate: addStartDate,
-      endDate: addEndDate,
-      title: addEvent,
-      startTime: addStartTime,
-      endTime: addEndTime,
-      loc: addLocation,
-      plusMoney: addPlusMoney,
-      minusMoney: addMinusMoney,
-      content: addMemo,
+      startDate: editStartDate,
+      endDate: editEndDate,
+      title: editEvent,
+      startTime: editStartTime,
+      endTime: editEndTime,
+      loc: editLocation,
+      plusMoney: editPlusMoney,
+      minusMoney: editMinusMoney,
+      content: editMemo,
     };
     console.log('아이콘컬러 : ', iconColor);
 
     try {
-      const res = await fetch("/mohani/main", {
-        method: "POST",
+      const res = await fetch(`/mohani/${editSeq}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `${token}`,
@@ -200,13 +203,13 @@ function Modal({ closeModal, scheduleData, value }) {
       });
 
       if (res.ok) {
-        console.log("일정제목 : " + addEvent);
-        alert("일정이 추가 됐습니다.")
+        console.log("일정제목 : " + editEvent);
+        alert("일정이 수정 됐습니다.")
         closeModal();
         window.location.reload();
       } else {
         console.error("서버 요청 실패:", res.statusText);
-        alert("추가할 일정제목을 입력해주세요.")
+        alert("수정할 일정제목을 입력해주세요.")
       }
     } catch (error) {
       console.error("에러 발생", error);
@@ -263,7 +266,7 @@ function Modal({ closeModal, scheduleData, value }) {
     <>
       <ModalBackground onClick={closeModal} />
       <div className="page" onKeyDown={onKeyPress}>
-        <div className="AddTitleWrap"> 일정추가 </div>
+        <div className="AddTitleWrap"> 일정수정 </div>
         <div>
           <div className="AddWrap">
             <FontAwesomeIcon style={{ color: iconColor }} className="modalIcon titleIcon" icon={faCircle} />
@@ -272,10 +275,10 @@ function Modal({ closeModal, scheduleData, value }) {
               <input
                 type="text"
                 className="AddInput"
-                value={addEvent}
+                value={editEvent}
                 placeholder="일정 제목을 입력해 주세요."
                 ref={titleFocus}
-                onChange={(e) => setAddEvent(e.target.value)}
+                onChange={(e) => setEditEvent(e.target.value)}
               />
             </div>
           </div>
@@ -295,7 +298,7 @@ function Modal({ closeModal, scheduleData, value }) {
                   className="datePicker AddInput"
                 />
               </div>
-              <TimeSelector value={addStartTime} onChange={setAddStartTime} />
+              <TimeSelector value={editStartTime} onChange={setEditStartTime} />
             </div>
 
             <div className="AddWrap">
@@ -310,7 +313,7 @@ function Modal({ closeModal, scheduleData, value }) {
                   className="datePicker AddInput"
                 />
               </div>
-              <TimeSelector className="AddInputWrap" value={addEndTime} onChange={setAddEndTime} />
+              <TimeSelector className="AddInputWrap" value={editEndTime} onChange={setEditEndTime} />
             </div>
           </div>
 
@@ -319,8 +322,8 @@ function Modal({ closeModal, scheduleData, value }) {
             <div className="AddInputWrap">
               <input
                 className="AddInput"
-                value={addLocation}
-                onChange={(e) => setAddLocation(e.target.value)}
+                value={editLocation}
+                onChange={(e) => setEditLocation(e.target.value)}
                 placeholder="장소 입력"
               />
             </div>
@@ -331,8 +334,8 @@ function Modal({ closeModal, scheduleData, value }) {
             <div className="AddInputWrap" style={{ width: "33%" }}>
               <input
                 className="AddInput"
-                value={addPlusMoney}
-                onChange={(e) => setAddPlusMoney(e.target.value)}
+                value={editPlusMoney}
+                onChange={(e) => setEditPlusMoney(e.target.value)}
                 placeholder="수입 입력"
               />
             </div>
@@ -340,8 +343,8 @@ function Modal({ closeModal, scheduleData, value }) {
             <div className="AddInputWrap" style={{ marginLeft: "10px", width: "33%" }}>
               <input
                 className="AddInput"
-                value={addMinusMoney}
-                onChange={(e) => setAddMinusMoney(e.target.value)}
+                value={editMinusMoney}
+                onChange={(e) => setEditMinusMoney(e.target.value)}
                 placeholder="지출 입력"
               />
             </div>
@@ -352,8 +355,8 @@ function Modal({ closeModal, scheduleData, value }) {
             <div className="AddInputWrap">
               <input
                 className="AddMemoInput"
-                value={addMemo}
-                onChange={(e) => setAddMemo(e.target.value)}
+                value={editMemo}
+                onChange={(e) => setEditMemo(e.target.value)}
                 placeholder="메모 입력"
               />
             </div>
@@ -361,7 +364,7 @@ function Modal({ closeModal, scheduleData, value }) {
 
           <div className="flex">
             <button onClick={handleSubmit} className="AddButton">
-              등록
+              완료
             </button>
           </div>
         </div>
@@ -370,4 +373,4 @@ function Modal({ closeModal, scheduleData, value }) {
   );
 }
 
-export default Modal;
+export default EditModal;

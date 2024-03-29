@@ -4,6 +4,7 @@ import { SplitDetailScreen } from '../SplitScreen';
 import '../App.css' ;
 import Button from './Button';
 import { ButtonGroup } from '../pages/MainPage';
+import EditModal from './EditModal';
 
 function TimeRange(date, startTime, endTime) {
   const endTimeFilterling = endTime ? `~${endTime}` : '';
@@ -126,6 +127,7 @@ console.log('checkSeq 값 :',checkSeq)
   }, [filteredScheduleData,clickedTitle]);
 
   console.log('필터스케쥴데이터',filteredScheduleData);
+  console.log('필터디테일데이터',filteredDetailData);
 
 
   // 일정 삭제 (fetch Delete)
@@ -157,6 +159,14 @@ console.log('checkSeq 값 :',checkSeq)
     // useEffect(() => {
     //   ScheduleMemo();
     // }, [value]);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = () => {
+      setIsModalOpen(true);
+    };
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
 
 
   return (
@@ -197,7 +207,10 @@ console.log('checkSeq 값 :',checkSeq)
           />
         </SplitDetailScreen>
         <ButtonGroup>
-          <Button>일정 수정</Button>
+          <Button onClick={openModal}>일정 수정</Button>
+          {isModalOpen && <EditModal scheduleData={filteredDetailData}
+          closeModal={closeModal} value={value}  />}
+
           <Button onClick={() => fetchDelete(checkSeq)}>일정 삭제</Button>
         </ButtonGroup>  
         </>

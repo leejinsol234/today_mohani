@@ -6,14 +6,7 @@ import React, {useEffect, useState } from "react";
 
 function App() {
 // 서버에 전송할 초기데이터 설정
-const [userData, setUserData] = useState({
-  email: '',
-  password: '',
-  confirmPassword: '',
-  username: '',
-  phoneNumber: '',
-  agree: false,
-});
+
 
 //로딩 관리  
 const [loading, setLoading] = useState(true);
