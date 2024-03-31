@@ -169,6 +169,9 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
   const [addPlusMoney, setAddPlusMoney] = useState("");
   const [addMinusMoney, setAddMinusMoney] = useState("");
 
+  //수입 지출
+  const [expenseType, setExpenseType] = useState("expense"); // 기본값은 지출
+
   //가계부 DB추가
   const handleAddExpense = () => {
     // 추가 후 입력 값을 초기화합니다.
@@ -209,6 +212,29 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
     }
   };
 
+  //수입지출
+  useEffect(() => {
+    // 여기서 데이터베이스로부터 데이터를 가져오는 코드를 작성합니다.
+    // fetchData 함수는 적절한 방법으로 데이터를 가져오는 함수로 대체되어야 합니다.
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/mohani/accounts/${expenseType}`); // 적절한 엔드포인트와 쿼리를 사용하여 데이터를 가져옵니다.
+        if (!response.ok) {
+          throw new Error('데이터를 가져오는 데 문제가 발생했습니다.');
+        }
+        const data = await response.json();
+        setAccountData(data);
+      } catch (error) {
+        console.error('데이터 가져오기 오류:', error);
+      }
+    };
+
+    fetchData(); // 데이터 가져오기 실행
+  }, [expenseType]); // expenseType이 변경될 때마다 실행
+
+  // 나머지 코드는 동일하게 유지됩니다.
+
+
   return (
     <>
       <h3>{title}</h3>
@@ -220,11 +246,29 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
           {showInput && (
             <div>
               <input
+              type="radio"
+              id="income"
+              name="expenseType"
+              value="income"
+              checked={expenseType === "income"}
+              onChange={() => setExpenseType("income")}
+            />
+            <label htmlFor="income">수입</label>
+            <input
+              type="radio"
+              id="expense"
+              name="expenseType"
+              value="expense"
+              checked={expenseType === "expense"}
+              onChange={() => setExpenseType("expense")}
+            />
+              <label htmlFor="expense">지출</label>
+              <input
                 className="input_account"
                 type="text"
                 value={addPlusMoney}
                 onChange={(e) => setAddPlusMoney(e.target.value)}
-                placeholder="새로운 가계부 항목"
+                placeholder="금액"
               />
               <input
                 className="input_account"
@@ -248,15 +292,29 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
           {/* 인풋 창 */}
           {showInput && (
             <div>
-              <input 
-               type="radio"
-
-              /> 
+              <input
+              type="radio"
+              id="income"
+              name="expenseType"
+              value="income"
+              checked={expenseType === "income"}
+              onChange={() => setExpenseType("income")}
+            />
+            <label htmlFor="income">수입</label>
+            <input
+              type="radio"
+              id="expense"
+              name="expenseType"
+              value="expense"
+              checked={expenseType === "expense"}
+              onChange={() => setExpenseType("expense")}
+            />
+            <label htmlFor="expense">지출</label>
               <input
                 type="text"
                 value={addPlusMoney}
                 onChange={(e) => setAddPlusMoney(e.target.value)}
-                placeholder="새로운 가계부 항목"
+                placeholder="금액"
               />
                <input
                 type="text"

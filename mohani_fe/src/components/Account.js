@@ -33,6 +33,7 @@ function Account({accountData,value}) {
 
   // 수정된 값을 저장할 상태 관리
   const [editedValue, setEditedValue] = useState("");
+  const [checkIdx, setCheckIdx] = useState();
 
 
   const handleEdit = (index, value) => {
@@ -47,47 +48,34 @@ function Account({accountData,value}) {
     setEditIndex(null);
     setEditedValue("");
   };
-
-  const [checkIdx,setCheckIdx] = useState ();     
-function deleteAccount(checkIdx){
-
-  //idx 조회
-//Account idx 찾기
-const handleClickAccount = (item) => {
-  setClickedAccount(item);
-
-    for(let i=0; i<filteredAccountData.length; i++){
-    setCheckIdx(filteredScheduleData[i].idx);
-  }
-};
-  //가계부 삭제
+   
+function deleteAccount(idx){
   const fetchDelete = async (idx) => {
-    
     try {
-      const response = await fetch(`/mohani/accounts/del/${idx}`,{
+      const response = await fetch(`/mohani/accounts/del/${idx}`, {
         method: "DELETE",
         headers: {
           Accept: "application/json",
         },
       });
       
-      if(!response.ok){
+      if (!response.ok) {
         throw new Error('삭제 실패했습니다.');
       }
-
-      if(response) {
-        accountData.splice(idx-1,1);
+      
+      if (response) {
+        accountData.splice(idx - 1, 1);
         alert('가계부를 삭제했습니다.');
         window.location.reload();
       }
-
-      } catch(error) {
-        console.error('delete error: ', error);
-      }
-
+      
+    } catch(error) {
+      console.error('delete error: ', error);
     }
-
-  } 
+  };
+  
+  fetchDelete(idx);
+} 
 
   return (
     <>
@@ -98,7 +86,12 @@ const handleClickAccount = (item) => {
             <li key={index}>
               <div className='category'>{item.category}</div>
               {/* 지출내역 */}
-              <div className='account_memo'>{item.money}</div>
+              <div className='account_type'>
+               {item.in_ex ? "수입" : "지출"}
+              </div>
+              <div className='account_memo'
+              onClick={()=> setCheckIdx(item.idx)}
+              >{item.money}</div>
               <div className='account_memo'>{item.memo}</div>
               {editIndex === index ? (
                 <input
@@ -119,8 +112,10 @@ const handleClickAccount = (item) => {
                 </>
               ) : (
                 <>
-                <ButtonList onClick={() => handleEdit(index, item.income || item.expense)}>수정</ButtonList>
-                <ButtonList onClick={() => deleteAccount(checkIdx)}>삭제</ButtonList>
+                {/* <ButtonList onClick={() => handleEdit(index, item.income || item.expense)}>수정</ButtonList> */}
+                {checkIdx === item.idx && ( // 해당 항목의 idx와 클릭된 idx가 일치할 때만 삭제 버튼 표시
+                  <ButtonList onClick={() => deleteAccount(checkIdx)}>삭제</ButtonList>
+                )}  
                 </>
               )}
             </li>
