@@ -38,7 +38,7 @@ public class AccountsUpdateService {
         update(accountData);
 
         // 총 수입, 총 지출
-        TotalMoney totalMoney = total.getTotal(accountData.getDate(), accountData.getMember().getMemberNo());
+        TotalMoney totalMoney = total.getTotal(accountData.getMonth(), accountData.getYear(), accountData.getMember().getMemberNo());
         totalMoney.setExpenditure(totalMoney.getExpenditure());
         totalMoney.setIncome(totalMoney.getIncome());
 

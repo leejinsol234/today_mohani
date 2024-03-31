@@ -16,36 +16,43 @@ public class AccountsRepositoryImpl implements AccountsRepositoryCustom {
 
     // 총 수입, 총 지출 계산
     @Override
-    public TotalMoney getTotal(String date, Long memberNo) {
+    public TotalMoney getTotal(int month, int year, Long memberNo) {
 
         QAccounts accounts = QAccounts.accounts;
 
+        // 해당 월의 지출 합계 구하기
         Long expenditure = queryFactory.select(accounts.money.sum())
                 .from(accounts)
-                .where(accounts.date.eq(date).and(accounts.in_ex.eq(false)))
+                .where(accounts.year.eq(year).and(accounts.month.eq(month))
+                        .and(accounts.in_ex.eq(false))
+                        .and(accounts.member.memberNo.eq(memberNo)))
                 .fetchOne();
 
+        // 해당 월의 수입 합계 구하기
         Long income = queryFactory.select(accounts.money.sum())
                 .from(accounts)
-                .where(accounts.date.eq(date).and(accounts.in_ex.eq(true)))
+                .where(accounts.year.eq(year).and(accounts.month.eq(month))
+                        .and(accounts.in_ex.eq(true))
+                        .and(accounts.member.memberNo.eq(memberNo)))
                 .fetchOne();
 
-        // 기존에 해당 날짜의 데이터가 있는지 확인
-        TotalMoney existingTotalMoney = moneyRepository.findByDateAndMember_MemberNo(date, memberNo);
+        // 기존에 해당 월의 데이터가 있는지 확인
+        TotalMoney existingTotalMoney = moneyRepository.findByMonthAndYearAndMember_MemberNo(month, year, memberNo);
 
         // 기존 데이터가 없으면 새로운 TotalMoney 엔티티 생성
         if (existingTotalMoney == null) {
-            return saveNewTotalMoney(date, expenditure, income, memberNo);
+            return saveNewTotalMoney(month, year, expenditure, income, memberNo);
         } else { // 기존 데이터가 있으면 수정
             return updateExistingTotalMoney(existingTotalMoney, expenditure, income);
         }
     }
 
     // 새로운 TotalMoney 엔티티를 저장하고 반환
-    private TotalMoney saveNewTotalMoney(String date, Long expenditure, Long income, Long memberNo) {
+    private TotalMoney saveNewTotalMoney(int month, int year, Long expenditure, Long income, Long memberNo) {
         return moneyRepository.save(
                 TotalMoney.builder()
-                        .date(date)
+                        .month(month)
+                        .year(year)
                         .expenditure(expenditure != null ? expenditure : 0L)
                         .income(income != null ? income : 0L)
                         .member(Member.builder().memberNo(memberNo).build())
