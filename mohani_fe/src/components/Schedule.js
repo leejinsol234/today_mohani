@@ -41,8 +41,6 @@ function ScheduleList({ title, dataKey, scheduleData, value, onClick }) {
   const handleClick = (item) => {
     onClick(item);
   };
-  console.log('스케줄데이터',scheduleData)
-
   
   return (
     <>
@@ -105,7 +103,7 @@ function Schedule({scheduleData ,value}){
 
   const [checkSeq, setCheckSeq] = useState();
 // seq찾고 하려고 만들어둔 변수  (보류)
-console.log('checkSeq 값 :',checkSeq)
+// console.log('checkSeq 값 :',checkSeq)
 
   //상세일정 클릭했을때 상태관리
   const [clickedTitle, setClickedTitle] = useState(null);
@@ -126,8 +124,8 @@ console.log('checkSeq 값 :',checkSeq)
     return [];
   }, [filteredScheduleData,clickedTitle]);
 
-  console.log('필터스케쥴데이터',filteredScheduleData);
-  console.log('필터디테일데이터',filteredDetailData);
+  // console.log('필터스케쥴데이터',filteredScheduleData);
+  // console.log('필터디테일데이터',filteredDetailData);
 
 
   // 일정 삭제 (fetch Delete)
