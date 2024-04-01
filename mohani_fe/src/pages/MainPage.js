@@ -59,7 +59,7 @@ function AppHeader({ userData }) {
   );
 }
 
-const LeftComponent = ({ title, onChange, value, scheduleData, mark }) => {
+const LeftComponent = ({ title, onChange, value, scheduleData}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -187,6 +187,7 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
       if (res.ok) {
         alert("가계부 등록 성공!");
         setShowInput(false);
+        window.location.reload();
       } else {
         console.error("서버 요청 실패:", res.statusText);
         alert("가계부 등록 실패.");
@@ -199,18 +200,23 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
   const year = moment(value).format("YYYY");
   const month = moment(value).format("M");
 
-  const [expend, setExpand] = useState();
-  const [income, setIncome] = useState();
+  const [expend, setExpand] = useState('0');
+  const [income, setIncome] = useState('0');
 
   const check = async () => {
-    // if(!totalMoney.length){
+    let found = false;
       for(let i=0; i<totalMoney.length; i++){
         if(totalMoney[i].year == year && totalMoney[i].month == month){
           setExpand(totalMoney[i].expenditure);
           setIncome(totalMoney[i].income);
+          found = true;
+          break;
         }
       }
-      return [];
+      if(!found){
+        setExpand('0');
+        setIncome('0');
+      }
     
   }
 
@@ -353,9 +359,6 @@ function MainPage({ onClick }) {
   //더미 일정 데이터와 일정추가하기
   const [scheduleData, setScheduleData] = useState([]);
 
-  const [mark, setMark] = useState([]);
-  // console.log('mark에 들어온 date값들 : ', mark);
-
   const [accountData, setAccountData] = useState([]);
 
   const [totalMoney, setTotalMoney] = useState([]);
@@ -446,9 +449,7 @@ function MainPage({ onClick }) {
             title: result[i].title,
             loc: result[i].loc,
             content: result[i].content,
-          }),
-            mark.push({startDate:result[i].startDate, endDate: result[i].endDate,
-            color:result[i].color});
+          })
         }
         // console.log(result);
         // console.log(scheduleData)
@@ -582,11 +583,9 @@ function MainPage({ onClick }) {
       <AppHeader userData={userData} onClick={onClick} />
       <SplitScreen leftWeight={1.5} middleWeight={1} rightWeight={1}>
         <LeftComponent
-          // title="달력"
           onChange={onChange}
           value={value}
           scheduleData={scheduleData}
-          mark={mark}
           fetchDoData={fetchDoData}
         />
         <MiddleComponent
