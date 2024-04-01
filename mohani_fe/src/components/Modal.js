@@ -110,12 +110,12 @@ function Modal({ closeModal, scheduleData, value }) {
         }}
       />
       <FontAwesomeIcon
-        style={{ color: "#efdc05" }}
-        value="#efdc05"
+        style={{ color: '#ee6e9f' }}
+        value="#ee6e9f"
         className="palletIcon"
         icon={faCircle}
         onClick={() => {
-          setIconColor("#efdc05"), setShowUpDown(false);
+          setIconColor("#ee6e9f"), setShowUpDown(false);
         }}
       />
       <FontAwesomeIcon
@@ -326,7 +326,7 @@ function Modal({ closeModal, scheduleData, value }) {
             </div>
           </div>
 
-          <div className="AddWrap">
+          {/* <div className="AddWrap">
             <FontAwesomeIcon className="modalIcon" icon={faWallet} />
             <div className="AddInputWrap" style={{ width: "33%" }}>
               <input
@@ -345,7 +345,7 @@ function Modal({ closeModal, scheduleData, value }) {
                 placeholder="지출 입력"
               />
             </div>
-          </div>
+          </div> */}
 
           <div className="AddWrap">
             <FontAwesomeIcon className="modalIcon" icon={faPenToSquare} />
