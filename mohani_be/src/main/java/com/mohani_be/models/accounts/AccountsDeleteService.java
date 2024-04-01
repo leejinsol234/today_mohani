@@ -23,10 +23,14 @@ public class AccountsDeleteService {
         repository.flush();
 
         // 총 수입, 총 지출
-        TotalMoney totalMoney = total.getTotal(accounts.getDate(), accounts.getMember().getMemberNo());
-        totalMoney.setExpenditure(totalMoney.getExpenditure());
-        totalMoney.setIncome(totalMoney.getIncome());
-
-        moneyRepository.save(totalMoney);
+        TotalMoney totalMoney = total.getTotal(accounts.getMonth(), accounts.getYear(), accounts.getMember().getMemberNo());
+        if (totalMoney.getExpenditure() == 0 && totalMoney.getIncome() == 0) { // 수입과 지출이 둘다 0 일때 삭제
+            moneyRepository.delete(totalMoney);
+            repository.flush();
+        } else {
+            totalMoney.setExpenditure(totalMoney.getExpenditure());
+            totalMoney.setIncome(totalMoney.getIncome());
+            moneyRepository.save(totalMoney);
+        }
     }
 }

@@ -42,6 +42,10 @@ public class QAccounts extends EntityPathBase<Accounts> {
 
     public final NumberPath<Long> money = createNumber("money", Long.class);
 
+    public final NumberPath<Integer> month = createNumber("month", Integer.class);
+
+    public final NumberPath<Integer> year = createNumber("year", Integer.class);
+
     public QAccounts(String variable) {
         this(Accounts.class, forVariable(variable), INITS);
     }
