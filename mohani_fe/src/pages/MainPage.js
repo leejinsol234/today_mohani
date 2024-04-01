@@ -90,7 +90,7 @@ const LeftComponent = ({ title, onChange, value, scheduleData, mark }) => {
     scheduleData.forEach((schedule) => {
       if (schedule.date === moment(date).format("YYYY-MM-DD")) {
           contents.push(
-              <div className="dot" style={{ backgroundColor: schedule.color }}></div>
+              <div id="color" className="dot" style={{ backgroundColor: schedule.color }}></div>
           );
       }
   });
@@ -131,21 +131,21 @@ const MiddleComponent = ({ value, hasSchedule, scheduleData, fetchDoData }) => {
 
   return (
     <>
-      <div className="">{moment(value).format("YYYY년 MM월 DD일")}</div>
+      <div className="middleValue">{moment(value).format("YYYY년 MM월 DD일")}</div>
       {hasSchedule ? (
         <>
           <Schedule scheduleData={scheduleData} value={value} />
         </>
       ) : (
         <>
-          <p>일정이 없습니다.</p>
+          <p className="sagak">일정이 없습니다.</p>
         </>
       )}
     </>
   );
 };
 
-const RightComponent = ({ title, value, hasAccount, accountData, userData }) => {
+const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) => {
   //새로운 가계부
   const [showInput, setShowInput] = useState(false); // 인풋 창을 보여줄지 여부 상태
   const [addMemo, setAddMemo] = useState("");
@@ -195,6 +195,28 @@ const RightComponent = ({ title, value, hasAccount, accountData, userData }) => 
       console.error("에러 발생", error);
     }
   };
+
+  const year = moment(value).format("YYYY");
+  const month = moment(value).format("M");
+
+  const [expend, setExpand] = useState();
+  const [income, setIncome] = useState();
+
+  const check = async () => {
+    // if(!totalMoney.length){
+      for(let i=0; i<totalMoney.length; i++){
+        if(totalMoney[i].year == year && totalMoney[i].month == month){
+          setExpand(totalMoney[i].expenditure);
+          setIncome(totalMoney[i].income);
+        }
+      }
+      return [];
+    
+  }
+
+  useEffect(() => {
+    check();
+  }, [value, totalMoney])
 
   //수입지출
   useEffect(() => {
@@ -268,7 +290,7 @@ const RightComponent = ({ title, value, hasAccount, accountData, userData }) => 
           <ButtonGroup>
             <Button onClick={handleAddExpense}>가계부 추가</Button>
           </ButtonGroup>
-          <TotalAccount userData={userData}/>
+          <TotalAccount totalMoney={totalMoney} value={value} income={income} expend={expend}/>
         </>
       ) : (
         <>
@@ -313,7 +335,7 @@ const RightComponent = ({ title, value, hasAccount, accountData, userData }) => 
           <ButtonGroup>
             <Button onClick={handleAddExpense}>가계부 추가</Button>
           </ButtonGroup>
-          <TotalAccount userData={userData}/>
+          <TotalAccount totalMoney={totalMoney} value={value} income={income} expend={expend}/>
         </>
       )}
     </>
@@ -334,7 +356,9 @@ function MainPage({ onClick }) {
   const [mark, setMark] = useState([]);
   // console.log('mark에 들어온 date값들 : ', mark);
 
-  const [accountData, setAccountData] = useState([])
+  const [accountData, setAccountData] = useState([]);
+
+  const [totalMoney, setTotalMoney] = useState([]);
 
   // // userdata
   const [userData, setUserData] = useState({
@@ -437,6 +461,29 @@ function MainPage({ onClick }) {
     }
   };
 
+  // 이 달의 총 수입,지출 GET
+  const fetchTotalData = async (memberNo) => {
+    const token = localStorage.getItem("accessToken");
+
+    try {
+      const response = await fetch(`http://localhost:3000/mohani/accounts/totalMoney/${memberNo}`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `${token}`,
+        },
+      });
+      if(response.ok) {
+        const result = await response.json();
+        setTotalMoney(result);
+        // console.log(totalMoney);
+      }else {
+        // alert('total 가계부 get 실패');
+      }
+    } catch (error){
+      console.error('스케줄 get 실패 :', error);
+    }
+  }
+
   useEffect(() => {
     const fetchDataAndCheckSchedule = async () => {
       try {
@@ -446,6 +493,7 @@ function MainPage({ onClick }) {
           const memberNo = await fetchData();
           // fetchDoData 함수를 호출하여 스케줄 데이터를 가져옵니다.
           await fetchDoData(memberNo);
+          await fetchTotalData(memberNo);
         }
         return scheduleData.some((schedule) => schedule.date === moment(value).format("YYYY-MM-DD"));
       } catch (error) {
@@ -555,7 +603,7 @@ function MainPage({ onClick }) {
         hasAccount={hasAccount} 
         accountData={accountData} 
         fetchAccountData ={fetchAccountData}
-        userData={userData}
+        totalMoney={totalMoney}        
         />
       </SplitScreen>
     </div>

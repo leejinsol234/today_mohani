@@ -44,7 +44,6 @@ function ScheduleList({ title, dataKey, scheduleData, value, onClick }) {
   
   return (
     <>
-      <h4 className=''>{title}</h4>
       <div className='lists pointer'>
         {memoizedData.map((item, index) => (
           <li key={index} onClick={() => handleClick(item)}>{item}</li>
@@ -58,14 +57,14 @@ function ScheduleList({ title, dataKey, scheduleData, value, onClick }) {
 function ScheduleDetail({ title, dataKey, scheduleData, value }) {
   const memoizedData = ScheduleUseMemo({dataKey, scheduleData, value});
   return (
-    <>
-      <h4 className=''>{title}</h4>
-      <div className=''>
+    <div>
+      <h4 className='scheduleTitle'>{title}</h4>
+      <div className='scheduleContent'>
         {memoizedData.map((item, index) => (
           <div key={index}>{item}</div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -80,7 +79,8 @@ function ScheduleTime({ scheduleData,value }) {
     title="기간" 
     dataKey={["date","startTime","endTime"]} 
     scheduleData={scheduleData} 
-    value={value}/>;
+    value={value}
+    className=''/>;
 }
 
 function ScheduleLocation({ scheduleData }) {
@@ -168,7 +168,7 @@ function Schedule({scheduleData ,value}){
 
 
   return (
-    <>
+    <div className='scheduleList'>
       <ScheduleList
         dataKey={["title"]}
         scheduleData={filteredScheduleData}
@@ -178,7 +178,7 @@ function Schedule({scheduleData ,value}){
 
       {clickedTitle && (
         <>
-        <SplitDetailScreen topWeight={0.7} middleWeight={1} bottomWeight={2}>
+        <SplitDetailScreen topHeight={0.7} middleHeight={1} bottomHeight={2}>
           {/* <ScheduleTitle
             title="제목"
             dataKey={["event"]}
@@ -205,15 +205,16 @@ function Schedule({scheduleData ,value}){
           />
         </SplitDetailScreen>
         <ButtonGroup>
-          <Button onClick={openModal}>일정 수정</Button>
+          <button className='scheduleButton' onClick={openModal}>일정 수정</button>
+          {/* <Button onClick={openModal}>일정 수정</Button> */}
           {isModalOpen && <EditModal scheduleData={filteredDetailData}
           closeModal={closeModal} value={value}  />}
 
-          <Button onClick={() => fetchDelete(checkSeq)}>일정 삭제</Button>
+          <button className='scheduleButton'onClick={() => fetchDelete(checkSeq)}>일정 삭제</button>
         </ButtonGroup>  
         </>
       )}
-    </>)  
+    </div>)  
 }
 
 export default Schedule;
