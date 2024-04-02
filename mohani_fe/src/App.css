@@ -67,8 +67,11 @@ li {
 }
 
 /* Account 컴포넌트 */
+.sagak{
+  font-family: "sagak";
+}
 .accountlists {
-  height: 20%;
+  height: auto;
 }
 
 .category {
@@ -98,13 +101,34 @@ li {
   cursor: pointer;
 }
 
-.account_memo {
+.account_type{
   display: inline-flex;
   width: 15%;
+  height: 21px;
+  padding: 0 10px;
+  color: black;
+}
+.account_memo {
+  display: inline-flex;
+  width: 25%;
   height: 21px;
   justify-content: flex-end;
   padding: 0 10px;
   color: black;
   margin-bottom: 1rem;
   cursor: pointer;
+}
+.AddaccountInputWrap{
+  display: flex;
+}
+.AddaccountInput {
+  display : flex;
+  border-radius: 8px;
+  padding : 4px 8px;
+  margin-top: 1px;
+  background-color: white;
+  width : 22%;
+  margin-left: 5px;
+  margin-right: 10px;
+  border : 1px solid #dadada;
 }
