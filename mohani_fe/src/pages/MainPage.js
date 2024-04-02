@@ -22,6 +22,7 @@ import { jwtDecode } from "jwt-decode";
 import { React, useEffect, useState } from "react";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import ButtonList from "../components/ButtonList";
 
 //버튼 구역 css
 export const ButtonGroup = styled.div`
@@ -154,7 +155,7 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
   const [addMinusMoney, setAddMinusMoney] = useState("");
 
   //수입 지출
-  const [expenseType, setExpenseType] = useState(false); // 기본값은 지출
+  const [isIncome, setIsIncome] = useState(true); // true면 수입, false면 지출
 
   //가계부 DB추가
   const handleAddExpense = () => {
@@ -170,7 +171,7 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
     const Data = {
       date: moment(value).format("YYYY-MM-DD"),
       money: addPlusMoney,
-      in_ex: true, // true 수입 false 지출
+      in_ex: isIncome, // true 수입 false 지출
       memo: addMemo,
     };
     // API를 통해 데이터를 백엔드로 전송
@@ -225,26 +226,24 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
   }, [value, totalMoney])
 
   //수입지출
-  useEffect(() => {
-    // 여기서 데이터베이스로부터 데이터를 가져오는 코드를 작성합니다.
-    // fetchData 함수는 적절한 방법으로 데이터를 가져오는 함수로 대체되어야 합니다.
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/mohani/accounts/1`); // 적절한 엔드포인트와 쿼리를 사용하여 데이터를 가져옵니다.
-        if (!response.ok) {
-          throw new Error('데이터를 가져오는 데 문제가 발생했습니다.');
-        }
-        const data = await response.json();
-        setAccountData(data);
-      } catch (error) {
-        console.error('데이터 가져오기 오류:', error);
-      }
-    };
+  // useEffect(() => {
+  //   // 여기서 데이터베이스로부터 데이터를 가져오는 코드를 작성합니다.
+  //   // fetchData 함수는 적절한 방법으로 데이터를 가져오는 함수로 대체되어야 합니다.
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(`/mohani/accounts/view/{memberNo}`); 
+  //       if (!response.ok) {
+  //         throw new Error('데이터를 가져오는 데 문제가 발생했습니다.');
+  //       }
+  //       const data = await response.json();
+  //      // setAccountData(data);
+  //     } catch (error) {
+  //       //console.error('데이터 가져오기 오류:', error);
+  //     }
+  //   };
 
-    fetchData(); // 데이터 가져오기 실행
-  }, [expenseType]); // expenseType이 변경될 때마다 실행
-
-  // 나머지 코드는 동일하게 유지됩니다.
+  //   fetchData(); // 데이터 가져오기 실행
+  // }, [isIncome]); 
 
 
   return (
@@ -256,14 +255,14 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
           <Account accountData={accountData} value={value} />
           {/* 인풋 창 */}
           {showInput && (
-            <div>
+            <div className="AddaccountInputWrap">
               <input
               type="radio"
               id="income"
               name="expenseType"
               value="income"
-              checked={expenseType === "income"}
-              onChange={() => setExpenseType("income")}
+              checked={isIncome}
+              onChange={() => setIsIncome(true)}
             />
             <label htmlFor="income">수입</label>
             <input
@@ -271,26 +270,29 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
               id="expense"
               name="expenseType"
               value="expense"
-              checked={expenseType === "expense"}
-              onChange={() => setExpenseType("expense")}
+              checked={!isIncome}
+              onChange={() => setIsIncome(false)}
             />
               <label htmlFor="expense">지출</label>
               <input
-                className="input_account"
+                className="input_account AddaccountInput"
                 type="text"
                 value={addPlusMoney}
                 onChange={(e) => setAddPlusMoney(e.target.value)}
                 placeholder="금액"
               />
               <input
-                className="input_account"
+                className="input_account AddaccountInput"
                 type="text"
                 value={addMemo}
                 onChange={(aa) => setAddMemo(aa.target.value)}
                 placeholder="메모"
+                
               />
-              <button onClick={addDBexpense}>추가</button>
-              <button onClick={() => setShowInput(false)}>취소</button>
+
+                <ButtonList onClick={addDBexpense}>추가</ButtonList>
+                <ButtonList onClick={() => setShowInput(false)}>취소</ButtonList>
+
             </div>
           )}
           <ButtonGroup>
@@ -303,14 +305,14 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
           <p>지출 내역이 없습니다.</p>
           {/* 인풋 창 */}
           {showInput && (
-            <div>
+            <div className="AddaccountInputWrap">
               <input
               type="radio"
               id="income"
               name="expenseType"
               value="income"
-              checked={expenseType === "income"}
-              onChange={() => setExpenseType("income")}
+              checked={isIncome}
+              onChange={() => setIsIncome(true)}
             />
             <label htmlFor="income">수입</label>
             <input
@@ -318,8 +320,8 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
               id="expense"
               name="expenseType"
               value="expense"
-              checked={expenseType === "expense"}
-              onChange={() => setExpenseType("expense")}
+              checked={!isIncome}
+              onChange={() => setIsIncome(false)}
             />
             <label htmlFor="expense">지출</label>
               <input
@@ -327,12 +329,14 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
                 value={addPlusMoney}
                 onChange={(e) => setAddPlusMoney(e.target.value)}
                 placeholder="금액"
+                className="AddaccountInput"
               />
                <input
                 type="text"
                 value={addMemo}
                 onChange={(aa) => setAddMemo(aa.target.value)}
                 placeholder="메모"
+                className="AddaccountInput"
               />
               <button onClick={addDBexpense}>추가</button>
               <button onClick={() => setShowInput(false)}>취소</button>
