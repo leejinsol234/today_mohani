@@ -264,7 +264,7 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
               checked={isIncome}
               onChange={() => setIsIncome(true)}
             />
-            <label htmlFor="income">수입</label>
+            <label for="income">수입</label>
             <input
               type="radio"
               id="expense"
@@ -273,7 +273,7 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
               checked={!isIncome}
               onChange={() => setIsIncome(false)}
             />
-              <label htmlFor="expense">지출</label>
+              <label for="expense">지출</label>
               <input
                 className="input_account AddaccountInput"
                 type="text"
@@ -314,7 +314,7 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
               checked={isIncome}
               onChange={() => setIsIncome(true)}
             />
-            <label htmlFor="income">수입</label>
+            <label for="income">수입</label>
             <input
               type="radio"
               id="expense"
@@ -323,7 +323,7 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
               checked={!isIncome}
               onChange={() => setIsIncome(false)}
             />
-            <label htmlFor="expense">지출</label>
+            <label for="expense">지출</label>
               <input
                 type="text"
                 value={addPlusMoney}
