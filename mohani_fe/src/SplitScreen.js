@@ -1,7 +1,6 @@
 //화면 분할 레이아웃 설정
-
+import "./App.css";
 import styled, {css} from "styled-components";
-
 const Container = styled.div`
   display: flex;
   height : 90vh;
@@ -18,7 +17,14 @@ const Box = styled.div`
     props.highlight &&
     css`
       background-color: #e5f3f3; // 2번째 Box에 배경색상 추가
+      min-width : 200px;
     `}
+
+    ${(props) => 
+    props.right &&
+  css`
+      min-width : 240px;
+  `}
 `;
 
 
@@ -29,7 +35,7 @@ const SplitScreen = ({ children, leftWeight,middleWeight, rightWeight}) => {
     <Container>
       <Box weight={leftWeight}>{left}</Box>
       <Box weight={middleWeight} highlight="true">{middle}</Box>
-      <Box weight={rightWeight}>{right}</Box>
+      <Box weight={rightWeight} right="true">{right}</Box>
     </Container>
   );
 };

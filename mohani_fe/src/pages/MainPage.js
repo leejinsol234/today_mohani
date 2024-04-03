@@ -139,7 +139,7 @@ const MiddleComponent = ({ value, hasSchedule, scheduleData, fetchDoData }) => {
         </>
       ) : (
         <>
-          <p className="sagak">일정이 없습니다.</p>
+          <div className="noSchedule">일정이 없습니다.</div>
         </>
       )}
     </>
@@ -198,6 +198,7 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
     }
   };
 
+  // 총 수입 지출 출력
   const year = moment(value).format("YYYY");
   const month = moment(value).format("M");
 
@@ -224,27 +225,6 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
   useEffect(() => {
     check();
   }, [value, totalMoney])
-
-  //수입지출
-  // useEffect(() => {
-  //   // 여기서 데이터베이스로부터 데이터를 가져오는 코드를 작성합니다.
-  //   // fetchData 함수는 적절한 방법으로 데이터를 가져오는 함수로 대체되어야 합니다.
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(`/mohani/accounts/view/{memberNo}`); 
-  //       if (!response.ok) {
-  //         throw new Error('데이터를 가져오는 데 문제가 발생했습니다.');
-  //       }
-  //       const data = await response.json();
-  //      // setAccountData(data);
-  //     } catch (error) {
-  //       //console.error('데이터 가져오기 오류:', error);
-  //     }
-  //   };
-
-  //   fetchData(); // 데이터 가져오기 실행
-  // }, [isIncome]); 
-
 
   return (
     <>
@@ -302,7 +282,7 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
         </>
       ) : (
         <>
-          <p>지출 내역이 없습니다.</p>
+          <p className="sagak">지출 내역이 없습니다.</p>
           {/* 인풋 창 */}
           {showInput && (
             <div className="AddaccountInputWrap">
