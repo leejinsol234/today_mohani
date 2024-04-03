@@ -52,6 +52,8 @@ function Account({accountData,value}) {
     setEditedValue("");
   };
    
+
+  // 가계부 삭제
 function deleteAccount(idx){
   const fetchDelete = async (idx) => {
     try {
