@@ -2,10 +2,25 @@
 .App {
   box-sizing: border-box;  
   height: 95vh;
+  width : 100vw;
+}
+
+@font-face {
+  font-family: "NanumPen";
+  src: url("./fonts/NanumPenScript-Regular.ttf");
+}
+
+@font-face {
+  font-family: "sagak";
+  src: url("./fonts/Sagak-sagak.ttf");
 }
 
 body {
   margin : 0;
+}
+
+html {
+  width : 100vw;
 }
 
 .page{
@@ -39,23 +54,39 @@ body {
   display: flex;
   align-items: center;
   padding: 1rem 10px;
+  width : 100vw;
+  min-width: 820px;
 }
 
 .header_name {
-  width: 33vw;
+  width: 33%;
   padding-left : 10px;
+  font-family: 'sagak';
+  font-size : 1.5rem;
 }
 
 .header_Logo {
-  width : 33vw;
+  width : 33%;
   height : 80px;
   object-fit: contain;
 }
 
 .headerLogoutWrap {
-  width : 33vw;
+  width : 33%;
   display : flex;
   justify-content: end;
+}
+
+.header_logout {
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: #009eff;
+  padding: 0.5rem 1rem;
+  margin-right : 30px;
+  border-radius: 5px;
+  color: #fff;
+  /* font-weight: 600; */
 }
 
 .titleWrap{
@@ -268,7 +299,7 @@ body {
   background-color: #009eff;
   border-radius: 64px;
   color : white;
-  margin-top : 10px; 
+  margin-top : 30px; 
   margin-bottom: 20px;
   cursor: pointer;
 }
@@ -384,7 +415,8 @@ body {
   width : 40%;
   height : 40px;
   padding: 5px;
-  font-size : 16px;
+  font-size : 1.5rem;
+  font-family: "NanumPen";
 }
 
 .modalIcon {
@@ -439,7 +471,25 @@ body {
   width : 45px;
   min-width: 45px;
   margin-top: 30px;
+}
 
+.sagak {
+  font-family: 'sagak';
+  font-size : 1.5rem;
+}
+
+.noSchedule {
+  font-family: 'sagak';
+  font-size : 1.5rem;
+  padding-top: 10px;
+}
+
+.middleValue{
+  font-size : 1.5rem;
+  font-family: 'sagak';
+  margin-top : 10px;
+  padding-bottom: 10px;
+  font-weight: 600;
 }
 
 .dot {
@@ -450,6 +500,10 @@ body {
   z-index: 1;
   display: flex;
   flex-direction: row;
+}
 
+.scheduleList {
+  display: flex;
+  flex-direction: column;
 }
 

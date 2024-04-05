@@ -44,6 +44,8 @@ dependencies {
 	//implementation 'com.oracle.database.jdbc:ojdbc11:23.3.0.23.09'	// oracle DB 관련
 	//implementation 'com.oracle.database.nls:orai18n:23.3.0.23.09'		// oracle DB 관련
 
+	implementation 'com.oracle.database.jdbc:ojdbc11:23.3.0.23.09' // oracle DB 관련
+	implementation 'com.oracle.database.nls:orai18n:23.3.0.23.09' // oracle DB 관련
 
 	implementation 'org.modelmapper:modelmapper:3.2.0'
 	implementation 'net.coobird:thumbnailator:0.4.20'
@@ -51,6 +53,8 @@ dependencies {
 
 	//runtimeOnly 'com.mysql:mysql-connector-j'
 	runtimeOnly 'com.mysql:mysql-connector-j'	// mysql DB 관련
+//	runtimeOnly 'com.mysql:mysql-connector-j'	// mysql DB 관련
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testRuntimeOnly 'com.h2database:h2'

@@ -24,7 +24,10 @@ public class TotalMoney extends Base {
     private Long income; // 총 수입
 
     @Column(nullable = false)
-    private String date; // 날짜
+    private int month; // 월
+
+    @Column(nullable = false)
+    private int year; // 년도
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="memberNo")

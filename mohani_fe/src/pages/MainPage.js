@@ -22,6 +22,7 @@ import { jwtDecode } from "jwt-decode";
 import { React, useEffect, useState } from "react";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import ButtonList from "../components/ButtonList";
 
 //버튼 구역 css
 export const ButtonGroup = styled.div`
@@ -59,7 +60,7 @@ function AppHeader({ userData }) {
   );
 }
 
-const LeftComponent = ({ title, onChange, value, scheduleData, mark }) => {
+const LeftComponent = ({ title, onChange, value, scheduleData}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -67,8 +68,8 @@ const LeftComponent = ({ title, onChange, value, scheduleData, mark }) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  console.log("레프트컴포넌트에서 스케줄 값 : ", scheduleData);
-  console.log('mark 값 : ', mark);
+  // console.log("레프트컴포넌트에서 스케줄 값 : ", scheduleData);
+  // console.log('mark 값 : ', mark);
 
   // 캘린더 토요일 일요일 확인
   const tileClassName = ({ date }) => {
@@ -87,35 +88,19 @@ const LeftComponent = ({ title, onChange, value, scheduleData, mark }) => {
     // 해당 날짜(하루)에 추가할 컨텐츠의 배열
     const contents = [];
 
-    const colors = ["#e53a40","#8cd790", "#f68657","#d499b9", "#30a9de", "#efdc05", "#d09e88","#8b8687" ];
-    
-    // date(각 날짜)가  리스트의 날짜와 일치하면 해당 컨텐츠 추가
-    // if (mark.find((day) => day.color)) {
-    //   return mark;
-    // }
-    // for(let i=0; i<colors.length; i++){
-    //   if(mark.find((item) => item.color === colors[i])){
-    //     setRealColor(colors[i]);
-    //   }
-    // }
-
-    // if (scheduleData.find((day) => (day.date === moment(date).format("YYYY-MM-DD")))) {
-    //   contents.push(
-    //       <div className="dot" style={{backgroundColor: ''}}></div>
-    //   );
-    // }
     scheduleData.forEach((schedule) => {
       if (schedule.date === moment(date).format("YYYY-MM-DD")) {
           contents.push(
-              <div className="dot" style={{ backgroundColor: schedule.color }}></div>
+              <div id="color" className="dot" style={{ backgroundColor: schedule.color }}></div>
           );
       }
   });
+  // 각 날짜마다 해당 요소가 들어감
     return <>
-        <div className="dotWrap">
-    {contents}
-    </div>
-    </>; // 각 날짜마다 해당 요소가 들어감
+      <div className="dotWrap">
+        {contents}
+      </div>
+    </>; 
   };
 
   return (
@@ -141,27 +126,27 @@ const LeftComponent = ({ title, onChange, value, scheduleData, mark }) => {
   );
 };
 
+//미들컴포넌트
 const MiddleComponent = ({ value, hasSchedule, scheduleData, fetchDoData }) => {
-  //미들컴포넌트에서 받아낸 스케줄데이터
-  console.log("메인에서 스케줄데이터 값:", scheduleData);
+  // console.log("메인에서 스케줄데이터 값:", scheduleData);
 
   return (
     <>
-      <div className="">{moment(value).format("YYYY년 MM월 DD일")}</div>
+      <div className="middleValue">{moment(value).format("YYYY년 MM월 DD일")}</div>
       {hasSchedule ? (
         <>
           <Schedule scheduleData={scheduleData} value={value} />
         </>
       ) : (
         <>
-          <p>일정이 없습니다.</p>
+          <div className="noSchedule">일정이 없습니다.</div>
         </>
       )}
     </>
   );
 };
 
-const RightComponent = ({ title, value, hasAccount, accountData }) => {
+const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) => {
   //새로운 가계부
   const [showInput, setShowInput] = useState(false); // 인풋 창을 보여줄지 여부 상태
   const [addMemo, setAddMemo] = useState("");
@@ -170,7 +155,7 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
   const [addMinusMoney, setAddMinusMoney] = useState("");
 
   //수입 지출
-  const [expenseType, setExpenseType] = useState("expense"); // 기본값은 지출
+  const [isIncome, setIsIncome] = useState(true); // true면 수입, false면 지출
 
   //가계부 DB추가
   const handleAddExpense = () => {
@@ -186,7 +171,7 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
     const Data = {
       date: moment(value).format("YYYY-MM-DD"),
       money: addPlusMoney,
-      in_ex: true, // true 수입 false 지출
+      in_ex: isIncome, // true 수입 false 지출
       memo: addMemo,
     };
     // API를 통해 데이터를 백엔드로 전송
@@ -203,6 +188,7 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
       if (res.ok) {
         alert("가계부 등록 성공!");
         setShowInput(false);
+        window.location.reload();
       } else {
         console.error("서버 요청 실패:", res.statusText);
         alert("가계부 등록 실패.");
@@ -212,28 +198,33 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
     }
   };
 
-  //수입지출
-  useEffect(() => {
-    // 여기서 데이터베이스로부터 데이터를 가져오는 코드를 작성합니다.
-    // fetchData 함수는 적절한 방법으로 데이터를 가져오는 함수로 대체되어야 합니다.
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/mohani/accounts/${expenseType}`); // 적절한 엔드포인트와 쿼리를 사용하여 데이터를 가져옵니다.
-        if (!response.ok) {
-          throw new Error('데이터를 가져오는 데 문제가 발생했습니다.');
+  // 총 수입 지출 출력
+  const year = moment(value).format("YYYY");
+  const month = moment(value).format("M");
+
+  const [expend, setExpand] = useState('0');
+  const [income, setIncome] = useState('0');
+
+  const check = async () => {
+    let found = false;
+      for(let i=0; i<totalMoney.length; i++){
+        if(totalMoney[i].year == year && totalMoney[i].month == month){
+          setExpand(totalMoney[i].expenditure);
+          setIncome(totalMoney[i].income);
+          found = true;
+          break;
         }
-        const data = await response.json();
-        setAccountData(data);
-      } catch (error) {
-        console.error('데이터 가져오기 오류:', error);
       }
-    };
+      if(!found){
+        setExpand('0');
+        setIncome('0');
+      }
+    
+  }
 
-    fetchData(); // 데이터 가져오기 실행
-  }, [expenseType]); // expenseType이 변경될 때마다 실행
-
-  // 나머지 코드는 동일하게 유지됩니다.
-
+  useEffect(() => {
+    check();
+  }, [value, totalMoney])
 
   return (
     <>
@@ -244,83 +235,88 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
           <Account accountData={accountData} value={value} />
           {/* 인풋 창 */}
           {showInput && (
-            <div>
+            <div className="AddaccountInputWrap">
               <input
               type="radio"
               id="income"
               name="expenseType"
               value="income"
-              checked={expenseType === "income"}
-              onChange={() => setExpenseType("income")}
+              checked={isIncome}
+              onChange={() => setIsIncome(true)}
             />
-            <label htmlFor="income">수입</label>
+            <label for="income">수입</label>
             <input
               type="radio"
               id="expense"
               name="expenseType"
               value="expense"
-              checked={expenseType === "expense"}
-              onChange={() => setExpenseType("expense")}
+              checked={!isIncome}
+              onChange={() => setIsIncome(false)}
             />
-              <label htmlFor="expense">지출</label>
+              <label for="expense">지출</label>
               <input
-                className="input_account"
+                className="input_account AddaccountInput"
                 type="text"
                 value={addPlusMoney}
                 onChange={(e) => setAddPlusMoney(e.target.value)}
                 placeholder="금액"
               />
               <input
-                className="input_account"
+                className="input_account AddaccountInput"
                 type="text"
                 value={addMemo}
                 onChange={(aa) => setAddMemo(aa.target.value)}
                 placeholder="메모"
+                
               />
-              <button onClick={addDBexpense}>추가</button>
-              <button onClick={() => setShowInput(false)}>취소</button>
+
+                <ButtonList onClick={addDBexpense}>추가</ButtonList>
+                <ButtonList onClick={() => setShowInput(false)}>취소</ButtonList>
+
             </div>
           )}
           <ButtonGroup>
             <Button onClick={handleAddExpense}>가계부 추가</Button>
           </ButtonGroup>
-          <TotalAccount />
+          <TotalAccount totalMoney={totalMoney} value={value} income={income} expend={expend}/>
         </>
       ) : (
         <>
-          <p>지출 내역이 없습니다.</p>
+          <p className="sagak">지출 내역이 없습니다.</p>
           {/* 인풋 창 */}
           {showInput && (
-            <div>
+            <div className="AddaccountInputWrap">
               <input
               type="radio"
               id="income"
               name="expenseType"
               value="income"
-              checked={expenseType === "income"}
-              onChange={() => setExpenseType("income")}
+              checked={isIncome}
+              onChange={() => setIsIncome(true)}
             />
-            <label htmlFor="income">수입</label>
+            <label for="income">수입</label>
             <input
               type="radio"
               id="expense"
               name="expenseType"
               value="expense"
-              checked={expenseType === "expense"}
-              onChange={() => setExpenseType("expense")}
+              checked={!isIncome}
+              onChange={() => setIsIncome(false)}
             />
-            <label htmlFor="expense">지출</label>
+            <label for="expense">지출</label>
               <input
                 type="text"
                 value={addPlusMoney}
                 onChange={(e) => setAddPlusMoney(e.target.value)}
                 placeholder="금액"
+                className="AddaccountInput"
               />
                <input
                 type="text"
                 value={addMemo}
                 onChange={(aa) => setAddMemo(aa.target.value)}
                 placeholder="메모"
+                className="AddaccountInput"
               />
               <button onClick={addDBexpense}>추가</button>
               <button onClick={() => setShowInput(false)}>취소</button>
@@ -329,7 +325,7 @@ const RightComponent = ({ title, value, hasAccount, accountData }) => {
           <ButtonGroup>
             <Button onClick={handleAddExpense}>가계부 추가</Button>
           </ButtonGroup>
-          <TotalAccount />
+          <TotalAccount totalMoney={totalMoney} value={value} income={income} expend={expend}/>
         </>
       )}
     </>
@@ -347,10 +343,9 @@ function MainPage({ onClick }) {
   //더미 일정 데이터와 일정추가하기
   const [scheduleData, setScheduleData] = useState([]);
 
-  const [mark, setMark] = useState([]);
-  // console.log('mark에 들어온 date값들 : ', mark);
+  const [accountData, setAccountData] = useState([]);
 
-  const [accountData, setAccountData] = useState([])
+  const [totalMoney, setTotalMoney] = useState([]);
 
   // // userdata
   const [userData, setUserData] = useState({
@@ -438,9 +433,7 @@ function MainPage({ onClick }) {
             title: result[i].title,
             loc: result[i].loc,
             content: result[i].content,
-          }),
-            mark.push({startDate:result[i].startDate, endDate: result[i].endDate,
-            color:result[i].color});
+          })
         }
         // console.log(result);
         // console.log(scheduleData)
@@ -453,6 +446,29 @@ function MainPage({ onClick }) {
     }
   };
 
+  // 이 달의 총 수입,지출 GET
+  const fetchTotalData = async (memberNo) => {
+    const token = localStorage.getItem("accessToken");
+
+    try {
+      const response = await fetch(`http://localhost:3000/mohani/accounts/totalMoney/${memberNo}`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `${token}`,
+        },
+      });
+      if(response.ok) {
+        const result = await response.json();
+        setTotalMoney(result);
+        // console.log(totalMoney);
+      }else {
+        // alert('total 가계부 get 실패');
+      }
+    } catch (error){
+      console.error('스케줄 get 실패 :', error);
+    }
+  }
+
   useEffect(() => {
     const fetchDataAndCheckSchedule = async () => {
       try {
@@ -462,6 +478,7 @@ function MainPage({ onClick }) {
           const memberNo = await fetchData();
           // fetchDoData 함수를 호출하여 스케줄 데이터를 가져옵니다.
           await fetchDoData(memberNo);
+          await fetchTotalData(memberNo);
         }
         return scheduleData.some((schedule) => schedule.date === moment(value).format("YYYY-MM-DD"));
       } catch (error) {
@@ -550,11 +567,9 @@ function MainPage({ onClick }) {
       <AppHeader userData={userData} onClick={onClick} />
       <SplitScreen leftWeight={1.5} middleWeight={1} rightWeight={1}>
         <LeftComponent
-          // title="달력"
           onChange={onChange}
           value={value}
           scheduleData={scheduleData}
-          mark={mark}
           fetchDoData={fetchDoData}
         />
         <MiddleComponent
@@ -571,6 +586,7 @@ function MainPage({ onClick }) {
         hasAccount={hasAccount} 
         accountData={accountData} 
         fetchAccountData ={fetchAccountData}
+        totalMoney={totalMoney}        
         />
       </SplitScreen>
     </div>

@@ -35,6 +35,9 @@ function Account({accountData,value}) {
   const [editedValue, setEditedValue] = useState("");
   const [checkIdx, setCheckIdx] = useState();
 
+  //인풋창 보여줄지 말지
+  const [showInput, setShowInput] = useState(false);
+
 
   const handleEdit = (index, value) => {
     setEditIndex(index);
@@ -49,6 +52,8 @@ function Account({accountData,value}) {
     setEditedValue("");
   };
    
+
+  // 가계부 삭제
 function deleteAccount(idx){
   const fetchDelete = async (idx) => {
     try {
@@ -77,14 +82,15 @@ function deleteAccount(idx){
   fetchDelete(idx);
 } 
 
+
+
   return (
     <>
 
-    <div className='accountlists'>
+    <div className='accountlists sagak'>
         <>          
         {filteredAccountData.map((item, index) => (
             <li key={index}>
-              <div className='category'>{item.category}</div>
               {/* 지출내역 */}
               <div className='account_type'>
                {item.in_ex ? "수입" : "지출"}
@@ -107,14 +113,16 @@ function deleteAccount(idx){
               )}
               {editIndex === index ? (
                 <>
-                  <ButtonList onClick={() => handleSave(index)}>저장</ButtonList>
-                  <ButtonList onClick={() => deleteAccount(checkIdx)}>삭제</ButtonList>
+                  <ButtonList onClick={() => handleSave(index)}>수정</ButtonList>
+                  <ButtonList onClick={() => setShowInput(false)}>취소</ButtonList>
                 </>
               ) : (
                 <>
-                {/* <ButtonList onClick={() => handleEdit(index, item.income || item.expense)}>수정</ButtonList> */}
                 {checkIdx === item.idx && ( // 해당 항목의 idx와 클릭된 idx가 일치할 때만 삭제 버튼 표시
+                <>
+                  <ButtonList onClick={() => handleEdit(index, item.income || item.expense)}>수정</ButtonList>
                   <ButtonList onClick={() => deleteAccount(checkIdx)}>삭제</ButtonList>
+                </>  
                 )}  
                 </>
               )}

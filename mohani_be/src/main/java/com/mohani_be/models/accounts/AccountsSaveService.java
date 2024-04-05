@@ -34,11 +34,19 @@ public class AccountsSaveService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MemberInfo memberInfo = (MemberInfo) authentication.getPrincipal();
 
+        int month = 0;
+
+        // 월의 수가 한자리 수 일때 0 제거 후 저장 (03 -> 3)
+        if (form.getDate().charAt(5) == '0') month = Integer.parseInt(form.getDate().substring(6,7));
+        else month = Integer.parseInt(form.getDate().substring(5,7));
+
         Accounts accounts = Accounts.builder()
                 .idx(form.getIdx())
                 .money(form.getMoney())
                 .in_ex(form.isIn_ex())
                 .date(form.getDate())
+                .month(month)
+                .year(Integer.parseInt(form.getDate().substring(0, 4)))
                 .memo(form.getMemo())
                 .member(memberInfo.getMember())
                 .build();
@@ -46,7 +54,7 @@ public class AccountsSaveService {
         save(accounts);
 
         // 총 수입, 총 지출
-        TotalMoney totalMoney = total.getTotal(accounts.getDate(), accounts.getMember().getMemberNo());
+        TotalMoney totalMoney = total.getTotal(accounts.getMonth(), accounts.getYear(), accounts.getMember().getMemberNo());
         totalMoney.setExpenditure(totalMoney.getExpenditure());
         totalMoney.setIncome(totalMoney.getIncome());
 

@@ -14,6 +14,10 @@ public class AccountsForm {
 
     private boolean in_ex; // true = 수입 , false = 지출
 
+    private int month;  // 월
+
+    private int year;  // 년도
+
     @Size(max = 10) // 글자 수 10자로 제한
     private String memo;
 
