@@ -73,6 +73,9 @@ function Account({accountData,value}) {
       if (!response.ok) {
         throw new Error("수정 실패했습니다.");
       }
+
+      filteredAccountData[index].money = editedValue;
+      filteredAccountData[index].memo = editedMemo;
   
       // 수정 후 상태 초기화
       setEditIndex(null);
