@@ -300,13 +300,15 @@ html {
   width : 30%;
   height: 40px;
   border : none;
-  font-weight: 700;
   background-color: #009eff;
   border-radius: 64px;
   color : white;
   margin-top : 30px; 
   margin-bottom: 20px;
   cursor: pointer;
+  font-family: "NanumPen";
+  font-size : 1.7rem;
+
 }
 
 .flex {
