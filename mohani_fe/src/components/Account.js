@@ -2,8 +2,7 @@ import React, {useMemo} from 'react';
 import moment from 'moment';
 import '../App.css'
 import ButtonList from './ButtonList';
-import { useState } from 'react';
-import { faUserXmark } from '@fortawesome/free-solid-svg-icons';
+import { useState,useEffect } from 'react';
 
 function TodayAccount() {
   return (
@@ -34,6 +33,7 @@ function Account({accountData,value}) {
   // 수정된 값을 저장할 상태 관리
   const [editedValue, setEditedValue] = useState("");
   const [editedMemo, setEditedMemo] = useState("");
+  const [editedin_ex, setEditin_ex] = useState("");
   const [checkIdx, setCheckIdx] = useState();
 
     // 원래의 값을 저장할 상태 관리
@@ -50,6 +50,7 @@ function Account({accountData,value}) {
     setOriginalValue(value);
     setEditedMemo(memo);
     setOriginalMemo(memo);
+    setEditin_ex(value)
   };
 
   const handleSave = async (index) => {
@@ -65,6 +66,7 @@ function Account({accountData,value}) {
         body: JSON.stringify({
           money: editedValue,
           memo: editedMemo,
+          in_ex: editedin_ex
         }),
       });
   
@@ -76,6 +78,9 @@ function Account({accountData,value}) {
       setEditIndex(null);
       setEditedValue("");
       setEditedMemo("");
+      setEditin_ex("")
+
+      console.log(value)
 
       //수정 후 바로 렌더링
       fetchData();
