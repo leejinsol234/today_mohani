@@ -39,12 +39,9 @@ function EditModal({ closeModal, scheduleData, value }) {
   const [editStartDate, setEditStartDate] = useState(moment(value).format("YYYY-MM-DD"));
   const [editEndDate, setEditEndDate] = useState(moment(value).format("YYYY-MM-DD"));
   const [editLocation, setEditLocation] = useState(editData[0].loc);
-  const [editPlusMoney, setEditPlusMoney] = useState("");
-  const [editMinusMoney, setEditMinusMoney] = useState("");
   const [editMemo, setEditMemo] = useState(editData[0].content);
   const [editStartTime, setEditStartTime] = useState(editData[0].startTime);
   const [editEndTime, setEditEndTime] = useState(editData[0].endTime);
-  // console.log(editData); // 데이터 그대로 넘어왔다
 
   
   // 달력 출력
@@ -186,8 +183,6 @@ function EditModal({ closeModal, scheduleData, value }) {
       startTime: editStartTime,
       endTime: editEndTime,
       loc: editLocation,
-      plusMoney: editPlusMoney,
-      minusMoney: editMinusMoney,
       content: editMemo,
     };
     console.log('아이콘컬러 : ', iconColor);
