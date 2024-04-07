@@ -137,7 +137,7 @@ function deleteAccount(idx){
               {editIndex === index ? (
                 <>
                   {/* 수정 모드일 때 */}
-                  <div className='AddaccountInputWrap'>
+                  <div className='UpdateccountInputWrap'>
                   <input type="text" className='UpdateaccountInput' value={editedValue} onChange={(e) => setEditedValue(e.target.value)} />
                   <input type="text" className='UpdateaccountInput' value={editedMemo} onChange={(e) => setEditedMemo(e.target.value)} />
                   </div>
