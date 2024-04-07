@@ -83,6 +83,7 @@ function Account({accountData,value}) {
       setEditedValue("");
       setEditedMemo("");
       setEditin_ex("")
+      window.location.reload();
 
       console.log(value)
 
@@ -138,7 +139,7 @@ function deleteAccount(idx){
     <div className='accountlists sagak'>
         <>          
         {filteredAccountData.map((item, index) => (
-            <li key={index}>
+            <li className='accountLi' key={index}>
               {/* 지출내역 */}
               <div className="account_type">{item.in_ex ? "수입" : "지출"}</div>
               {editIndex === index ? (
@@ -159,14 +160,18 @@ function deleteAccount(idx){
               {editIndex === index ? (
                 <>
                   {/* 수정 모드 버튼 */}
-                  <ButtonList onClick={() => handleSave(index)}>등록</ButtonList>
-                  <ButtonList onClick={handleCancel}>취소</ButtonList>
+                  <div className='miniButtonWrap'>
+                    <button className='miniButton' onClick={() => handleSave(index)}>등록</button>
+                    <button className='miniButton' onClick={handleCancel}>취소</button>
+                  </div>
                 </>
               ) : (
                 <>
                   {/* 보기 모드 버튼 */}
-                  <ButtonList onClick={() => handleEdit(index, item.money, item.memo)}>수정</ButtonList>
-                  <ButtonList onClick={() => deleteAccount(item.idx)}>삭제</ButtonList>
+                  <div className='miniButtonWrap'>
+                    <button className='miniButton'onClick={() => handleEdit(index, item.money, item.memo)}>수정</button>
+                    <button className='miniButton'onClick={() => deleteAccount(item.idx)}>삭제 </button>
+                  </div>
                 </>
               )}
             </li>
