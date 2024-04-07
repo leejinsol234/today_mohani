@@ -74,6 +74,7 @@ function Account({accountData,value}) {
         throw new Error("수정 실패했습니다.");
       }
 
+      //수정 후 바로 렌더링
       filteredAccountData[index].money = editedValue;
       filteredAccountData[index].memo = editedMemo;
   
@@ -85,8 +86,6 @@ function Account({accountData,value}) {
 
       console.log(value)
 
-      //수정 후 바로 렌더링
-      fetchData();
     } catch (error) {
       console.error("저장 실패:", error);
     }
