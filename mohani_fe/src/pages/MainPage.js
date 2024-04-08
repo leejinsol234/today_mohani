@@ -228,7 +228,7 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
 
   return (
     <>
-      <h3>{title}</h3>
+      <h3 className="sagak">{title}</h3>
 
       {hasAccount ? (
         <>
