@@ -235,49 +235,55 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
           <Account accountData={accountData} value={value} />
           {/* 인풋 창 */}
           {showInput && (
-            <div className="AddaccountInputWrap">
-              <input
-              type="radio"
-              id="income"
-              name="expenseType"
-              value="income"
-              checked={isIncome}
-              onChange={() => setIsIncome(true)}
-            />
-            <label for="income">수입</label>
-            <input
-              type="radio"
-              id="expense"
-              name="expenseType"
-              value="expense"
-              checked={!isIncome}
-              onChange={() => setIsIncome(false)}
-            />
-              <label for="expense">지출</label>
-              <input
-                className="input_account AddaccountInput"
-                type="text"
-                value={addPlusMoney}
-                onChange={(e) => setAddPlusMoney(e.target.value)}
-                placeholder="금액"
+            <div className="accountWrap">
+              <div className="radioWrap">
+                <input
+                type="radio"
+                id="income"
+                name="expenseType"
+                value="income"
+                checked={isIncome}
+                onChange={() => setIsIncome(true)}
               />
+              <label for="income">수입</label>
               <input
-                className="input_account AddaccountInput"
-                type="text"
-                value={addMemo}
-                onChange={(aa) => setAddMemo(aa.target.value)}
-                placeholder="메모"
-                
-              />
+                type="radio"
+                id="expense"
+                name="expenseType"
+                value="expense"
+                checked={!isIncome}
+                onChange={() => setIsIncome(false)}
+                />
+                <label for="expense">지출</label>
+              </div>
 
-                <ButtonList onClick={addDBexpense}>추가</ButtonList>
-                <ButtonList onClick={() => setShowInput(false)}>취소</ButtonList>
-
+              <div className="AddAccountInputWrap">
+                <input
+                  className="AddaccountInput"
+                  type="text"
+                  value={addPlusMoney}
+                  onChange={(e) => setAddPlusMoney(e.target.value)}
+                  placeholder="금액"
+                />
+                <input
+                  className="AddaccountInput"
+                  type="text"
+                  value={addMemo}
+                  onChange={(aa) => setAddMemo(aa.target.value)}
+                  placeholder="메모"
+                />
+              </div>
+                <div className='miniButtonWrap'>
+                  <button className='miniButton' onClick={addDBexpense}>추가</button>
+                  <button className='miniButton' onClick={() => setShowInput(false)}>취소</button>
+                </div>
             </div>
           )}
-          <ButtonGroup>
-            <Button onClick={handleAddExpense}>가계부 추가</Button>
-          </ButtonGroup>
+            {!showInput && (
+              <div className="AddAccountButtonWrap">
+            <button className="AddAccountButton" onClick={handleAddExpense}>가계부 추가</button> 
+              </div>
+            )}
           <TotalAccount totalMoney={totalMoney} value={value} income={income} expend={expend}/>
         </>
       ) : (
@@ -285,46 +291,56 @@ const RightComponent = ({ title, value, hasAccount, accountData, totalMoney }) =
           <p className="sagak">지출 내역이 없습니다.</p>
           {/* 인풋 창 */}
           {showInput && (
-            <div className="AddaccountInputWrap">
-              <input
-              type="radio"
-              id="income"
-              name="expenseType"
-              value="income"
-              checked={isIncome}
-              onChange={() => setIsIncome(true)}
-            />
-            <label for="income">수입</label>
-            <input
-              type="radio"
-              id="expense"
-              name="expenseType"
-              value="expense"
-              checked={!isIncome}
-              onChange={() => setIsIncome(false)}
-            />
-            <label for="expense">지출</label>
-              <input
-                type="text"
-                value={addPlusMoney}
-                onChange={(e) => setAddPlusMoney(e.target.value)}
-                placeholder="금액"
-                className="AddaccountInput"
+            <div className="accountWrap">
+              <div className="radioWrap">
+                <input
+                type="radio"
+                id="income"
+                name="expenseType"
+                value="income"
+                checked={isIncome}
+                onChange={() => setIsIncome(true)}
               />
-               <input
-                type="text"
-                value={addMemo}
-                onChange={(aa) => setAddMemo(aa.target.value)}
-                placeholder="메모"
-                className="AddaccountInput"
-              />
-              <button onClick={addDBexpense}>추가</button>
-              <button onClick={() => setShowInput(false)}>취소</button>
+                <label for="income">수입</label>
+                <input
+                  type="radio"
+                  id="expense"
+                  name="expenseType"
+                  value="expense"
+                  checked={!isIncome}
+                  onChange={() => setIsIncome(false)}
+                />
+                <label for="expense">지출</label>
+              </div>
+
+              <div className="AddAccountInputWrap">
+                <input
+                  type="text"
+                  value={addPlusMoney}
+                  onChange={(e) => setAddPlusMoney(e.target.value)}
+                  placeholder="금액"
+                  className="AddaccountInput"
+                />
+                <input
+                  type="text"
+                  value={addMemo}
+                  onChange={(aa) => setAddMemo(aa.target.value)}
+                  placeholder="메모"
+                  className="AddaccountInput"
+                />
+              </div>
+
+              <div className='miniButtonWrap'>
+                <button className='miniButton' onClick={addDBexpense}>추가</button>
+                <button className='miniButton' onClick={() => setShowInput(false)}>취소</button>
+              </div>
             </div>
           )}
-          <ButtonGroup>
-            <Button onClick={handleAddExpense}>가계부 추가</Button>
-          </ButtonGroup>
+            {!showInput && (
+              <div className="AddAccountButtonWrap">
+                <button className="AddAccountButton" onClick={handleAddExpense}>가계부 추가</button> 
+              </div>
+            )}
           <TotalAccount totalMoney={totalMoney} value={value} income={income} expend={expend}/>
         </>
       )}
@@ -478,7 +494,7 @@ function MainPage({ onClick }) {
           const memberNo = await fetchData();
           // fetchDoData 함수를 호출하여 스케줄 데이터를 가져옵니다.
           await fetchDoData(memberNo);
-          await fetchTotalData(memberNo);
+          // await fetchTotalData(memberNo);
         }
         return scheduleData.some((schedule) => schedule.date === moment(value).format("YYYY-MM-DD"));
       } catch (error) {
@@ -548,6 +564,7 @@ function MainPage({ onClick }) {
               const memberNo = await fetchData();
               // fetchDoData 함수를 호출하여 스케줄 데이터를 가져옵니다.
               await fetchAccountData(memberNo);
+              await fetchTotalData(memberNo);
             }
             return accountData.some((schedule) => schedule.date === moment(value).format("YYYY-MM-DD"));
           } catch (error) {
@@ -565,7 +582,7 @@ function MainPage({ onClick }) {
   return (
     <div className="">
       <AppHeader userData={userData} onClick={onClick} />
-      <SplitScreen leftWeight={1.5} middleWeight={1} rightWeight={1}>
+      <SplitScreen leftWeight={4} middleWeight={3} rightWeight={3}>
         <LeftComponent
           onChange={onChange}
           value={value}

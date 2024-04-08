@@ -17,20 +17,17 @@ li {
   cursor: pointer;
 }
 
-.input_account{
- height: 1rem;
-}
 /* radio 버튼 */
 .form-radio_btn{
   border: 1px solid #EAE7E7;
   border-radius: 10px;
 }
 
-.AddaccountInputWrap input[type=radio] {
+.accountWrap input[type=radio] {
   display: none;
 }
 
-.AddaccountInputWrap label {
+.accountWrap label {
     display: block;
     border-radius: 10px;
     margin: 0 4px;
@@ -39,11 +36,11 @@ li {
     line-height: 35px;
 }
 
-.AddaccountInputWrap input[type=radio]:checked + label {
+.accountWrap input[type=radio]:checked + label {
   background: #009eff;
   color: #fff;
 }
-.AddaccountInputWrap input[type=radio] + label {
+.accountWrap input[type=radio] + label {
   background: #F9FAFC;
   color: #666;
 }
@@ -86,8 +83,17 @@ li {
 .sagak{
   font-family: "sagak";
 }
+
 .accountlists {
   height: auto;
+  display: flex;
+  flex-direction: column;
+  gap : 5px;
+
+}
+
+.accountLi {
+  display: flex;
 }
 
 .category {
@@ -119,46 +125,75 @@ li {
 
 .account_type{
   display: inline-flex;
-  width: 15%;
+  width: 16%;
   height: 21px;
   padding: 0 10px;
   color: black;
 }
 .account_memo {
-  display: inline-flex;
-  width: 25%;
+  width: 22%;
   height: 21px;
-  justify-content: flex-end;
-  padding: 0 10px;
+  padding: 0 1rem 0 0;
   color: black;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
   cursor: pointer;
 }
-.AddaccountInputWrap{
+
+.accountWrap {
   display: flex;
 }
+.AddAccountInputWrap{
+  display: flex;
+  width : 49%;
+  gap : 10px;
+}
 .AddaccountInput {
-  display : flex;
   border-radius: 8px;
-  padding : 4px 8px;
-  margin-top: 1px;
   background-color: white;
-  width : 24.3%;
-  margin-left: 5px;
-  margin-right: 10px;
+  width : 40%;
   border : 1px solid #dadada;
+  outline : none;
+  height: 28px;
+
 }
 .UpdateccountInputWrap{
- display: block;
- width: 57.5%;
- margin-bottom: 2px;
+ display: flex;
+ width: 50%;
+ gap : 10px;
 }
+
+.radioWrap{
+  display : flex;
+  width : 20%;
+}
+
 .UpdateaccountInput{
-  display: inline-flex;
+  display: flex;
   border-radius: 8px;
   background-color: white;
-  width : 44%;
+  width : 40%;
   height: 28px;
-  margin-left: 10px;
   border : 1px solid #dadada;
+  outline : none;
+}
+
+.miniButtonWrap{
+  display : flex;
+  gap : 5px;
+  width : 25%;
+}
+
+.miniButton {
+  font-family: "NanumPen";
+  width : 50%;
+  height: 40px;
+  border : none;
+  /* font-weight: 700; */
+  background-color: #009eff;
+  margin-bottom : 10px;
+  border-radius: 20px;
+  color : white;
+  cursor: pointer;
+  font-size: 1.5rem;
+  min-width : 46px;
 }

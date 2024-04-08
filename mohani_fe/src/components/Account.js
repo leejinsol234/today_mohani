@@ -2,8 +2,7 @@ import React, {useMemo} from 'react';
 import moment from 'moment';
 import '../App.css'
 import ButtonList from './ButtonList';
-import { useState } from 'react';
-import { faUserXmark } from '@fortawesome/free-solid-svg-icons';
+import { useState,useEffect } from 'react';
 
 function TodayAccount() {
   return (
@@ -34,6 +33,7 @@ function Account({accountData,value}) {
   // 수정된 값을 저장할 상태 관리
   const [editedValue, setEditedValue] = useState("");
   const [editedMemo, setEditedMemo] = useState("");
+  const [editedin_ex, setEditin_ex] = useState("");
   const [checkIdx, setCheckIdx] = useState();
 
     // 원래의 값을 저장할 상태 관리
@@ -50,6 +50,7 @@ function Account({accountData,value}) {
     setOriginalValue(value);
     setEditedMemo(memo);
     setOriginalMemo(memo);
+    setEditin_ex(value)
   };
 
   const handleSave = async (index) => {
@@ -65,20 +66,27 @@ function Account({accountData,value}) {
         body: JSON.stringify({
           money: editedValue,
           memo: editedMemo,
+          in_ex: editedin_ex
         }),
       });
   
       if (!response.ok) {
         throw new Error("수정 실패했습니다.");
       }
+
+      //수정 후 바로 렌더링
+      filteredAccountData[index].money = editedValue;
+      filteredAccountData[index].memo = editedMemo;
   
       // 수정 후 상태 초기화
       setEditIndex(null);
       setEditedValue("");
       setEditedMemo("");
+      setEditin_ex("")
+      window.location.reload();
 
-      //수정 후 바로 렌더링
-      fetchData();
+      console.log(value)
+
     } catch (error) {
       console.error("저장 실패:", error);
     }
@@ -131,7 +139,7 @@ function deleteAccount(idx){
     <div className='accountlists sagak'>
         <>          
         {filteredAccountData.map((item, index) => (
-            <li key={index}>
+            <li className='accountLi' key={index}>
               {/* 지출내역 */}
               <div className="account_type">{item.in_ex ? "수입" : "지출"}</div>
               {editIndex === index ? (
@@ -152,14 +160,18 @@ function deleteAccount(idx){
               {editIndex === index ? (
                 <>
                   {/* 수정 모드 버튼 */}
-                  <ButtonList onClick={() => handleSave(index)}>등록</ButtonList>
-                  <ButtonList onClick={handleCancel}>취소</ButtonList>
+                  <div className='miniButtonWrap'>
+                    <button className='miniButton' onClick={() => handleSave(index)}>등록</button>
+                    <button className='miniButton' onClick={handleCancel}>취소</button>
+                  </div>
                 </>
               ) : (
                 <>
                   {/* 보기 모드 버튼 */}
-                  <ButtonList onClick={() => handleEdit(index, item.money, item.memo)}>수정</ButtonList>
-                  <ButtonList onClick={() => deleteAccount(item.idx)}>삭제</ButtonList>
+                  <div className='miniButtonWrap'>
+                    <button className='miniButton'onClick={() => handleEdit(index, item.money, item.memo)}>수정</button>
+                    <button className='miniButton'onClick={() => deleteAccount(item.idx)}>삭제 </button>
+                  </div>
                 </>
               )}
             </li>
