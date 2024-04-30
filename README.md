@@ -1,9 +1,5 @@
 # 오늘머(하)니(today&money)
 
-한 줄 소개: 가계부도 작성할 수 있는 일정 관리 서비스
-프로젝트 기간: 2024년 1월 7일 → 2024년 4월 7일
-Skills: AWS, Java, JavaScript, MySQL, React, SpringBoot
-
 # 📅일정 관리와 가계부를 함께 - 오늘머(하)니
 
 ![KakaoTalk_20240429_182912124_01](https://github.com/leejinsol234/today_mohani/assets/140874690/6673dd38-6524-4a14-b182-12e577fb422b)
@@ -13,7 +9,6 @@ Skills: AWS, Java, JavaScript, MySQL, React, SpringBoot
 ### ❓ 이번 달에 뭐했길래 돈이 없는 걸까?
 
 한 달 동안의 일정을 계획하고 지난 일정에서 발생한 수입 또는 지출을 기록할 수 있습니다.
-
 핵심 기능은 다음과 같습니다.
 
 📅 **일정을 일자, 시간, 장소 등으로 기록하고 조회하기**
