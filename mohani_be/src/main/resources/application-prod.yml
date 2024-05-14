@@ -1,12 +1,13 @@
 server:
-  port: 3000
+  port: 3001
 
+spring:
   # 데이터베이스 설정
   datasource:
-    driverClassName: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@localhost:1521:xe
-    username: MOHANI
-    password: _aA123456
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mohani-mysql.cz46weuma0wq.ap-northeast-2.rds.amazonaws.com:3306/mohani?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: 12345678
 
   # JPA 설정
   jpa:
@@ -18,7 +19,7 @@ server:
         # 콘솔 창에 출력되는 쿼리를 가독성 좋게 포매팅
         format_sql: true
         use_sql_comments: true
-        dialect: org.hibernate.dialect.OracleDialect
+        dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddlAuto: create
 
@@ -58,3 +59,9 @@ logging:
         type:
           descriptor:
             sql: trace
+
+# JSON WebToken 설정
+jwt:
+  header: Authorization
+  secret: YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd6eXoxMjMxMjMxMjMxMjMxMjMxMzEyMzEyMzEzMTIzMTIzMTIzMTMxMjMxMzEzMTMxMjM
+  accessTokenValidityInSeconds: 3600 # 토큰 유효시간 (3600sec == 60 min)
