@@ -1,0 +1,199 @@
+li {
+  list-style-type: none; 
+  display: flex;
+}
+
+@font-face {
+  font-family: "NanumPen";
+  src: url("./fonts/NanumPenScript-Regular.ttf");
+}
+
+@font-face {
+  font-family: "sagak";
+  src: url("./fonts/Sagak-sagak.ttf");
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+/* radio 버튼 */
+.form-radio_btn{
+  border: 1px solid #EAE7E7;
+  border-radius: 10px;
+}
+
+.accountWrap input[type=radio] {
+  display: none;
+}
+
+.accountWrap label {
+    display: block;
+    border-radius: 10px;
+    margin: 0 4px;
+    text-align: center;
+    height: -webkit-fill-available;
+    line-height: 35px;
+}
+
+.accountWrap input[type=radio]:checked + label {
+  background: #009eff;
+  color: #fff;
+}
+.accountWrap input[type=radio] + label {
+  background: #F9FAFC;
+  color: #666;
+}
+
+/* Schedule 컴포넌트 */
+.lists {
+  /* height: 50px; */
+  margin-bottom: 20px;
+  margin-top : 10px;
+  font-family: "sagak";
+  font-size: 1.5rem;
+}
+
+.scheduleTitle {
+  margin : 0.7rem 3px;
+  padding-left : 3px;
+}
+
+.scheduleContent {
+  padding-left : 3px;
+  margin-bottom : 5px;
+}
+
+.scheduleButton {
+  font-family: "NanumPen";
+  width : 45%;
+  height: 40px;
+  border : none;
+  /* font-weight: 700; */
+  background-color: #009eff;
+  border-radius: 64px;
+  color : white;
+  /* margin-top : 30px;  */
+  margin-bottom: 20px;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+/* Account 컴포넌트 */
+.sagak{
+  font-family: "sagak";
+}
+
+.accountlists {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap : 5px;
+
+}
+
+.accountLi {
+  display: flex;
+}
+
+.category {
+  display: inline-flex;
+  border-right: 1px solid #000;
+  width: 20%;
+  cursor: pointer;
+}
+
+.income {
+  display: inline-flex;
+  width: 30%;
+  justify-content: flex-end;
+  padding: 0 10px;
+  color: green;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.expense {
+  display: inline-flex;
+  width: 30%;
+  justify-content: flex-end;
+  padding: 0 10px;
+  color: red;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.account_type{
+  display: inline-flex;
+  width: 16%;
+  height: 21px;
+  padding: 0 10px;
+  color: black;
+}
+.account_memo {
+  width: 22%;
+  height: 21px;
+  padding: 0 1rem 0 0;
+  color: black;
+  /* margin-bottom: 1rem; */
+  cursor: pointer;
+}
+
+.accountWrap {
+  display: flex;
+}
+.AddAccountInputWrap{
+  display: flex;
+  width : 49%;
+  gap : 10px;
+}
+.AddaccountInput {
+  border-radius: 8px;
+  background-color: white;
+  width : 40%;
+  border : 1px solid #dadada;
+  outline : none;
+  height: 28px;
+
+}
+.UpdateccountInputWrap{
+ display: flex;
+ width: 50%;
+ gap : 10px;
+}
+
+.radioWrap{
+  display : flex;
+  width : 20%;
+}
+
+.UpdateaccountInput{
+  display: flex;
+  border-radius: 8px;
+  background-color: white;
+  width : 40%;
+  height: 28px;
+  border : 1px solid #dadada;
+  outline : none;
+}
+
+.miniButtonWrap{
+  display : flex;
+  gap : 5px;
+  width : 25%;
+}
+
+.miniButton {
+  font-family: "NanumPen";
+  width : 50%;
+  height: 40px;
+  border : none;
+  /* font-weight: 700; */
+  background-color: #009eff;
+  margin-bottom : 10px;
+  border-radius: 20px;
+  color : white;
+  cursor: pointer;
+  font-size: 1.5rem;
+  min-width : 46px;
+}
