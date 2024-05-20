@@ -27,8 +27,6 @@ public class QTotalMoney extends EntityPathBase<TotalMoney> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath date = createString("date");
-
     public final NumberPath<Long> expenditure = createNumber("expenditure", Long.class);
 
     public final NumberPath<Long> idx = createNumber("idx", Long.class);
@@ -39,6 +37,10 @@ public class QTotalMoney extends EntityPathBase<TotalMoney> {
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+
+    public final NumberPath<Integer> month = createNumber("month", Integer.class);
+
+    public final NumberPath<Integer> year = createNumber("year", Integer.class);
 
     public QTotalMoney(String variable) {
         this(TotalMoney.class, forVariable(variable), INITS);

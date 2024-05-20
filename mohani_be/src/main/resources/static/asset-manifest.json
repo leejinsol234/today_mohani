@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/mohani/static/css/main.f0e18a76.css",
+    "main.js": "/mohani/static/js/main.19b20b58.js",
+    "static/js/496.aa436742.chunk.js": "/mohani/static/js/496.aa436742.chunk.js",
+    "static/media/Sagak-sagak.ttf": "/mohani/static/media/Sagak-sagak.480055dfb1b3b8f0b134.ttf",
+    "static/media/NanumPenScript-Regular.ttf": "/mohani/static/media/NanumPenScript-Regular.124b3244c7b453983cb5.ttf",
+    "index.html": "/mohani/index.html",
+    "main.f0e18a76.css.map": "/mohani/static/css/main.f0e18a76.css.map",
+    "main.19b20b58.js.map": "/mohani/static/js/main.19b20b58.js.map",
+    "496.aa436742.chunk.js.map": "/mohani/static/js/496.aa436742.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f0e18a76.css",
+    "static/js/main.19b20b58.js"
+  ]
+}

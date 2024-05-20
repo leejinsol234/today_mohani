@@ -1,0 +1,535 @@
+
+.App {
+  box-sizing: border-box;  
+  height: 95vh;
+  width : 100vw;
+  margin:0;
+}
+
+@font-face {
+  font-family: "NanumPen";
+  src: url("./fonts/NanumPenScript-Regular.ttf");
+}
+
+@font-face {
+  font-family: "sagak";
+  src: url("./fonts/Sagak-sagak.ttf");
+}
+
+body {
+  margin : 0;
+}
+
+html {
+  width : 100vw;
+}
+
+.page{
+  position: absolute;
+  top : 200px;
+  bottom: 0;
+  width : 100%;
+  max-width: 500px;
+  padding : 0 20px;
+  border-radius: 50px;
+  height : 500px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: white;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+}
+
+.Logo {
+  width : 50%;
+  height : 80%;
+  max-width: 500px;
+}
+
+/* Header 부분 */
+.header {
+  background-color : #96cca8;
+  height : 80px;
+  display: flex;
+  align-items: center;
+  padding: 1rem 10px;
+  /* width : 100vw; */
+  min-width: 820px;
+}
+
+.header_name {
+  width: 33%;
+  padding-left : 10px;
+  font-family: 'sagak';
+  font-size : 1.5rem;
+}
+
+.header_Logo {
+  width : 33%;
+  height : 80px;
+  object-fit: contain;
+}
+
+.headerLogoutWrap {
+  width : 33%;
+  display : flex;
+  justify-content: end;
+}
+
+.header_logout {
+  padding: 0.5rem 1rem;
+  margin-right : 30px;
+  border-radius: 5px;
+  color: #fff; 
+  /* font-weight: 600; */
+  background-color: #0093ff;
+  border : none;
+  width : 20%;
+  height : 40px;
+  font-size : 1.6rem;
+  font-family: "NanumPen";
+  cursor: pointer;
+  min-width : 83px;
+}
+
+.titleWrap{
+  text-align: center;  
+  font-size: 30px;
+}
+
+.CreateTitleWrap{
+  text-align: center;  
+  margin-top: 60px;
+  font-size: 32px;
+  font-weight: 700;
+  color : #262626;
+}
+
+.contentWrap{
+  margin-top: 26px;
+}
+
+.inputTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color : #262626;
+}
+
+.inputWrap {
+  display : flex;
+  border-radius: 8px;
+  padding : 16px;
+  margin-top: 8px;
+  background-color: white;
+  border : 1px solid #e2e0e0;
+}
+
+.inputWrap:focus-within {
+  border : 1px solid #96CCA8;
+}
+
+.CreateInputWrap:focus-within{
+  border : 1px solid #96cca8;
+}
+
+.AddInputWrap:focus-within{
+  border : 1px solid #96cca8;
+}
+
+.input {
+  width : 100%;
+  outline : none;
+  border : none;
+  height: 17px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.input::placeholder {
+  color : #dadada;
+}
+
+.errorMessageWrap {
+  visibility: hidden;
+  margin-top : 8px;
+  color : #ef0000;
+  font-size: 12px;
+  margin-left : 10px;
+}
+
+.bottomButton {
+  margin-top: 48px;
+  width : 100%;
+  height: 48px;
+  border : none;
+  font-weight: 700;
+  background-color: #009eff;
+  border-radius: 64px;
+  color : white;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.bottomButton:disabled {
+  background-color: #dadada;
+  color : white;
+}
+
+.new {
+  display: flex;
+  justify-content: center;
+}
+
+.newTitle {
+  margin-right : 16px;
+}
+
+.newCreate{
+  color : blue;
+  cursor: pointer;
+}
+
+.AddTitleWrap {
+  text-align: left;  
+  margin-top: 30px;
+  margin-left : 40px;
+  font-size: 32px;
+  font-weight: 700;
+  color : #262626;
+}
+
+.AddWrap {
+  display: flex;
+  margin : 10px 50px;
+  align-items: center;
+  width : 400px;
+}
+
+.AddInputWrap {
+  display : flex;
+  border-radius: 8px;
+  padding : 12px;
+  margin-top: 2px;
+  background-color: white;
+  width : 75%;
+  margin-left: 30px;
+  border : 1px solid #dadada;
+}
+
+.AddCalInputWrap {
+  display : flex;
+  border-radius: 8px;
+  padding : 12px;
+  margin-top: 8px;
+  background-color: white;
+  width : 35%;
+  margin-left: 30px;
+  margin-right: 10px;
+  border : 1px solid #dadada;
+}
+
+.AddTimeInputWrap {
+  border-radius: 8px;
+  margin-top: 8px;
+  background-color: white;
+  width : 37%;
+  margin-left: 0px;
+  margin-right: 0px;
+  border : 1px solid #dadada;
+}
+.AddTimeInput {
+  display: flex;
+  justify-content: center;
+  padding : 12px;
+  padding-left: 40px;
+  border-radius: 8px;
+  width : 100%;
+  margin-left: 0px;
+  margin-right: 0px;
+  outline: none;
+  border : none;
+}
+
+.AccountCalInputWrap {
+  display : flex;
+  border-radius: 8px;
+  padding : 12px;
+  margin-top: 8px;
+  background-color: white;
+  width : 75%;
+  margin-left: 30px;
+  margin-right: 10px;
+  border : 1px solid #dadada;
+}
+
+.AddInput{
+  width : 100%;
+  outline : none;
+  border : none;
+  height: 12px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
+
+
+
+.AddCalInput {
+  width : 45%;
+  outline : none;
+  border : none;
+  height: 12px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.AddMemoInput {
+  width : 100%;
+  outline : none;
+  border : none;
+  height: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.AddButton {
+  width : 30%;
+  height: 40px;
+  border : none;
+  background-color: #009eff;
+  border-radius: 64px;
+  color : white;
+  margin-top : 30px; 
+  margin-bottom: 20px;
+  cursor: pointer;
+  font-family: "NanumPen";
+  font-size : 1.7rem;
+
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+}
+
+.CreatePage{
+  position: absolute;
+  top : 0;
+  bottom: 0;
+  width : 100%;
+  max-width: 500px;
+  padding : 0 20px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #eeeeee;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.CreateInput {
+  width : 100%;
+  outline : none;
+  border : none;
+  height: 22px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.CreateInput::placeholder {
+  color : #dadada;
+}
+
+.CreateInputTitle {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color : #262626;
+}
+
+.CreateInputWrap {
+  display : flex;
+  border-radius: 8px;
+  padding : 10px;
+  margin-top: 8px;
+  background-color: white;
+  border : 1px solid #e2e0e0;
+}
+
+.CreateAddButton {
+  width : 100%;
+  height: 40px;
+  border : none;
+  font-weight: 700;
+  background-color: #009eff;
+  border-radius: 10px;
+  color : white;
+  margin-top : 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.CreateAddButton:disabled {
+  background-color: #dadada;
+  color : white;
+}
+
+.AgreeBoxWrap {
+  display : flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+  font-size: 16px;
+}
+.CreateAgreeBox {
+  width : 30px;
+  height: 20px;
+}
+
+.CreateFooter {
+  display: flex;
+  justify-content: center;
+  gap : 14px;
+}
+
+.CreateFooter1 {
+  color : gray;
+}
+
+.ToggleButton {
+  border : none;
+  background-color: white;
+}
+
+.plusButtonWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top : 20px;
+}
+
+.plusButton {
+  background-color: #0093ff;
+  border-radius: 20px;
+  color : white;
+  cursor: pointer;
+  border : none;
+  width : 40%;
+  height : 40px;
+  padding: 5px;
+  font-size : 1.5rem;
+  font-family: "NanumPen";
+}
+
+.modalIcon {
+  padding : 10px;
+  width : 20px;
+  height: 20px;
+  
+}
+
+.titleIcon {
+  
+}
+
+.upDownButton {
+  position : absolute;
+  left : 105px;
+  top : 100px;
+  cursor: pointer;
+  background-color: white;
+  border : none;
+}
+
+.pallet {
+  position: absolute;
+  display : block;
+  top : 120px;
+  left : 90px;
+  width : 120px;
+  height: 60px;
+  border : 1px solid gray;
+  z-index: 6;
+  background-color: white;
+  border-radius: 10px;
+  padding : 2px;
+  padding-left : 8px;
+}
+
+.palletIcon {
+  width : 20px;
+  height: 20px;
+  padding : 4px;
+}
+
+.dotWrap {
+  display: flex;
+  gap : 3px;
+  /* padding-top: 8px; */
+  position: absolute;
+  overflow: hidden;
+  flex-wrap: wrap;
+  justify-content: center;
+  width : 45px;
+  min-width: 45px;
+  margin-top: 30px;
+}
+
+.sagak {
+  font-family: 'sagak';
+  font-size : 1.5rem;
+}
+
+.noSchedule {
+  font-family: 'sagak';
+  font-size : 1.5rem;
+  padding-top: 10px;
+}
+
+.middleValue{
+  font-size : 1.5rem;
+  font-family: 'sagak';
+  margin-top : 10px;
+  padding-bottom: 10px;
+  font-weight: 600;
+}
+
+.dot {
+  height: 10px;
+  width : 10px;
+  background-color: #E53A40;
+  border-radius: 50%;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.scheduleList {
+  display: flex;
+  flex-direction: column;
+}
+
+.AddAccountButtonWrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.AddAccountButton {
+  font-family: "NanumPen";
+  width : 45%;
+  height: 40px;
+  border : none;
+  /* font-weight: 700; */
+  background-color: #009eff;
+  margin-top : 10px;
+  border-radius: 64px;
+  color : white;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
